@@ -37,7 +37,6 @@ color: #999999;
 }
 .content {
     & > * { margin-top: 20px; padding: ${props => (props.noPadding ? '0' : '0 24px')}; }
-    padding-bottom: 20px;
     .video {
         width: inherit;
         height: 480px;

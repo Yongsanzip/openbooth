@@ -89,6 +89,12 @@ class Companydetail extends Component {
                 src: ''
             },{
                 src: ''
+            },{
+                src: ''
+            },{
+                src: ''
+            },{
+                src: ''
             }]
         }
     }

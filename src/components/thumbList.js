@@ -9,9 +9,9 @@ class Thumblist extends Component {
   }
 
   render(){
-      const { list, size, marginRight } = this.props;
+      const { list, size, marginRight, columns } = this.props;
     return (
-        <ThumblistComp size={size} marginRight={marginRight}>
+        <ThumblistComp size={size} marginRight={marginRight} columns={columns}>
             {list && list.length > 0 ? list.map((el, key) => {
                 return (
                     <Img key={key} src={list.src} />
@@ -34,7 +34,8 @@ const ThumblistComp = styled.div`
         width: ${props => (props.size != null ? props.size.width+'px' : '160px;')};
         height: ${props => (props.size != null ? props.size.height+'px' : '160px;')};
         margin-right: ${props => (props.marginRight != null ? props.marginRight+'px' : '25px')};
-        :last-child { margin-right: 0; }
+        margin-bottom: ${props => (props.marginRight != null ? props.marginRight+'px' : '25px')};
+        :nth-child(${props => (props.columns != null ? props.columns : '5')}n) { margin-right: 0; }
     }  
 `;
 

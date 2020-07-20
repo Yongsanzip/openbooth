@@ -25,7 +25,7 @@ class Infofields extends Component {
 
 const InfoComp = styled.div`
   margin-bottom: 24px;
-  :last-child { margin-bottom: 0; }
+  :last-child { margin-bottom: 0; padding-bottom: 24px; }
   > * {
     display: inline-block;
     font-weight: normal;

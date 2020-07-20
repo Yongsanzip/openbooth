@@ -29,6 +29,7 @@ export { default as Qna } from './qna/qna'
 export { default as Infofields } from './infoFields'
 
 export { default as Thumblist } from './thumbList'
+export { default as Boardlist } from './boardList'
 
 export { default as Namecard } from './nameCard/nameCard'
 export { default as Profile } from './nameCard/profile'

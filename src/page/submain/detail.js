@@ -2,7 +2,16 @@ import React, { Component } from 'react';
 import styled from "styled-components";
 
 
-import {Tabpannel, Pannel, Infofields, Thumblist, Documentlist} from './../../components/index'
+import {
+    Tabpannel,
+    Pannel,
+    Infofields,
+    Thumblist,
+    Documentlist,
+    Boardlist,
+    Namecard,
+    Booth
+} from './../../components/index'
 import dummyImg from "./../../assets/img/bg-dummy.png"
 
 class Detail extends Component {
@@ -52,12 +61,55 @@ class Detail extends Component {
                 title: 'Phasellus dignissim vitae velit.pdf'
             },{
                 title: 'Nam vel bibendum.pdf'
+            }],
+            boardList: [{
+                title: 'Lorem ipsum dolor sit amet, consectetur adipiscing eli.',
+                date: '2020.09.12',
+                name: 'Press name'
+            },{
+                title: 'In faucibus est ipsum, a cursus mi commodo sit amet?',
+                date: '2020.09.12',
+                name: 'Press name'
+            },{
+                title: 'Lorem ipsum dolor sit amet, consectetur adipiscing eli.',
+                date: '2020.09.12',
+                name: 'Press name'
+            },{
+                title: 'Maecenas accumsan sem consectetu?',
+                date: '2020.09.12',
+                name: 'Press name'
+            }],
+            visitors: [{
+                img: '',
+                name: 'Username',
+                email: 'sinhyeok@openbooth.net',
+                phone: 'Company or affiliation'
+            },{
+                img: '',
+                name: 'Username',
+                email: '',
+                phone: ''
+            },{
+                img: '',
+                name: 'Username',
+                email: '',
+                phone: ''
+            },{
+                img: '',
+                name: 'Username',
+                email: '',
+                phone: ''
+            },{
+                img: '',
+                name: 'Username',
+                email: '',
+                phone: ''
             }]
         }
     }
 
     render() {
-        const { tabList, exhibitInfo, thumbList, documentList } = this.state;
+        const { tabList, exhibitInfo, thumbList, documentList, boardList, visitors } = this.state;
         const width = 840;
 
         return (
@@ -68,6 +120,11 @@ class Detail extends Component {
                         <div className='title'>Online Exhibition of Third Countries with The World Bank | Bulit on Hope</div>
                         Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.
                         Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat
+                        <div className='sendMailBtn'>
+                            <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 0H2C0.9 0 0.00999999 0.9 0.00999999 2L0 14C0 15.1 0.9 16 2 16H18C19.1 16 20 15.1 20 14V2C20 0.9 19.1 0 18 0ZM17 14H3C2.45 14 2 13.55 2 13V4L8.94 8.34C9.59 8.75 10.41 8.75 11.06 8.34L18 4V13C18 13.55 17.55 14 17 14ZM10 7L2 2H18L10 7Z" fill="#999999"/>
+                            </svg>
+                        </div>
                     </div>
                 </DescriptionComp>
                 <TabpanelComp width={width}>
@@ -88,7 +145,7 @@ class Detail extends Component {
                             </div>
                             <div className='border'>
                                 <Pannel title="Press release">
-                                    <Infofields list={exhibitInfo} fieldWidth={110}/>
+                                    <Boardlist list={boardList}/>
                                 </Pannel>
                             </div>
                             <div className='border'>
@@ -96,7 +153,18 @@ class Detail extends Component {
                             </div>
                         </div>
                         <div className='tabContent visitors hide'>
-                            visitors list
+                            <div className='visitorCount'>
+                                Number of visitors : {visitors.length}
+                            </div>
+                            <div className='visitorList'>
+                                {visitors != null && visitors.length > 0 ?
+                                    visitors.map((el, key) => {
+                                        return (
+                                            <div><Namecard data={el} key={key} showMoreinfoBtn={true} /></div>
+                                        )
+                                    }) : null
+                                }
+                            </div>
                         </div>
                     </Tabpannel>
                 </TabpanelComp>
@@ -122,12 +190,34 @@ const TabpanelComp = styled.div`
         :last-child { padding-bottom: 120px; }        
         :last-child { padding-bottom: 120px; }        
     }
+    & .visitors {
+        & > * {
+            padding-top: 40px;
+            :last-child { padding-bottom: 80px; }
+        }
+        & .visitorCount{
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 24px;
+            color: #999999;
+        }
+        & .visitorList {
+             > * {
+                display: inline-block;
+                width: 400px;
+                margin-right: 40px;
+                margin-bottom: 40px;
+                :nth-child(2n) { margin-right: 0; }
+             }
+        }
+    }
 }
 `;
 const DescriptionComp = styled.div`
 width: 100%;
 background: #ffffff;
 > div {
+    position: relative;
     max-width: ${props => (props.width != null ? props.width+'px;' : '100%')};
     margin: 0 auto;
     padding: 40px 0 80px 0;
@@ -145,6 +235,11 @@ background: #ffffff;
         color: #000000;
         margin-top: 32px;
         margin-bottom: 20px;
+    }
+    & .sendMailBtn {
+        position: absolute;
+        top: 40px;
+        right: 0;
     }
 }
 `;
