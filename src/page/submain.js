@@ -24,32 +24,24 @@ class Submain extends Component {
             },{
                 name: 'Details'
             }],
-            activeTabIdx: 4,
-            isFixedSubmenuBar: false,
         }
     }
 
-    _setActiveTabIdx = (idx) => {
-        this.setState({
-            activeTabIdx: idx
-        })
-    }
-
     render() {
-        const { menuList, activeTabIdx, isFixedSubmenuBar, FixedSubmenuBarStyle } = this.state;
-        const { _setActiveTabIdx } = this;
+        const { _onMenuChange, activeMenu, _selectMentor } = this.props;
+        const { menuList } = this.state;
 
         return (
             <div>
-                <MainBannerComp className={activeTabIdx == 2? 'open show' : 'close'}>
+                <MainBannerComp className={activeMenu == 2? 'open show' : 'close'}>
                     <Mainbanner />
                 </MainBannerComp>
-                <Submenubar menuList={menuList} activeIdx={activeTabIdx} onChangeTab={_setActiveTabIdx}/>
+                <Submenubar menuList={menuList} activeIdx={activeMenu} onChangeTab={_onMenuChange}/>
                 <div>
-                    <div className={activeTabIdx === 0? 'show' : 'hide'}><Introduction /></div>
-                    <div className={activeTabIdx === 1? 'show' : 'hide'}><Mentoring /></div>
-                    <div className={activeTabIdx === 2? 'show' : 'hide'}><Exhibit /></div>
-                    <div className={activeTabIdx === 4? 'show' : 'hide'}><Detail /></div>
+                    <div className={activeMenu === 0? 'show' : 'hide'}><Introduction /></div>
+                    <div className={activeMenu === 1? 'show' : 'hide'}><Mentoring _setSelectedMentor={_selectMentor} /></div>
+                    <div className={activeMenu === 2? 'show' : 'hide'}><Exhibit /></div>
+                    <div className={activeMenu === 4? 'show' : 'hide'}><Detail /></div>
                     {/*{activeTabIdx == 0? <Route path="/" component={Introduction} />*/}
                     {/*: activeTabIdx == 1? <Route path="/" component={Mentoring} />*/}
                     {/*: activeTabIdx == 2? <Route path="/" component={Exhibit} /> : null}*/}

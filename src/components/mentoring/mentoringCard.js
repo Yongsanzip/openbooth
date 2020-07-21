@@ -68,10 +68,15 @@ class Mentoringcard extends Component {
         })
     }
 
+    _onClickAccessBtn = (data) => {
+        this.props._onClick(data);
+        this._closeModal();
+    }
+
     render(){
         const { isShowAccessCodeModal } = this.state;
         const { data } = this.props;
-        const { _showModal, _closeModal } = this;
+        const { _closeModal, _onClickAccessBtn } = this;
         const accessModalData = {
             title: 'Please enter the access code',
             content: 'An access code is required to enter the mentoring room.'
@@ -104,7 +109,7 @@ class Mentoringcard extends Component {
                 </div>
                 <Mentorinfo data={data.mentorInfo} className="mentorInfo" />
                 <Custommodal showModal={isShowAccessCodeModal} closeModal={_closeModal} width={480}>
-                    <Accesscode data={accessModalData} btn={<Link to="/mentor">Enter</Link>} />
+                    <Accesscode data={accessModalData} btn={'Enter'} _access={()=>_onClickAccessBtn(data)} />
                 </Custommodal>
             </Card>
         )

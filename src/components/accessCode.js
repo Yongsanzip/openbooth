@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 
 function Accesscode(props) {
     const _access = function(e){
+        console.log("click btn on accesscode modal!", props._access);
         if(props._access != null) props._access();
     };
     const btnStyle = {

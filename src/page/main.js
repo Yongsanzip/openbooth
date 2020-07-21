@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Redirect  } from "react-router-dom";
+import { Route, useHistory } from "react-router-dom";
 
 import Header from "../components/layout/header";
 import Footer from "../components/layout/footer";
@@ -25,7 +25,9 @@ class Main extends Component {
                 company: 'Bank of America',
                 department: 'Design team',
                 position: 'UI/UX designer'
-            }
+            },
+            activeSubMenu: 0,
+            selectedMentor: null,
         }
     }
 
@@ -42,17 +44,31 @@ class Main extends Component {
         })
     }
 
+    _onChangeActiveSubMenu = (idx) => {
+        this.setState({
+            activeSubMenu: idx
+        })
+    }
+
+    _setSelectedMentor= (mentor) => {
+        this.setState({
+            selectedMentor: mentor
+        })
+        if(mentor != null) this.props.history.push("/mentor/"+mentor.id);
+    }
+
     render() {
-        const { isLogined, lan, userInfo } = this.state;
-        const { _onChangeLanguage, _logout } = this;
+        const { isLogined, lan, userInfo, activeSubMenu, selectedMentor } = this.state;
+        const { _onChangeLanguage, _onChangeActiveSubMenu, _setSelectedMentor, _logout } = this;
         return (
             <div>
                 <div>
                     <Header isLogined={isLogined} logout={_logout} userinfo={userInfo} />
                 </div>
                 <div>
-                    <Route path="/" component={Submain} exact={true} />
-                    <Route path="/mentor" component={Mentordetail} />
+                    <Route path="/"exact={true} render={()=> <Submain _onMenuChange={_onChangeActiveSubMenu} activeMenu={activeSubMenu} _selectMentor={_setSelectedMentor} /> } />
+                    {/*<Route path="/" component={Submain} exact={true} />*/}
+                    <Route path="/mentor/:data" component={Mentordetail} />
                     <Route path="/company" component={Companydetail} />
                     {/* Not Found */}
                     {/*<Route component={() => <Redirect to="/" />} />*/}

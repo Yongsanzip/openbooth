@@ -13,7 +13,6 @@ class Custommodal extends Component {
   }
 
   onOverlayClick = (e) => {
-    console.log("overlay clicked");
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
     this.props.closeModal();
@@ -25,7 +24,6 @@ class Custommodal extends Component {
   }
 
   _stopBubbling = (e)=> {
-    console.log("_stopBubbling");
     e.stopPropagation();
   }
 

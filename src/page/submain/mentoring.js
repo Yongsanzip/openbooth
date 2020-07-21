@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
+import { Route } from "react-router-dom";
+
 import { Mentoringcard } from "./../../components/index"
 import dummyImg from "../../assets/img/bg-dummy.png";
+import Mentordetail from "./detail/mentorDetail";
 
 class Mentoring extends Component {
     constructor(props) {
@@ -9,6 +12,7 @@ class Mentoring extends Component {
 
         this.state = {
             mentoringList: [{
+                id: 1,
                 img: '',
                 isLive: true,
                 hashtags: [{
@@ -46,6 +50,7 @@ class Mentoring extends Component {
                     position: 'UI/UX designer'
                 }
             },{
+                id: 2,
                 img: '',
                 isLive: false,
                 hashtags: [{
@@ -82,23 +87,26 @@ class Mentoring extends Component {
                     Department: 'Design team',
                     position: 'UI/UX designer'
                 }
-            }]
+            }],
         }
     }
 
     render() {
         const { mentoringList } = this.state;
+        const { _setSelectedMentor } = this.props;
         return (
-            <MentoringComp>
-                <div className="compTitle">Mentoring list</div>
-                <div className="mentoringList">
-                    {mentoringList && mentoringList.length > 0 ?
-                        mentoringList.map((item, key) => {
-                            return (
-                                <Mentoringcard key={key} data={item} />)
-                        }) : null }
-                </div>
-            </MentoringComp>
+            <div>
+                <MentoringComp>
+                    <div className="compTitle">Mentoring list</div>
+                    <div className="mentoringList">
+                        {mentoringList && mentoringList.length > 0 ?
+                            mentoringList.map((item, key) => {
+                                return (
+                                    <Mentoringcard key={key} data={item} _onClick={_setSelectedMentor} />)
+                            }) : null }
+                    </div>
+                </MentoringComp>
+            </div>
         )
     }
 }

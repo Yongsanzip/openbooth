@@ -10,7 +10,7 @@ import {
     Documentlist,
     Boardlist,
     Namecard,
-    Booth
+    Booth, Profile, Sendmsg, Custommodal
 } from './../../components/index'
 import dummyImg from "./../../assets/img/bg-dummy.png"
 
@@ -104,12 +104,32 @@ class Detail extends Component {
                 name: 'Username',
                 email: '',
                 phone: ''
-            }]
+            }],
+            showSendMsgModal: false,
+            modalData: {
+                name: 'sajflkasf'
+            }
         }
     }
 
+    _showSendMsgModal = () => {
+        this.setState({
+            showSendMsgModal: true
+        })
+    }
+    _closeSendMsgModal = () => {
+        this.setState({
+            showSendMsgModal: false
+        })
+    }
+    _sentMsg = () => {
+        console.log("_sentMsg");
+        this._closeSendMsgModal();
+    }
+
     render() {
-        const { tabList, exhibitInfo, thumbList, documentList, boardList, visitors } = this.state;
+        const { _showSendMsgModal, _closeSendMsgModal, _sentMsg } = this;
+        const { tabList, exhibitInfo, thumbList, documentList, boardList, visitors, showSendMsgModal, modalData } = this.state;
         const width = 840;
 
         return (
@@ -120,7 +140,7 @@ class Detail extends Component {
                         <div className='title'>Online Exhibition of Third Countries with The World Bank | Bulit on Hope</div>
                         Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.
                         Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat
-                        <div className='sendMailBtn'>
+                        <div className='sendMailBtn' onClick={_showSendMsgModal}>
                             <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M18 0H2C0.9 0 0.00999999 0.9 0.00999999 2L0 14C0 15.1 0.9 16 2 16H18C19.1 16 20 15.1 20 14V2C20 0.9 19.1 0 18 0ZM17 14H3C2.45 14 2 13.55 2 13V4L8.94 8.34C9.59 8.75 10.41 8.75 11.06 8.34L18 4V13C18 13.55 17.55 14 17 14ZM10 7L2 2H18L10 7Z" fill="#999999"/>
                             </svg>
@@ -160,7 +180,7 @@ class Detail extends Component {
                                 {visitors != null && visitors.length > 0 ?
                                     visitors.map((el, key) => {
                                         return (
-                                            <div><Namecard data={el} key={key} showMoreinfoBtn={true} /></div>
+                                            <div key={key}><Namecard data={el} showMoreinfoBtn={true} /></div>
                                         )
                                     }) : null
                                 }
@@ -168,6 +188,7 @@ class Detail extends Component {
                         </div>
                     </Tabpannel>
                 </TabpanelComp>
+                <Sendmsg showModal={showSendMsgModal} data={modalData} closeModal={_closeSendMsgModal} sentMsgToMentor={_sentMsg} />
             </div>
         )
     }

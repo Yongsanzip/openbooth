@@ -31,6 +31,7 @@ class Mentordetail extends Component {
 
     render(){
         const { data } = this.props;
+        console.log(data);
         return (
             <div>
                 <Detailmenubar data={this.state.mentorInfo} title={this.state.mentorInfo.name}/>

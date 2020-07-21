@@ -92,7 +92,6 @@ function Submenubar(props) {
 const SubmenuComp = styled.div`
 width: 100%;
 background: #ffffff;
-border-top: 1px solid #E9E9E9;
 border-bottom: 1px solid #E9E9E9;
 box-sizing: border-box;
 ${props => (props.customStyle != null ? props.customStyle : '')}

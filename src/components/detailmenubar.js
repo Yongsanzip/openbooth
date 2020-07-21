@@ -48,6 +48,8 @@ const DetailmenuComp = styled.div`
 width: 100%;
 height: 56px;
 background: #ffffff;
+border-bottom: 1px solid #E9E9E9;
+box-sizing: border-box;
 > div {
   width: 100%;
   height: 100%;
