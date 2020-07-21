@@ -24,7 +24,7 @@ class Button extends Component {
 
 const Buttoncomp = styled.div`
 & button {
-    width: ${props => (props.width != null && props.width > 0 ? props.width + 'px' : 'auto')};
+    width: ${props => (props.width != null ? props.width.toString().indexOf('%') > -1? props.width : props.width + 'px' : 'auto')};
     background: #fff;
     border: 0.8px solid #005CB9;
     box-sizing: border-box;
@@ -39,6 +39,7 @@ const Buttoncomp = styled.div`
     &:hover {
         color: #00416B;
         border: 0.8px solid #00416B;
+        ${props => (props.customStyle != null && props.customStyle.hover != null ? props.customStyle.hover : '')};
     }
     &:focus {
         outline: 0;

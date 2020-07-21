@@ -18,14 +18,21 @@ class Checkboxfield extends Component {
   }
 
   render(){
-    const { name, value, text } = this.props;
+    const { name, value, text, textColor, type } = this.props;
     const { isCheck } = this.state;
     const { _setCheckVal } = this;
     return (
-        <CheckBox className='checkboxField' >
+        <CheckBox className='checkboxField' textColor={textColor} type={type}>
           <input type="checkbox" name={name} value={value} />
-          <div className={isCheck? 'box checked' : 'box'} onClick={()=> _setCheckVal()}></div>
-            {text != null? <div className='text'>{text}</div> : null}
+          <div onClick={()=> _setCheckVal()}>
+              <div className={isCheck? 'box checked' : 'box'}>
+                  {isCheck?
+                      <svg width="10" height="8" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M1.25 2.66667L0 4L3.75 8L10 1.33333L8.75 0L3.75 5.33333L1.25 2.66667Z" fill="white"/></svg>
+                      : null
+                  }
+              </div>
+              {text != null? <div className='text'>{text}</div> : null}
+          </div>
     </CheckBox>
   )
   }
@@ -36,29 +43,34 @@ const CheckBox = styled.div`
         display: none;
     }
     & .box {
+        position: relative;
         display: inline-block;
         line-height: 22px;
         vertical-align: middle;
         width: 16px;
         height: 16px;
-        background: #F7F7F9;
-        border: 0.8px solid #E9E9E9;
+        background: ${props => (props.type == 'login' ? 'rgba(255, 255, 255, 0)' : '#F7F7F9')};
+        border: 0.8px solid ${props => (props.type == 'login' ? '#ffffff' : '#E9E9E9')};
         box-sizing: border-box;
         border-radius: 4px;
         &.checked {
-            background: #005CB9;
-            border: 0.8px solid #E9E9E9;
+            background: ${props => (props.type == 'login' ? 'rgba(255, 255, 255, 0.64)' : '#005CB9')};
+            border: 0.8px solid ${props => (props.type == 'login' ? '#ffffff' : '#005CB9')};
             box-sizing: border-box;
             border-radius: 4px;
-            background-image: url("data:image/svg+xml;utf8,<svg width='8' height='6' viewBox='0 0 8 6' fill='none' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' clip-rule='evenodd' d='M1 2L0 3L3 6L8 1L7 0L3 4L1 2Z' fill='white'/></svg>");
-            background-repeat: no-repeat;
-            background-size: 70% 70%;
-            background-position-x: center;
-            background-position-y: center;
-            &:hover {
-                border: 0.8px solid #005CB9;
+            background: #005CB9;
+            > svg {
+                position: absolute;
+                top: 3px;
+                left: 2px;
             }
         }
+        &:hover {
+            background: ${props => (props.type == 'login' ? 'rgba(255, 255, 255, 0.32)' : '')};
+            border: 0.8px solid ${props => (props.type == 'login' ? '#ffffff' : '#005CB9')};
+        }
+        
+        
     }
     & .text {
         display: inline-block;
@@ -66,7 +78,7 @@ const CheckBox = styled.div`
         vertical-align: middle;
         font-weight: normal;
         font-size: 14px;
-        color: #999999;
+        color: ${props => (props.textColor != null ? props.textColor : '#999999')};
         padding-left: 10px;
     }
 `;

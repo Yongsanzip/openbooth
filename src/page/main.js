@@ -13,7 +13,6 @@ class Main extends Component {
         super(props)
         this.state = {
             lan: 'kor',
-            isLogined: true,
             userInfo: {
                 img: dummyImg,
                 name: 'Login User',
@@ -29,13 +28,6 @@ class Main extends Component {
             activeSubMenu: 0,
             selectedMentor: null,
         }
-    }
-
-    _logout = () => {
-        console.log("logout btn clicked");
-        this.setState({
-            isLogined: false,
-        })
     }
 
     _onChangeLanguage = (lan) => {
@@ -58,20 +50,18 @@ class Main extends Component {
     }
 
     render() {
+        const { isLogin, logout } = this.props;
         const { isLogined, lan, userInfo, activeSubMenu, selectedMentor } = this.state;
-        const { _onChangeLanguage, _onChangeActiveSubMenu, _setSelectedMentor, _logout } = this;
+        const { _onChangeLanguage, _onChangeActiveSubMenu, _setSelectedMentor } = this;
         return (
             <div>
                 <div>
-                    <Header isLogined={isLogined} logout={_logout} userinfo={userInfo} />
+                    <Header isLogined={isLogin} logout={logout} userinfo={userInfo} />
                 </div>
                 <div>
-                    <Route path="/"exact={true} render={()=> <Submain _onMenuChange={_onChangeActiveSubMenu} activeMenu={activeSubMenu} _selectMentor={_setSelectedMentor} /> } />
-                    {/*<Route path="/" component={Submain} exact={true} />*/}
+                    <Route path="/" exact={true} render={()=> <Submain _onMenuChange={_onChangeActiveSubMenu} activeMenu={activeSubMenu} _selectMentor={_setSelectedMentor} /> } />
                     <Route path="/mentor/:data" component={Mentordetail} />
                     <Route path="/company" component={Companydetail} />
-                    {/* Not Found */}
-                    {/*<Route component={() => <Redirect to="/" />} />*/}
                 </div>
                 <Footer lan={lan} setLanguage={_onChangeLanguage} />
             </div>
