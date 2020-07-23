@@ -3,30 +3,23 @@ import styled from "styled-components";
 
 class Checkboxfield extends Component {
 
-  constructor() {
-    super()
-    this.state = {
-        isCheck: false,
-    }
+  constructor(props) {
+    super(props);
   }
 
   _setCheckVal = ()=> {
-      const val = !this.state.isCheck;
-      this.setState({
-          isCheck: val
-      })
+      this.props.onChange(!this.props.checked);
   }
 
-  render(){
-    const { name, value, text, textColor, type } = this.props;
-    const { isCheck } = this.state;
-    const { _setCheckVal } = this;
+    render(){
+    const { name, checked, text, textColor, type } = this.props;
+        const { _setCheckVal } = this;
     return (
         <CheckBox className='checkboxField' textColor={textColor} type={type}>
-          <input type="checkbox" name={name} value={value} />
+          <input type="checkbox" name={name} checked={checked} readOnly />
           <div onClick={()=> _setCheckVal()}>
-              <div className={isCheck? 'box checked' : 'box'}>
-                  {isCheck?
+              <div className={checked? 'box checked' : 'box'}>
+                  {checked?
                       <svg width="10" height="8" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M1.25 2.66667L0 4L3.75 8L10 1.33333L8.75 0L3.75 5.33333L1.25 2.66667Z" fill="white"/></svg>
                       : null
                   }
@@ -58,7 +51,6 @@ const CheckBox = styled.div`
             border: 0.8px solid ${props => (props.type == 'login' ? '#ffffff' : '#005CB9')};
             box-sizing: border-box;
             border-radius: 4px;
-            background: #005CB9;
             > svg {
                 position: absolute;
                 top: 3px;

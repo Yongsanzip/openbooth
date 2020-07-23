@@ -18,6 +18,7 @@ class Detail extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            activeTab: 0,
             tabList: [{
                 title: 'Exhibition details',
                 name: 'details'
@@ -127,9 +128,15 @@ class Detail extends Component {
         this._closeSendMsgModal();
     }
 
+    _setActiveTab = (idx) => {
+        this.setState({
+            activeTab: idx
+        })
+    }
+
     render() {
-        const { _showSendMsgModal, _closeSendMsgModal, _sentMsg } = this;
-        const { tabList, exhibitInfo, thumbList, documentList, boardList, visitors, showSendMsgModal, modalData } = this.state;
+        const { _showSendMsgModal, _closeSendMsgModal, _sentMsg, _setActiveTab } = this;
+        const { activeTab, tabList, exhibitInfo, thumbList, documentList, boardList, visitors, showSendMsgModal, modalData } = this.state;
         const width = 840;
 
         return (
@@ -148,7 +155,7 @@ class Detail extends Component {
                     </div>
                 </DescriptionComp>
                 <TabpanelComp width={width}>
-                    <Tabpannel tabs={tabList} width={width} titleBg={'#ffffff'} contentBg={'#E5E5E5'}>
+                    <Tabpannel tabs={tabList} activeTab={activeTab} changeActiveTab={_setActiveTab} width={width} titleBg={'#ffffff'} contentBg={'#E5E5E5'}>
                         <div className='tabContent details hide'>
                             <div className='border'>
                                 <Pannel title="Exhibition information">

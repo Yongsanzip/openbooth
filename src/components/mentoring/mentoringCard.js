@@ -56,7 +56,6 @@ class Mentoringcard extends Component {
     }
 
     _showModal = (e) => {
-        console.log("realy?")
         if(e != null) e.stopPropagation();
         this.setState({
             isShowAccessCodeModal: true

@@ -146,7 +146,6 @@ class Exhibit extends Component {
         })
     }
     setSelectedCategoryItem = (el)=> {
-        console.log("click title on setSelectedCategoryItem");
         this.setState({ selectedCategory: el })
     }
 

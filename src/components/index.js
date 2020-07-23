@@ -16,6 +16,8 @@ export { default as Panneltitle } from './pannelTitle'
 
 export { default as Mentoringcard } from './mentoring/mentoringCard'
 export { default as Custommodal } from './modal'
+export { default as Alertmodal } from './modal/alertModal'
+
 export { default as Detailmenubar } from './detailmenubar'
 export { default as Hambutton } from './hamButton'
 export { default as MentordetailContentComp } from './mentoring/mentorDetailContent'

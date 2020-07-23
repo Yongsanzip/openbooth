@@ -24,7 +24,6 @@ class Category extends Component {
     }
 
     _onClickTitle = () => {
-        console.log("click title on categoty");
         if(this.props.onClickTitle != null){
             this.props.onClickTitle();
         }

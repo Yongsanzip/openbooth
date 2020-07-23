@@ -7,10 +7,8 @@
   letter-spacing: -0.01em;
 }
 
-.fixedOnTop {
-  position: fixed;
-  top: 0;
-  z-index: 1;
+.alignRight {
+  text-align: right;
 }
 .fixedOnTop {
   position: fixed;

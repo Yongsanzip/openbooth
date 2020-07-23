@@ -11,10 +11,7 @@ class RequestToExhibitor extends Component {
     }
 
     _sendRequestToExhibitor = (e) => {
-        const target = this.state.requestForm.current;
-        const form = new FormData(target);
-        const formula = form.get("name");
-        console.log(formula);
+        // const target = this.state.requestForm.current;
         // console.log(values)
     }
 

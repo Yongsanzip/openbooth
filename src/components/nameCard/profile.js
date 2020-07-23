@@ -51,7 +51,6 @@ class Profile extends Component {
 
   render(){
     const { data, showMailBtn, showMoreinfoBtn, showLogoutBtn, type } = this.props;
-    console.log(showLogoutBtn);
     let list = [];
     if(type == 'company'){
         list = this.state.companyFields;

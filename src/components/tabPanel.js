@@ -8,11 +8,10 @@ import Listitem from "./category/listitem";
 function Tabpannel(props) {
     const [tabContent, setTabContent] = useState(()=>createRef());
     const [tabTitle, setTabTitle] = useState(()=>createRef());
-    const [activeTab, setActiveTab] = useState(0);
     const [activePosition, setActivePosition] = useState({width:0, left: 0});
     const _onClickTab = function(idx){
-        console.log("_onClickTab::", idx, tabTitle.current.children[idx]);
-        setActiveTab(idx);
+        if(props.changeActiveTab == null) return;
+        props.changeActiveTab(idx);
         if(tabTitle.current == null || tabTitle.current.children.length < 1) return;
         setActivePosition({width: tabTitle.current.children[idx].offsetWidth, left: tabTitle.current.children[idx].offsetLeft});
 
@@ -27,7 +26,7 @@ function Tabpannel(props) {
     }
 
     useEffect((e) => {
-        _onClickTab(activeTab == null? 0 : activeTab);
+        _onClickTab(props.activeTab == null? 0 : props.activeTab);
     }, []);
 
     return (
@@ -37,7 +36,7 @@ function Tabpannel(props) {
                     {props.tabs && props.tabs.length > 0 ?
                         props.tabs.map((item, key) => {
                             return (
-                                <li className={activeTab==key? 'active':''} key={key} onClick={()=>_onClickTab(key)}>{item.title}</li>
+                                <li className={props.activeTab==key? 'active':''} key={key} onClick={()=>_onClickTab(key)}>{item.title}</li>
                             )
                         }) : null }
                 </ul>
