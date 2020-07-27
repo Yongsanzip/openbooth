@@ -4,9 +4,10 @@ import { useHistory,Route,Switch } from "react-router-dom";
 import Header from "../components/layout/header";
 import Footer from "../components/layout/footer";
 import Submain from "./submain/submain"
-import dummyImg from "../assets/img/bg-dummy.png";
 import Mentordetail from "./submain/detail/mentorDetail";
 import Companydetail from "./submain/detail/companyDetail";
+
+import dummyImg from "../assets/img/bg-dummy.png";
 
 function Main(props){
     const history = useHistory();
@@ -46,7 +47,7 @@ function Main(props){
     return (
             <div>
                 <div>
-                    <Header {...props} goMain={()=>_onChangeActiveSubMenu(0)} />
+                    <Header />
                 </div>
                 <div>
                     <Switch>

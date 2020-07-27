@@ -1,80 +1,73 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
+import {connect} from 'react-redux'
 
 import {Namecard} from "./../index";
 
-class Profile extends Component {
-  constructor() {
-    super();
-    this.state = {
-        companyFields: [{
-            name: 'Name',
-            fieldname: 'name'
-        },{
-            name: 'Field',
-            fieldname: 'email',
-            type: 'hash'
-        },{
-            name: 'Website',
-            fieldname: 'link'
-        },{
-            name: 'Email',
-            fieldname: 'email'
-        },{
-            name: 'SNS',
-            fieldname: 'sns'
-        },{
-            name: 'Manager',
-            fieldname: 'manager'
-        }],
-        userFields: [{
-            name: 'Country',
-            fieldname: 'country'
-        },{
-            name: 'Email',
-            fieldname: 'email'
-        },{
-            name: 'Phone number',
-            fieldname: 'phone'
-        },{
-            name: 'Company / Affiliation',
-            fieldname: 'company'
-        },{
-            name: 'Department',
-            fieldname: 'department'
-        },{
-            name: 'Position',
-            fieldname: 'position'
-        }]
-    }
-  }
+function Profile(props) {
+    const companyFields = [{
+        name: 'Name',
+        fieldname: 'name'
+    },{
+        name: 'Field',
+        fieldname: 'email',
+        type: 'hash'
+    },{
+        name: 'Website',
+        fieldname: 'link'
+    },{
+        name: 'Email',
+        fieldname: 'email'
+    },{
+        name: 'SNS',
+        fieldname: 'sns'
+    },{
+        name: 'Manager',
+        fieldname: 'manager'
+    }];
 
-  render(){
-    const { data, showMailBtn, showMoreinfoBtn, showLogoutBtn, type } = this.props;
-    let list = [];
-    if(type == 'company'){
-        list = this.state.companyFields;
-    }
-    else{
-        list = this.state.userFields;
+    const userFields = [{
+        name: 'Country',
+        fieldname: 'country'
+    },{
+        name: 'Email',
+        fieldname: 'email'
+    },{
+        name: 'Phone number',
+        fieldname: 'phone'
+    },{
+        name: 'Company / Affiliation',
+        fieldname: 'company'
+    },{
+        name: 'Department',
+        fieldname: 'department'
+    },{
+        name: 'Position',
+        fieldname: 'position'
+    }];
+
+    const userInfo = props.userInfo;
+    
+    let list = userFields;
+    if(props.type == 'company'){
+        list = companyFields;
     }
     return (
-        <Profilecomp type={type}>
-            <Namecard type={type} data={data} showMailBtn={showMailBtn} showMoreinfoBtn={showMoreinfoBtn} showLogoutBtn={showLogoutBtn} />
+        <Profilecomp type={props.type}>
+            <Namecard type={props.type} data={userInfo} showMailBtn={props.showMailBtn} showMoreinfoBtn={props.showMoreinfoBtn} showLogoutBtn={props.showLogoutBtn} />
             <div className="details">
                 {list && list.length > 0 ?
                     list.map((item, key) => {
                         return (
                             <div key={key}>
                                 <div className="fieldname">{item.name}</div>
-                                {data[item.fieldname]}
+                                {userInfo[item.fieldname]}
                             </div>
                         )
                     }) : null }
             </div>
         </Profilecomp>
   )
-  }
 }
 
 const Profilecomp = styled.div`
@@ -101,5 +94,13 @@ const Profilecomp = styled.div`
     }
 }
 `;
+
+let mapStateToProps = (state, /*ownProps*/) => {
+    return {
+        userInfo: state.data.userInfo,
+    };
+};
+
+Profile = connect(mapStateToProps, null)(Profile);
 
 export default Profile;

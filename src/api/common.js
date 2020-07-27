@@ -10,6 +10,6 @@ export default class{
             data : settings.params
         });
 
-        return settings.callback(response.data);
+        return response.data;
     }
 }

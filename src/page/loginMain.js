@@ -1,15 +1,15 @@
-import React, {Component, useEffect, useState} from 'react';
-import { useHistory,Route,Switch } from "react-router-dom";
+import React from 'react';
+import { Route } from "react-router-dom";
 import Login from "./login/login";
 import Resetpwd from "./login/resetPwd";
 
-function LoginMain(props){
-    console.log("login main ::", props);
+const LoginMain = props => {
     return (
         <div>
-            <Route path="/" exact={true} ><Login history={props.history} login={props.login} logout={props.logout} isLogin={props.isLogin} /></Route>
-            <Route path="/resetpwd/:data"><Resetpwd /></Route>
+            <Route path="/" exact={true} component={()=><Login login={props.login} logout={props.logout} />} ></Route>
+            <Route path="/resetpwd/:token" component={()=><Resetpwd />} ></Route>
         </div>
     )
 }
+
 export default LoginMain;

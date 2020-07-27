@@ -1,93 +1,78 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from "styled-components";
+
 import Logininfo from "./loginInfo"
 // import Searchfield from "../searchfield";
 import {Custommodal, Profile} from "../index";
 import { Link } from 'react-router-dom';
 
+function UserinfoModal(props) {
+    const isLogin = true;
 
-class UserinfoModal extends Component {
-    constructor() {
-        super();
-    }
-
-    render(){
-        const { data, showModal, handleCloseModal, logout, modalPosition } = this.props;
-
-        return(
-            <Custommodal showModal={showModal} closeModal={handleCloseModal} overlay={0} modalPosition={modalPosition}>
-                <Profile data={data} showLogoutBtn={logout} />
-            </Custommodal>
-        )
-    }
+    return(
+        <Custommodal showModal={props.showModal} closeModal={props.handleCloseModal} overlay={0} modalPosition={props.modalPosition}>
+            <Profile showLogoutBtn={props.logout} />
+        </Custommodal>
+    )
 }
 
-class Header extends Component {
-    constructor() {
-        super()
-        this.state = {
-            isShowModal: false,
-            UserinfoModalPosition: {
-                top: 0,
-                left: 0
-            }
-        }
-    }
+function Header(props) {
+//    const [globalState, dispatch] = useGlobalState();
+    const [ isShowModal, setIsShowModal ] = useState(false);
+    const [ userinfoModalPosition, setUserinfoModalPosition ] = useState({
+        top: 0,
+        left: 0
+    });
 
-    componentDidMount() {
-        this._setUserinfoModalPosition();
-        window.addEventListener('resize', this._setUserinfoModalPosition);
-    }
-    componentWillUnmount() {
-        window.removeEventListener('resize', this._setUserinfoModalPosition);
-    }
+    useEffect((e) => {
+        _setUserinfoModalPosition();
+        window.addEventListener('resize', _setUserinfoModalPosition);
+        return () => {
+            window.removeEventListener('resize', _setUserinfoModalPosition);
+        };
+    }, []);
 
-    _setUserinfoModalPosition= () => {
+    const _setUserinfoModalPosition= () => {
         if(document.getElementsByName('userInfoMenu').length < 0) return;
-        this.setState({
-            UserinfoModalPosition: {
-                top: document.getElementsByName('userInfoMenu')[0].offsetTop + 50,
-                left: document.getElementsByName('userInfoMenu')[0].offsetLeft + 32 - 480
-            }
+        setUserinfoModalPosition({
+            top: document.getElementsByName('userInfoMenu')[0].offsetTop + 50,
+            left: document.getElementsByName('userInfoMenu')[0].offsetLeft + 32 - 480
         })
     }
 
-    _showModal = ()=> {
-        this.setState({
-            isShowModal: true
-        })
+    const _showModal = ()=> {
+        setIsShowModal(true);
     }
 
-    _closeModal = ()=> {
-        this.setState({
-            isShowModal: false
-        })
+    const _closeModal = ()=> {
+        setIsShowModal(false);
     }
 
-    render(){
-        const { isLogin, logout, userInfo, goMain } = this.props;
-        const { isShowModal, UserinfoModalPosition } = this.state;
-        const { _showModal, _closeModal, _goMain } = this;
-        return (
-            <Mainheader>
-                <div className='header'>
-                    <div className='logo' onClick={goMain}>
-                        <svg width="68" height="24" viewBox="0 0 68 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11.9 24C18.4722 24 23.8 18.6274 23.8 12C23.8 5.37258 18.4722 0 11.9 0C5.32782 0 0 5.37258 0 12C0 18.6274 5.32782 24 11.9 24Z" fill="#00416B"/>
-                            <path d="M57.5732 0.114286C57.0632 0.0571429 56.6099 0 56.0999 0C53.9466 0 51.9066 0.571429 50.1499 1.6C50.0932 1.65714 50.0366 1.65714 49.9799 1.71429C49.1299 2.17143 48.1666 2.4 47.1466 2.4C46.1266 2.4 45.1632 2.11429 44.3132 1.71429C44.2566 1.71429 44.1999 1.65714 44.1432 1.6C42.4999 0.628571 40.6299 0.0571429 38.5899 0C38.4766 0 38.3066 0 38.1932 0C31.6199 0 26.2932 5.37143 26.2932 12C26.2932 18.6286 31.6199 24 38.1932 24C40.4599 24 42.5566 23.3714 44.3132 22.2857C45.1632 21.8286 46.1266 21.6 47.1466 21.6C48.1666 21.6 49.1299 21.8857 49.9799 22.2857C51.7932 23.3714 53.8899 24 56.0999 24C62.6732 24 67.9999 18.6286 67.9999 12C67.9999 5.88571 63.4666 0.857143 57.5732 0.114286Z" fill="#005CB9"/>
-                        </svg>
-                    </div>
-                    <Menuitem flex={1} className='menu' onClick={goMain}>
-                        Online Exhibition of Third Countries with The World Bank | Bulit on Hope
-                    </Menuitem>
-                    <Menuitem onClick={_showModal} name="userInfoMenu">
-                        <Logininfo isLogined={isLogin}/>
-                    </Menuitem>
+    const history = useHistory();
+    const goMain = ()=> {
+        history.push("/main");
+    }
+
+    return (
+        <Mainheader>
+            <div className='header'>
+                <div className='logo' onClick={goMain}>
+                    <svg width="68" height="24" viewBox="0 0 68 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.9 24C18.4722 24 23.8 18.6274 23.8 12C23.8 5.37258 18.4722 0 11.9 0C5.32782 0 0 5.37258 0 12C0 18.6274 5.32782 24 11.9 24Z" fill="#00416B"/>
+                        <path d="M57.5732 0.114286C57.0632 0.0571429 56.6099 0 56.0999 0C53.9466 0 51.9066 0.571429 50.1499 1.6C50.0932 1.65714 50.0366 1.65714 49.9799 1.71429C49.1299 2.17143 48.1666 2.4 47.1466 2.4C46.1266 2.4 45.1632 2.11429 44.3132 1.71429C44.2566 1.71429 44.1999 1.65714 44.1432 1.6C42.4999 0.628571 40.6299 0.0571429 38.5899 0C38.4766 0 38.3066 0 38.1932 0C31.6199 0 26.2932 5.37143 26.2932 12C26.2932 18.6286 31.6199 24 38.1932 24C40.4599 24 42.5566 23.3714 44.3132 22.2857C45.1632 21.8286 46.1266 21.6 47.1466 21.6C48.1666 21.6 49.1299 21.8857 49.9799 22.2857C51.7932 23.3714 53.8899 24 56.0999 24C62.6732 24 67.9999 18.6286 67.9999 12C67.9999 5.88571 63.4666 0.857143 57.5732 0.114286Z" fill="#005CB9"/>
+                    </svg>
                 </div>
-                <UserinfoModal data={userInfo} showModal={isShowModal} handleCloseModal={_closeModal} logout={logout} modalPosition={UserinfoModalPosition}/>
-            </Mainheader>
-        )
-    }
+                <Menuitem flex={1} className='menu' onClick={goMain}>
+                    Online Exhibition of Third Countries with The World Bank | Bulit on Hope
+                </Menuitem>
+                <Menuitem onClick={_showModal} name="userInfoMenu">
+                    <Logininfo/>
+                </Menuitem>
+            </div>
+            <UserinfoModal showModal={isShowModal} handleCloseModal={_closeModal} logout={true} modalPosition={userinfoModalPosition}/>
+        </Mainheader>
+    )
 }
 
 const Mainheader = styled.div`

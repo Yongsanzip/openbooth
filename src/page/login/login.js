@@ -44,7 +44,7 @@ function Login(props){
     const _logout = function(){
         console.log("~~~logout::", localStorage.getItem('loginToken'));
         if(localStorage.getItem('loginToken') != null) localStorage.removeItem('loginToken');
-        props.logout();
+        // props.logout();
         history.push("/");
     };
 
@@ -171,9 +171,13 @@ function Login(props){
                 callback: function(){}
             }
             console.log(api);
-            api.request(setting);
+            // api.request(setting);
             localStorage.setItem('loginToken', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiZW1haWwiOiJvcGVuYm9vdGhAb3BlbmJvb3RoLm5ldCIsImNvdW50cnkiOiJSZXB1YmxpYyBvZiBLb3JlYSIsInBob25lIjoiKzgyLTEwLTEyMzQtMTIzNCIsImNvbXBhbnkiOiJCYW5rIG9mIGFtZXJpY2EiLCJkZXBhcnRtZW50IjoiRGVzaWduIHRlYW0iLCJwb3NpdGlvbiI6IlVJL1VYIGRlc2lnbmVyIiwicHJvZmlsZV9pbWFnZSI6Imh0dHBzOi8vY2RuLnBpeGFiYXkuY29tL3Bob3RvLzIwMTUvMTAvMDUvMjIvMzcvYmxhbmstcHJvZmlsZS1waWN0dXJlLTk3MzQ2MF85NjBfNzIwLnBuZyIsImlhdCI6MTU5NDcwMDk4MywiZXhwIjoxNTk0NzA1MDUyLCJqdGkiOiI3ZjI2MjNkMi05YjYxLTRhMDMtOTA5Ny0yNmYxNjc2NmQ4MjgifQ.MYUNxziEZFT7x6G6FobEKEJqYbTWEqE-72qBixNx2zM');
-            if(props.login != null) props.login();
+            console.log(props);
+            if(props.login != null) {
+                props.login();
+                console.log("login!!!!");
+            }
         }
         else{
             warnningAccountRef.current.style.opacity = '1';

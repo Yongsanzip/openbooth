@@ -1,28 +1,22 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
 
-class Logininfo extends Component {
-    constructor() {
-        super()
-    }
-
-    render(){
-        const { isLogined } = this.props;
-        return (
-            <div>
-                {isLogined?
-                    <ProfileInfo>
-                        <img src="" />
-                        <div className="count"><div>0</div></div>
-                    </ProfileInfo>
-                : <LoginBtns>
-                        <div>로그인</div>
-                        <div>로그아웃</div>
-                    </LoginBtns>
-                }
-            </div>
-        )
-    }
+function Logininfo() {
+    const isLogin = true;
+    return (
+        <div>
+            {isLogin?
+                <ProfileInfo>
+                    <img src="" />
+                    <div className="count"><div>0</div></div>
+                </ProfileInfo>
+            : <LoginBtns>
+                    <div>로그인</div>
+                    <div>로그아웃</div>
+                </LoginBtns>
+            }
+        </div>
+    )
 }
 const LoginBtns = styled.div`
 font-weight: normal;

@@ -1,10 +1,14 @@
 import React, {Component, createRef, useState} from 'react';
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
+
+import {connect} from 'react-redux'
+import {saveNewPwd} from './../../store/actions'
+
+import {pwdValidator, pwdConfirmValidator} from "./../../js/validation"
 import {Img, Checkboxfield, Inputfield, Button, Alertmodal} from "../../components";
 import dummyImg from "../../assets/img/bg-dummy.png"
 
-function ResetPwd(props) {
+function ResetPwd( props) {
     const resetPwdForm = createRef();
     const warnningPwdRef = createRef();
     const [newPwdAlertData, setNewPwdAlertData] = useState({
@@ -12,43 +16,50 @@ function ResetPwd(props) {
         contents: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed laoreet metus ac libero cursus maximus. Nulla hendrerit porta facilisis.'
     });
     const [showAlert, setShowAlert] = useState(false);
+    
     const loginFormWidth = 435;
-    const history = useHistory();
+    const token = props.match.params.token;
 
     const _saveNewPwd = function(){
+        
+        console.log(props, saveNewPwd);
+        
+        const pwd = _checkPwdFormat();
+        if(!pwd) return false;
+        
+        props.saveNewPwd({
+            token: token,
+            pwd: pwd
+        });
         console.log("save new password!");
 
         setShowAlert(true);
     }
 
     const _checkPwdFormat = function() {
-        const pwd = this.state.loginForm.current.querySelector('[name=password]').value;
-        const pwdConfirm = this.state.loginForm.current.querySelector('[name=passwordConfirm]').value;
+        const pwd = resetPwdForm.current.querySelector('[name=password]').value;
+        const pwdConfirm = resetPwdForm.current.querySelector('[name=passwordConfirm]').value;
 
-        if(pwd.length > 0 && pwdConfirm.length > 0){
-            if(pwd != pwdConfirm){
-                console.log(pwd, pwdConfirm);
-                this.state.warnningPwdRef.current.style.display = 'inline-block';
-                this.state.warnningPwdRef.current.innerText = '비밀번호가 일치하지 않습니다.';
-                return false;
-            }
-            else{
-                var num = pwd.search(/[0-9]/g);
-                var eng = pwd.search(/[a-z]/ig);
-                if(pwd.length < 8 || pwd.search(/\s/) != -1 || num < 0 || eng < 0){
-                    this.state.warnningPwdRef.current.style.display = 'inline-block';
-                    this.state.warnningPwdRef.current.innerText = 'That email is taken. Try another';
-                    return false;
-                }
-            }
+        const check = pwdValidator(pwd);
+        if(!check.result){
+            warnningPwdRef.current.style.opacity = '1';
+            warnningPwdRef.current.innerText = check.msg;
+            return false;
         }
-        this.state.warnningPwdRef.current.style.display = 'none';
-        return true;
+
+        const checkConfirm = pwdConfirmValidator(pwd, pwdConfirm);
+        if(!checkConfirm.result){
+            warnningPwdRef.current.style.opacity = '1';
+            warnningPwdRef.current.innerText = checkConfirm.msg;
+            return false;
+        }
+
+        return pwd;
     }
 
     const _closeAlert = function(){
         setShowAlert(false);
-        history.push("/");
+        props.history.push("/");
     }
 
     const inputFieldStyle = {
@@ -79,7 +90,7 @@ function ResetPwd(props) {
                             <Inputfield name={'password'} width={'100%'} style={inputFieldStyle} placeholder={'At least 8 characters long including English and number'} />
                         </InputFieldComp>
                         <InputFieldComp marginTop={8}>
-                            <Inputfield name={'passwordConfirm'} width={'100%'} style={inputFieldStyle} placeholder={'Repeat password'}  validator={_checkPwdFormat}/>
+                            <Inputfield name={'passwordConfirm'} width={'100%'} style={inputFieldStyle} placeholder={'Repeat password'} />
                         </InputFieldComp>
                         <InputFieldComp align={'right'}>
                             <Button fill={true} width={104} _clickBtn={_saveNewPwd}>Save</Button>
@@ -92,6 +103,18 @@ function ResetPwd(props) {
     )
 }
 
+const mapDispatchToProps = (dispatch, /*ownProps*/) => {
+    return {
+        saveNewPwd: (data) => dispatch(saveNewPwd(data)),
+        
+    };
+};
+
+ResetPwd = connect(null, mapDispatchToProps)(ResetPwd);
+
+
+export default ResetPwd;
+
 const InputFieldComp = styled.div`
     position: relative;
     padding-top: ${props => (props.marginTop != null ? props.marginTop+'px' : '0')};
@@ -101,7 +124,7 @@ const InputFieldComp = styled.div`
     line-height: 20px;
     text-align: ${props => (props.align != null ? props.align : 'left')};
 
-    .warn { color: #F58181; display: none; }
+    .warn { color: #F58181; opacity: 0; }
     .fieldTitle {
         // position: absolute;
         // top: -20px;
@@ -177,5 +200,3 @@ background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))${props
     }
 }
 `;
-
-export default ResetPwd;

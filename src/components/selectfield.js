@@ -17,7 +17,7 @@ class Selectfield extends Component {
               const view_url = '/view/' + el.board_id;
 
               return (
-                  <option key = {key} value = {el.value} > {el.name} < /option>
+                  <option key = {key} value = {el.value} > {el.name} </option>
               )}
             ) : null
         }
