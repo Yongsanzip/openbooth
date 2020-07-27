@@ -1,7 +1,7 @@
 import React, {Component, useState} from 'react';
 import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from "../../../modules";
+import { RootState } from "../../../modules/index";
 import { getExhibitionReducer } from "../../../modules/exhibition/exhibition";
 
 import { Category, RollingButton, Booth } from './../../../components/index'
