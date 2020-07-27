@@ -52,7 +52,7 @@ class Paging extends Component {
       pagingArr.push(i);
     }
     return (
-        <PagingNavi>
+        <PagingNavi >
           <ul>
             <li>
               <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={()=>_movePage('prev')}>
@@ -63,7 +63,7 @@ class Paging extends Component {
             {pagingArr && pagingArr.length > 0 ?
               pagingArr.map((num) => {
                 return (
-                  <li key = {num} className={now == num? 'active' : ''} ><a href='#' onClick={()=>_onClickPageNum(num)}> {num} </a>< /li>
+                  <li key={num} className={now == num? 'active' : ''} ><a href='#' onClick={()=>_onClickPageNum(num)}> {num} </a> </li>
                   )}
                 ) : null
               }
@@ -72,7 +72,7 @@ class Paging extends Component {
 
               <li>
                 <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={()=>_movePage('next')}>
-                  <path d="M0.589844 10.59L5.16984 6L0.589844 1.41L1.99984 0L7.99984 6L1.99984 12L0.589844 10.59Z" fill="#999999"/>
+                  <path d="M0.589844 10.59L5.16984 6L0.589844 1.41L1.99984 0L7.99984 6L1.99984 12L0.589844 10.59Z" fill="#999999" />
                 </svg>
               </li>
           </ul>
