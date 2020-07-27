@@ -1,7 +1,5 @@
 import React, {Component, createRef, useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
-import {connect} from 'react-redux'
-import { logout } from './../../store/actions'
 
 import styled from "styled-components";
 import {Button, Img} from "./../index";

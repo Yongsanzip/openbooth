@@ -1,9 +1,6 @@
 import React, {Component, createRef, useState} from 'react';
 import styled from "styled-components";
 
-import {connect} from 'react-redux'
-import {saveNewPwd} from './../../store/actions'
-
 import {pwdValidator, pwdConfirmValidator} from "./../../js/validation"
 import {Img, Checkboxfield, Inputfield, Button, Alertmodal} from "../../components";
 import dummyImg from "../../assets/img/bg-dummy.png"
@@ -22,15 +19,15 @@ function ResetPwd( props) {
 
     const _saveNewPwd = function(){
         
-        console.log(props, saveNewPwd);
+        // console.log(props, saveNewPwd);
         
         const pwd = _checkPwdFormat();
         if(!pwd) return false;
         
-        props.saveNewPwd({
-            token: token,
-            pwd: pwd
-        });
+        // props.saveNewPwd({
+        //     token: token,
+        //     pwd: pwd
+        // });
         console.log("save new password!");
 
         setShowAlert(true);
@@ -102,15 +99,6 @@ function ResetPwd( props) {
         </LoginComp>
     )
 }
-
-const mapDispatchToProps = (dispatch, /*ownProps*/) => {
-    return {
-        saveNewPwd: (data) => dispatch(saveNewPwd(data)),
-        
-    };
-};
-
-ResetPwd = connect(null, mapDispatchToProps)(ResetPwd);
 
 
 export default ResetPwd;
