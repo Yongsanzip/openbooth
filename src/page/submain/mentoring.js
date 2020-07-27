@@ -91,9 +91,15 @@ class Mentoring extends Component {
         }
     }
 
+
+    _onClickMentoringCard = (data) => {
+        if(this.props._setSelectedMentor != null) this.props._setSelectedMentor(data);
+    }
+
     render() {
         const { mentoringList } = this.state;
         const { _setSelectedMentor } = this.props;
+        console.log("_setSelectedMentor::", _setSelectedMentor);
         return (
             <div>
                 <MentoringComp>
@@ -102,7 +108,7 @@ class Mentoring extends Component {
                         {mentoringList && mentoringList.length > 0 ?
                             mentoringList.map((item, key) => {
                                 return (
-                                    <Mentoringcard key={key} data={item} _onClick={_setSelectedMentor} />)
+                                    <Mentoringcard key={key} data={item} _onClick={this._onClickMentoringCard} />)
                             }) : null }
                     </div>
                 </MentoringComp>

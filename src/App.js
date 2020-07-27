@@ -7,7 +7,7 @@ import LoginMain from './page/loginMain'
 
 function App(props) {
     const history = useHistory();
-    const [isLogin, setIsLoin] = useState(false);
+    const [isLogin, setIsLoin] = useState(true);
 
     const _login = () => {
         setIsLoin(true);

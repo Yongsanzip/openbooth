@@ -46,7 +46,20 @@ function Profile(props) {
         fieldname: 'position'
     }];
 
-    const userInfo = props.userInfo;
+    const userInfo = {
+        "sub": "1234567890",
+        "name": "John Doe",
+        "email": "openbooth@openbooth.net",
+        "country": "Republic of Korea",
+        "phone": "+82-10-1234-1234",
+        "company": "Bank of america",
+        "department": "Design team",
+        "position": "UI/UX designer",
+        "profile_image": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+        "iat": 1594700983,
+        "exp": 1594705052,
+        "jti": "7f2623d2-9b61-4a03-9097-26f16766d828"
+    };
     
     let list = userFields;
     if(props.type == 'company'){
@@ -94,13 +107,5 @@ const Profilecomp = styled.div`
     }
 }
 `;
-
-let mapStateToProps = (state, /*ownProps*/) => {
-    return {
-        userInfo: state.data.userInfo,
-    };
-};
-
-Profile = connect(mapStateToProps, null)(Profile);
 
 export default Profile;

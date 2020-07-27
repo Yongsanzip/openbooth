@@ -30,6 +30,10 @@ function Namecard(props) {
         e.stopPropagation();
         this.props.showMoreinfoBtn();
     }
+
+    const _logout = () => {
+        console.log("logout!");
+    }
     
     const logoutBtnStyle = {
         'font-size': '12px',
@@ -47,7 +51,7 @@ function Namecard(props) {
                 <div className="mentorName">
                     {props.data.name}
                     {!props.showLogoutBtn? '' :
-                        <Button style={logoutBtnStyle} _clickBtn={()=>props.logout(history)}>Logout</Button>
+                        <Button style={logoutBtnStyle} _clickBtn={_logout}>Logout</Button>
                     }
                 </div>
                 {props.type == null || props.type != 'company'?
@@ -124,14 +128,5 @@ const MentorInfoBtn = styled.div`
         }
     }
 `;
-
-
-let mapDispatchToProps = (dispatch, /*ownProps*/) => {
-    return {
-        logout: (history) => dispatch(logout(history))
-    };
-};
-
-Namecard = connect(null, mapDispatchToProps)(Namecard);
 
 export default Namecard;
