@@ -2,25 +2,18 @@ import React, { Component } from 'react';
 import styled from "styled-components";
 import { Qna } from "./../index"
 
-class Qnalist extends Component {
-  constructor() {
-    super()
-  }
-
-  render(){
-    const { title, list } = this.props;
+function Qnalist(props){
     return (
         <QnaListComp>
-            <div className='title'>{title}</div>
-            {list && list.length > 0 ?
-                list.map((el, key) => {
+            <div className='title'>{props.title}</div>
+            {props.list && props.list.length > 0 ?
+                props.list.map((el, key) => {
                     return ( <Qna key={key} question={el.question} answer={el.answer} />)
                 })
                 : null
             }
         </QnaListComp>
-  )
-  }
+    )
 }
 
 const QnaListComp = styled.div`

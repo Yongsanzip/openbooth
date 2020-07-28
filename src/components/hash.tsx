@@ -1,24 +1,17 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
 
-class Hash extends Component {
-  constructor() {
-    super()
-  }
-
-  _clickHash = (id) => {
+function Hash(props){
+  const _clickHash = (id) => {
       console.log("clicked hash");
   }
 
-  render(){
-    const { id, name } = this.props;
-    const { _clickHash } = this;
+    const { id, name } = props;
     return (
         <HashBox>
-          <div onClick={()=>_clickHash(id)}>{name}</div>
+            <div onClick={()=>_clickHash(id)}>{name}</div>
         </HashBox>
-  )
-  }
+    )
 }
 
 const HashBox = styled.div`

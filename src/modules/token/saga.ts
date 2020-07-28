@@ -1,7 +1,22 @@
 import {put, takeLatest} from "@redux-saga/core/effects";
 import {GET_TOKEN, EMAIL_OVERLAP_CONFIRM, GET_REGRESH_TOKEN, setIsLoginReducer, setIsEmailOverlapReducer} from "./token";
+import {fetch} from "./../fetch";
+import axios from 'axios';
+
+async function getTokenF(){
+    const response = await axios("http://localhost:4000/getToken", {
+        method : "POST",
+        headers: new Headers()
+    });
+    console.log(response);
+}
 
 function* getToken_saga(){
+    // getTokenF();
+    // return;
+    //
+    // fetch()
+
     if(true){
         const response = {
             "code": "200",

@@ -26,6 +26,7 @@ export { default as Infofields } from './infoFields'
 export { default as Tabpannel } from './tabPanel'
 export { default as Pannel } from './panel'
 export { default as Ellipsis } from './ellipsis'
+export { default as Selectfield } from './selectfield';
 
 export { default as RollingBannerButton } from './rollingBannerButton';
 export { default as RollingButton } from './rollingButton';
@@ -36,7 +37,7 @@ export { default as Category } from './category/category';
 
 
 //export { default as Searchfield } from './searchfield';
-//export { default as Selectfield } from './selectfield';
+
 //export { default as Paging } from './paging';
 //export { default as Submenubar } from './submenubar';
 //export { default as MoreButton } from './moreButton';

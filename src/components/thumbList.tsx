@@ -2,24 +2,16 @@ import React, { Component } from 'react';
 import styled from "styled-components";
 import { Img } from "./index";
 
-class Thumblist extends Component {
-
-  constructor(props) {
-    super(props)
-  }
-
-  render(){
-      const { list, size, marginRight, columns } = this.props;
+function Thumblist(props){
     return (
-        <ThumblistComp size={size} marginRight={marginRight} columns={columns}>
-            {list && list.length > 0 ? list.map((el, key) => {
+        <ThumblistComp size={props.size} marginRight={props.marginRight} columns={props.columns}>
+            {props.list && props.list.length > 0 ? props.list.map((el, key) => {
                 return (
-                    <Img key={key} src={list.src} />
+                    <Img key={key} src={props.list.src} />
                 )} ) : null
             }
         </ThumblistComp>
     )
-  }
 }
 
 const ThumblistComp = styled.div`

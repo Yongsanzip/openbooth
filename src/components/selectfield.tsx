@@ -1,0 +1,124 @@
+import React, { useState, useRef } from 'react';
+import styled from "styled-components";
+
+function Selectfield(props){
+    const [isFocus, setIsfocus] = useState(false);
+    const [selected, setSelected] = useState(props.list !=null && props.list.length > 0? props.list[0] : '');
+    const selectRef = useRef(null);
+
+    const _setIsFocus = () => {
+        setIsfocus(!isFocus);
+    }
+    const _setSelectedOption = (idx) => {
+        let selectEl:any;
+        if (typeof selectRef !== 'undefined' &&
+            typeof selectRef.current !== 'undefined') {
+            selectEl = selectRef.current;
+        }
+        selectEl.value = props.list[idx].value;
+        console.log(selectEl)
+        setSelected(props.list[idx]);
+        _setIsFocus();
+
+    }
+  return (
+      <SelectFieldComp className='selectField' type={props.type}>
+          <select name={props.name} ref={selectRef}>
+              {props.list && props.list.length > 0 ?
+                  props.list.map((el, key) => {
+                      const view_url = '/view/' + el.board_id;
+
+                      return (
+                          <option key = {key} value = {el.value} > {el.name} </option>
+                      )}
+                  ) : null
+              }
+          </select>
+
+          <div className="selectBox" onClick={() => setIsfocus(true)}>
+              <div>{selected.name}</div>
+              <svg width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0.94 -3.08602e-07L4 3.05333L7.06 -4.10887e-08L8 0.94L4 4.94L-4.10887e-08 0.94L0.94 -3.08602e-07Z" fill="#999999"/>
+              </svg>
+          </div>
+          {isFocus?
+              <div className="selectList">
+                  <ul>
+                      {props.list && props.list.length > 0 ?
+                          props.list.map((el, key) => {
+                              return (
+                                  <li key={key} className="lanBox" onClick={()=>_setSelectedOption(key)}>
+                                      {el.name}
+                                  </li>
+                              )
+                          }) : null
+                      }
+                  </ul>
+              </div>
+          : null}
+
+      </SelectFieldComp>
+  )
+}
+
+interface SelectBoxProps {
+  width: any,
+    type: any
+}
+const SelectFieldComp = styled.div`
+position: relative;
+font-style: normal;
+font-weight: bold;
+font-size: 14px;
+line-height: 22px;
+letter-spacing: -0.01em;
+color: #999999;
+width: ${(props: SelectBoxProps) => (props.width != null ? props.width : 'auto')};
+& .selectBox {
+    padding: 8px 12px 8px 8px;
+    border: 1px solid #E9E9E9;
+    box-sizing: border-box;
+    background: ${(props: SelectBoxProps) => (props.type != 'white' ? '#F7F7F9' : '#ffffff')};
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    > * {
+        :first-child { flex: 1; }
+    }
+}
+& .selectList {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    z-index: 2;
+    overflow: hidden;
+    border: 1px solid #E9E9E9;
+    box-sizing: border-box;
+    border-radius: 8px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 20px;
+    color: #999999;
+    ul, li { 
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    li {
+        background: ${(props: SelectBoxProps) => (props.type != 'white' ? '#F7F7F9' : '#ffffff')};
+        border-bottom: 1px solid #E9E9E9;
+        box-sizing: border-box;
+        padding: 8px 16px;
+        :last-child {border-bottom: 0}
+    }
+}
+
+
+> select { display: none; }
+   
+  background-image: url('data:image/svg+xml;utf8,<svg width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.94 -3.08602e-07L4 3.05333L7.06 -4.10887e-08L8 0.94L4 4.94L-4.10887e-08 0.94L0.94 -3.08602e-07Z" fill="#999999"/></svg>');
+`;
+
+export default Selectfield;

@@ -1,24 +1,20 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
 
-class Pannel extends Component {
-
-  constructor(props) {
-    super(props)
-  }
-
-  render(){
+function Pannel(props){
     return (
-        <PannelComp noPadding={this.props.noPadding}>
-            {this.props.title != null && this.props.title != ''? <div className='title'>{this.props.title}</div> : null }
-          <div className='content'>
-              {this.props.children}
-          </div>
+        <PannelComp noPadding={props.noPadding}>
+            {props.title != null && props.title != ''? <div className='title'>{props.title}</div> : null }
+            <div className='content'>
+                {props.children}
+            </div>
         </PannelComp>
     )
-  }
 }
 
+interface PannelCompPrps {
+    noPadding:any
+}
 const PannelComp = styled.div`
 background: #FFFFFF;
 font-weight: normal;
@@ -33,10 +29,10 @@ color: #999999;
     color: #000000;
     border-bottom: 1px solid #E9E9E9;
     box-sizing: border-box;
-    padding: ${props => (props.noPadding ? '0' : '0 24px')};
+    padding: ${(props: PannelCompPrps) => (props.noPadding ? '0' : '0 24px')};
 }
 .content {
-    & > * { margin-top: 20px; padding: ${props => (props.noPadding ? '0' : '0 24px')}; }
+    & > * { margin-top: 20px; padding: ${(props: PannelCompPrps) => (props.noPadding ? '0' : '0 24px')}; }
     .video {
         width: inherit;
         height: 480px;

@@ -114,6 +114,12 @@ border: 1px solid #E9E9E9;
 box-sizing: border-box;
 border-radius: 8px;
 overflow: hidden;
+transition: transform 0.5s 0s ease, box-shadow 0.3s 0s ease-in-out;
+transform: translatey(0);
+:hover {
+    box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.08);
+    transform: translatey(-4px);
+}
 > *:first-child {
     width: 360px;
     height: 280px;
@@ -121,7 +127,8 @@ overflow: hidden;
 > .mentoringInfo {
     flex: 1;
     padding-left: 40px;
-    border: 1px solid #E9E9E9;
+    border-left: 1px solid #E9E9E9;
+    border-right: 1px solid #E9E9E9;
     box-sizing: border-box;
     & .status {
         position: relative;

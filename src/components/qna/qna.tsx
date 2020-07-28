@@ -1,20 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from "styled-components";
 
-class Qna extends Component {
-  constructor() {
-    super()
-  }
-
-  render(){
-    const { question, answer } = this.props;
+function Qna(props){
     return (
         <QnaComp>
-            <div className='question'>{question}</div>
-            {answer}
+            <div className='question'>{props.question}</div>
+            {props.answer}
         </QnaComp>
-  )
-  }
+    )
 }
 
 const QnaComp = styled.div`

@@ -2,17 +2,10 @@ import React, { Component } from 'react';
 import styled from "styled-components";
 import {Img} from "./index";
 
-class Boardlist extends Component {
-
-  constructor(props) {
-    super(props)
-  }
-
-  render(){
-      const { list } = this.props;
+function Boardlist(props){
     return (
         <BoardListComp>
-            {list && list.length > 0 ? list.map((el, key) => {
+            {props.list && props.list.length > 0 ? props.list.map((el, key) => {
                 return (
                     <BoardItemComp key={key}>
                         <div>
@@ -32,7 +25,6 @@ class Boardlist extends Component {
             }
         </BoardListComp>
     )
-  }
 }
 const BoardListComp = styled.div`
     margin: 0 !important;

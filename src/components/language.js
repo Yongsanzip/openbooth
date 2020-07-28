@@ -1,55 +1,42 @@
-import React, { Component } from 'react';
+import React, {useState} from 'react';
 import styled from "styled-components";
 
-class Language extends Component {
+function Language(props){
+  const [isFocused, setIsFocused] = useState(false);
+  const lanList = [{
+    name: '대한민국',
+    lan: 'kor'
+  },{
+    name: 'English',
+    lan: 'eng'
+  }];
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isFocused: false,
-      lanList : [{
-        name: '대한민국',
-        lan: 'kor'
-      },{
-        name: 'English',
-        lan: 'eng'
-      }]
-    }
-  }
-
-  _onClickLanBox = (el) => {
+  const _onClickLanBox = (el) => {
     if(el != null){
-      this.props.setLanguage(el.lan);
+      props.setLanguage(el.lan);
     }
-    this.setState({
-      isFocused: !this.state.isFocused
-    })
+    setIsFocused(!isFocused);
   }
 
-  render(){
-    const { isFocused, lanList } = this.state;
-    const { lan } = this.props;
-    const { _onClickLanBox } = this;
-    return (
-        <LanguageComp>
-          <div className="lanBox" onClick={()=>_onClickLanBox()}>{lanList[lanList.findIndex(l => l.lan === lan)].name}</div>
-          {isFocused?
-              <div className="lanList">
-                <ul>
-                  {lanList && lanList.length > 0 ?
-                      lanList.map((el, key) => {
-                        return (
-                            <li key={key} className="lanBox" onClick={()=>_onClickLanBox(el)}>
-                              {el.name}
-                            </li>
-                        )
-                      }) : null
-                  }
-                </ul>
-              </div> : null }
-        </LanguageComp>
-    )
-  }
+  return (
+      <LanguageComp>
+        <div className="lanBox" onClick={()=>_onClickLanBox()}>{lanList[lanList.findIndex(l => l.lan === props.lan)].name}</div>
+        {isFocused?
+            <div className="lanList">
+              <ul>
+                {lanList && lanList.length > 0 ?
+                    lanList.map((el, key) => {
+                      return (
+                          <li key={key} className="lanBox" onClick={()=>_onClickLanBox(el)}>
+                            {el.name}
+                          </li>
+                      )
+                    }) : null
+                }
+              </ul>
+            </div> : null }
+      </LanguageComp>
+  )
 }
 
 const LanguageComp = styled.div`

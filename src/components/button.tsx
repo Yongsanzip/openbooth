@@ -9,7 +9,7 @@ function Button(props) {
   }
   
   return (
-      <Buttoncomp width={props.width} customStyle={props.style} className={props.fill? 'fill' : ''} onClick={_onclick}>
+      <Buttoncomp width={props.width} customStyle={props.style} type={props.type} className={props.fill? 'fill' : ''} onClick={_onclick}>
           <button type={"button"}>{props.children}</button>
       </Buttoncomp>
     )
@@ -17,14 +17,15 @@ function Button(props) {
 
 interface ButtoncompProps {
     width: any,
-    customStyle: any, 
+    customStyle: any,
+    type: any
 }
 
 const Buttoncomp = styled.div`
 & button {
     width: ${(props: ButtoncompProps) => (props.width != null ? props.width.toString().indexOf('%') > -1? props.width : props.width + 'px' : 'auto')};
-    background: #fff;
-    border: 0.8px solid #005CB9;
+    background: ${(props: ButtoncompProps) => (props.type != null && props.type == 'whiteLine' ? 'transparent' : '#fff')};
+    border: 0.8px solid ${(props: ButtoncompProps) => (props.type != null && props.type == 'whiteLine' ? '#ffffff' : '#005CB9')};
     box-sizing: border-box;
     border-radius: 24px;
     font-weight: normal;
@@ -32,11 +33,11 @@ const Buttoncomp = styled.div`
     line-height: 22px;
     vertical-align: center;
     text-align: center;
-    color: #005CB9;
+    color: ${(props: ButtoncompProps) => (props.type != null && props.type == 'whiteLine' ? '#ffffff' : '#005CB9')};
     padding: 13px 0;
     &:hover {
-        color: #00416B;
-        border: 0.8px solid #00416B;
+        color: ${(props: ButtoncompProps) => (props.type != null && props.type == 'whiteLine' ? '#ffffff' : '#00416B')};
+        border: 0.8px solid ${(props: ButtoncompProps) => (props.type != null && props.type == 'whiteLine' ? '#ffffff' : '#00416B')};
         ${(props: ButtoncompProps) => (props.customStyle != null && props.customStyle.hover != null ? props.customStyle.hover : '')};
     }
     &:focus {
