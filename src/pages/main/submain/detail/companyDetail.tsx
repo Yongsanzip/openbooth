@@ -174,7 +174,7 @@ function Companydetail(props) {
             </CompanyDetailTitleComp>
             <div className='content'>
                 <div>
-                    <Video/>
+                    <Video isShowCase={true} />
                 </div>
                 <div>
                     <div className='companyContents'>
@@ -185,7 +185,7 @@ function Companydetail(props) {
                         <div className='border'>
                             <Pannel title="Exhibitor description">
                                 <div className='text'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum Phasellus sed augue ex. Vestibulum est urna.</div>
-                                <div className='video'><div/></div>
+                                <Video height={'480px'} />
                                 <Thumblist list={thumbList} />
                             </Pannel>
                         </div>
@@ -193,7 +193,7 @@ function Companydetail(props) {
                             <Tabpannel tabs={tabList} >
                                 <div className='product1 hide'>
                                     <Pannel noPadding>
-                                        <div className='video'><div/></div>
+                                        <Video height={'480px'} />
                                         <div className='text'>product 1, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum Phasellus sed augue ex. Vestibulum est urna.</div>
                                         <Thumblist list={thumbList} />
                                     </Pannel>
@@ -201,7 +201,7 @@ function Companydetail(props) {
                                 <div className='product2 hide'>
                                     <Pannel noPadding>
                                         <div className='text'>product 2, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum Phasellus sed augue ex. Vestibulum est urna.</div>
-                                        <div className='video'><div/></div>
+                                        <Video height={'480px'} />
                                         <Thumblist list={thumbList} />
                                     </Pannel>
                                 </div>
