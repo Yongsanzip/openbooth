@@ -35,6 +35,7 @@ export { default as Thumblist } from './thumbList'
 export { default as Boardlist } from './boardList'
 export { default as Category } from './category/category';
 
+export { default as Video } from './video';
 
 //export { default as Searchfield } from './searchfield';
 

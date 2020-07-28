@@ -38,10 +38,6 @@ function RequestToExhibitor(props){
         name: 'value',
         value: '8'
     }]
-    const [activeTab, setActiveTab] = useState(0);
-    const _setActiveTab = (tab) => {
-        setActiveTab(tab);
-    }
 
     const _sendRequestToExhibitor = (e) => {
         // const target = this.state.requestForm.current;
@@ -58,7 +54,7 @@ function RequestToExhibitor(props){
     }
     return (
         <RequestToExhibitorComp>
-            <Tabpannel tabs={tabList} activeTab={activeTab} changeActiveTab={_setActiveTab} noMargin={true}>
+            <Tabpannel tabs={tabList} noMargin={true}>
                 <div className='tabContent inquiry hide'>
                     <div className='formpanel'>
                         <form ref={requestForm} onSubmit={()=> function(){ return false; } }>

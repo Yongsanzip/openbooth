@@ -12,7 +12,7 @@ import {
     Booth,
     Thumblist,
     Tabpannel,
-    Button
+    Button, Video
 } from "../../../../components";
 
 import dummyImg from "../../../../assets/img/bg-dummy.png";
@@ -174,6 +174,9 @@ function Companydetail(props) {
             </CompanyDetailTitleComp>
             <div className='content'>
                 <div>
+                    <Video/>
+                </div>
+                <div>
                     <div className='companyContents'>
                         <CompanyNamePannel>
                             <div style={{background: '#000'}}>img</div>
@@ -187,7 +190,7 @@ function Companydetail(props) {
                             </Pannel>
                         </div>
                         <div className='border'>
-                            <Tabpannel tabs={tabList}>
+                            <Tabpannel tabs={tabList} >
                                 <div className='product1 hide'>
                                     <Pannel noPadding>
                                         <div className='video'><div/></div>
@@ -302,7 +305,8 @@ width: 100%;
     max-width: 1280px;
     margin: 0 auto;
     > div {
-        :first-child { display: flex; }
+        :first-child { margin-top: 40px; }
+        :nth-child(2) { display: flex; }
         & .companyContents {
             flex: 1;
             width: 950px;

@@ -9,9 +9,13 @@ function Tabpannel(props) {
     const tabTitle = useRef(null);
     const tabContent = useRef(null);
     const [activePosition, setActivePosition] = useState({width:0, left: 0});
+    const [activeTab, setActiveTab] = useState(0);
+
     const _onClickTab = function(idx){
-        if(props.changeActiveTab == null) return;
-        props.changeActiveTab(idx);
+        // if(props.changeActiveTab == null) return;
+        // props.changeActiveTab(idx);
+        setActiveTab(idx);
+
         let tabTitleEl:any;
         if (typeof tabTitle !== 'undefined' &&
             typeof tabTitle.current !== 'undefined') {
@@ -46,7 +50,7 @@ function Tabpannel(props) {
                     {props.tabs && props.tabs.length > 0 ?
                         props.tabs.map((item, key) => {
                             return (
-                                <li className={props.activeTab==key? 'active':''} key={key} onClick={()=>_onClickTab(key)}>{item.title}</li>
+                                <li className={activeTab==key? 'active':''} key={key} onClick={()=>_onClickTab(key)}>{item.title}</li>
                             )
                         }) : null }
                 </ul>
