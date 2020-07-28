@@ -37,6 +37,8 @@ export { default as Category } from './category/category';
 
 export { default as Video } from './video';
 
+export { default as CalendarField } from './calendar'
+
 //export { default as Searchfield } from './searchfield';
 
 //export { default as Paging } from './paging';

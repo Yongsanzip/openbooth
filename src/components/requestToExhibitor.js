@@ -1,6 +1,6 @@
 import React, {Component, createRef, useRef, useState} from 'react';
 import styled from "styled-components";
-import {Inputfield, Checkboxfield, Button, Tabpannel, Selectfield} from "./index";
+import {Inputfield, Checkboxfield, Button, Tabpannel, Selectfield, CalendarField} from "./index";
 import Calendar from 'react-calendar';
 
 function RequestToExhibitor(props){
@@ -93,7 +93,7 @@ function RequestToExhibitor(props){
                                 <div className='title'>Inquiry/Request</div>
                                 <Inputfield name='phone' placeholder='Your phone' width='inherit' style={inputFieldStyle} />
                                 <Selectfield name='country' text='Cost information' list={selectList} width={'100%'} type={'white'}/>
-                                <Selectfield name='date' text='offline meeting request' list={selectList} width={'100%'} type={'white'} />
+                                <CalendarField name={'Request date'}/>
                                 <Selectfield name='time' text='Collaboration proposal' list={selectList} width={'100%'} type={'white'} />
                             </div>
                             <div className='border-bottom'>
@@ -168,7 +168,7 @@ background: #ffffff;
 .border-bottom {
     border-bottom: 1px solid #E9E9E9;
     box-sizing: border-box;
-    overflow: hidden;
+    // overflow: hidden;
     :last-child { border-bottom: 0; }
 }
 `;

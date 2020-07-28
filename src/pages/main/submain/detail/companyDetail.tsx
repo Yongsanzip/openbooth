@@ -2,7 +2,6 @@ import React, {Component, createRef, useEffect, useRef} from 'react';
 import styled from "styled-components";
 import {
     Detailmenubar,
-    Img,
     Profile,
     Pannel,
     Documentlist,
@@ -12,7 +11,7 @@ import {
     Booth,
     Thumblist,
     Tabpannel,
-    Button, Video
+    Button, Video, CalendarField
 } from "../../../../components";
 
 import dummyImg from "../../../../assets/img/bg-dummy.png";
@@ -323,7 +322,6 @@ width: 100%;
                 border: 1px solid #E9E9E9;
                 box-sizing: border-box;
                 border-radius: 8px;
-                overflow: hidden;
             }
         }
     }
