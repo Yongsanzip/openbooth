@@ -12,7 +12,7 @@ import {
     Thumblist,
     Tabpannel,
     TabContent,
-    Button, Video, Imgslide
+    Button, Video, Imgslide, LiveCompanyBox
 } from "../../../../components";
 
 import dummyImg from "../../../../assets/img/bg-dummy.png";
@@ -144,21 +144,7 @@ function Companydetail(props) {
         <CompanyDetailComp>
             <Detailmenubar data={companyDetailData} title={companyDetailData == null? '' : companyDetailData.company_name} />
             <CompanyDetailTitleComp src={companyDetailData != null? companyDetailData.main_banner : null}>
-                {/*<Img src={companyInfo.img} width="100%" height="1016px"/>*/}
-                <div className={'info'}>
-                    <div>Company name</div>
-                    <h1>Lorem ipsum dolor sit amet Pellentesque vitae</h1>
-                    <div>
-                        <span className={'category'}>#category</span>
-                        <span className={'category'}>#category</span>
-                        <span className={'category'}>#category</span>
-                    </div>
-                    <div>Vestibulum tincidunt mattis nunc, sit amet iaculis dui varius eu. Morbi efficitur semper velit sit amet euismod. Proin scelerisque suscipit aliquam.</div>
-                    <div className={'btns'}>
-                        <Button fill={'fill'} width={160} height={48}>Now Live!</Button>
-                        <Button type={'whiteLine'} width={160} height={48}>View Information</Button>
-                    </div>
-                </div>
+                <LiveCompanyBox />
             </CompanyDetailTitleComp>
             <div className='content'>
                 <div>
@@ -255,35 +241,10 @@ position: relative;
 width: 100%;
 height: 1016px;
 background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${(props: CompanyDetailTitleCompProps) => (props.src != null ? props.src : '')});
-> .info{
+> *{
     position: absolute;
     top: 50%;
     left: calc(100vw/4);
-    width: 620px;
-    height: 400px;
-    margin-top: -200px;
-    overflow: hidden;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 28px;
-    color: #FFFFFF;
-    > * {
-        margin-bottom: 32px;
-        :last-child { margin-bottom: 0 }
-        &.btns {
-            margin-top: 16px;
-            > * {
-                display: inline-block;
-                margin-right: 16px;
-                :last-child { margin-right: 0 }
-            }
-        }
-    }
-    > h1 {
-        font-weight: 800;
-        font-size: 40px;
-        line-height: 52px;
-    }
 }
 `;
 const CompanyNamePannel = styled.div`

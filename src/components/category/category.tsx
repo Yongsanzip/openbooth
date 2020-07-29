@@ -14,11 +14,15 @@ function Category(props) {
     if(list.length == null || list.length < 0){
         list = new Array(data.booth);
     }
+
+    const _onErrorImg = (e) => {
+        e.target.style.display = 'none';
+    }
     return (
         <CategoryBox>
             <div className='categoryTitle' onClick={props.onClickTitle}>
                 <div className='titleImg'>
-                    {data.category_image != null? <img src={data.category_image} width="100%" height="100%" /> : null }
+                    {data.category_image != null? <img src={data.category_image} width="100%" height="100%" onError={_onErrorImg}/> : null }
                 </div>
                 <div className='titleText'>{data.category}</div>
             </div>

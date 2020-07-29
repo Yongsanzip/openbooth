@@ -29,6 +29,7 @@ body {
 * {
   font-family: NanumSquare;
   letter-spacing: -0.01em;
+  box-sizing: content-box;
 }
 
 body {
