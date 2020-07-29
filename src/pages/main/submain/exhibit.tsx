@@ -8,6 +8,7 @@ import { getExhibitionReducer, getBoothListReducer, getSelectedExhibitCategoryRe
 import { Category, RollingButton, Booth } from './../../../components/index'
 
 function Exhibit(props) {
+    let languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
 
     //최초 호출, 전체 전시 카테고리 목록
     const dispatch = useDispatch();
@@ -59,7 +60,7 @@ function Exhibit(props) {
             <div>
                 <div>
                     <div className='titleBox'>
-                        <div className='title'>Exhibition category</div>
+                        <div className='title'>{languageData.ExhibitionCategoryTitle}</div>
                         <div className='catRollingBtns'>
                             <RollingButton toLeft onClick={_movePrevCategoryPage} />
                             <RollingButton toRight onClick={_moveNextCategoryPage} />
@@ -67,13 +68,13 @@ function Exhibit(props) {
                     </div>
                     <CategoryListComp categoryPage={categoryPage}>
                         <div>
-                        {categoryList && categoryList.length > 0 ?
-                            categoryList.map((el, key) => {
-                                return (
-                                    <Category key={key} data={el} listType="companyProfile" onClickTitle={()=>setSelectedCategoryItem(el)} />
-                                )
-                            }) : null
-                        }
+                            {categoryList && categoryList.length > 0 ?
+                                categoryList.map((el, key) => {
+                                    return (
+                                        <Category key={key} data={el} listType="companyProfile" onClickTitle={()=>setSelectedCategoryItem(el)} />
+                                    )
+                                }) : null
+                            }
                         </div>
                     </CategoryListComp>
                 </div>
@@ -81,24 +82,24 @@ function Exhibit(props) {
             <div>
                 <div>
                     <div className='titleBox'>
-                        <div className='title'>{ selectedCategory == null? 'View all' : selectedCategory.category }</div>
+                        <div className='title'>{ selectedCategory == null? languageData == null? '' : languageData.viewAll : selectedCategory.category }</div>
                     </div>
                     <CategoryListComp>
                         <div>
-                        {selectedCategory != null && typeof selectedCategory.booth.length == "undefined"?
-                            <Link to='/company' ><Booth data={selectedCategory.booth} /></Link> :
-                            selectedCategory != null && selectedCategory.booth.length > 0 ?
-                            selectedCategory.booth.map((el, key) => {
-                                return (
-                                    <Link to='/company' key={key}><Booth data={el} key={key} /></Link>
-                                )
-                            }) : boothList != null && boothList.length > 0 ?
-                                boothList.map((el, key) => {
-                                    return (
-                                        <Link to='/company' key={key}><Booth data={el} key={key} /></Link>
-                                    )
-                                }) : null
-                        }
+                            {selectedCategory != null && typeof selectedCategory.booth.length == "undefined"?
+                                <Link to='/company' ><Booth data={selectedCategory.booth} /></Link> :
+                                selectedCategory != null && selectedCategory.booth.length > 0 ?
+                                    selectedCategory.booth.map((el, key) => {
+                                        return (
+                                            <Link to='/company' key={key}><Booth data={el} key={key} /></Link>
+                                        )
+                                    }) : boothList != null && boothList.length > 0 ?
+                                    boothList.map((el, key) => {
+                                        return (
+                                            <Link to='/company' key={key}><Booth data={el} key={key} /></Link>
+                                        )
+                                    }) : null
+                            }
                         </div>
                     </CategoryListComp>
                 </div>

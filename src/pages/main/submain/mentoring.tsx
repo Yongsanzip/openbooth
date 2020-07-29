@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
-import { Route } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import {RootState} from "../../../modules";
 
 import { Mentoringcard } from "./../../../components"
 import dummyImg from "../../../assets/img/bg-dummy.png";
-import Mentordetail from "./detail/mentorDetail";
 
 function Mentoring(props){
-     const mentoringList = [{
+    const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
+    const mentoringList = [{
         id: 1,
         img: '',
         isLive: true,
@@ -92,7 +93,7 @@ function Mentoring(props){
     return (
         <div>
             <MentoringComp>
-                <div className="compTitle">Mentoring list</div>
+                <div className="compTitle">{languageData.mentoringListTitle}</div>
                 <div className="mentoringList">
                     {mentoringList && mentoringList.length > 0 ?
                         mentoringList.map((item, key) => {

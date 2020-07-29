@@ -1,10 +1,12 @@
 import React, {Component, useEffect, useRef, useState} from 'react';
 import styled from "styled-components";
-import { Link } from 'react-router-dom';
-import dummyImg from "../../assets/img/bg-dummy.png";
+import { useSelector, useDispatch } from 'react-redux';
+import {RootState} from "../../modules";
 
 import {Hash, Accesscode, Custommodal, Img, Ellipsis} from "./../index"
 import Mentorinfo from "./mentorInfo"
+
+import dummyImg from "../../assets/img/bg-dummy.png";
 
 function MenteeItem(props) {
     return (
@@ -37,6 +39,7 @@ max-width: 200px;
 
 
 function Mentoringcard(props){
+    const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
     const cardRef = useRef(null);
     const [isShowModal, SetIsShowModal] = useState(false);
 
@@ -67,8 +70,8 @@ function Mentoringcard(props){
     }
 
     const accessModalData = {
-        title: 'Please enter the access code',
-        content: 'An access code is required to enter the mentoring room.'
+        title: languageData.accessCodeModalTitle,
+        content: languageData.accessCodeModalContent
     }
 
     const hashStyle = {
@@ -84,7 +87,7 @@ function Mentoringcard(props){
             <Img src={dummyImg} />
             <div className="mentoringInfo">
                 <div className="status">
-                    <div className={props.data.isLive? 'isOpen live' : 'isOpen off'}>{props.data.isLive? 'LIVE' : 'OFF'}</div>
+                    <div className={props.data.isLive? 'isOpen live' : 'isOpen off'}>{props.data.isLive? languageData.live : languageData.off}</div>
                     <div className="hashes">
                         {props.data.hashtags && props.data.hashtags.length > 0 ?
                             props.data.hashtags.map((hashItem, key) => {
@@ -97,7 +100,7 @@ function Mentoringcard(props){
                     <Ellipsis line={2}>{props.data.title}</Ellipsis>
                 </div>
                 <div className="mentees">
-                    <div className="title">Mentees</div>
+                    <div className="title">{languageData.mentees}</div>
                     {props.data.mentees && props.data.mentees.length > 0 ?
                         props.data.mentees.map((mentee, key) => {
                             return (

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from "../../../modules";
 import { getItroductionReducer } from "../../../modules/introduction/introduction";
 import {Img} from "../../../components";
+import {textLineBreak} from "../../../common/common";
 
 import dummyImg from "../../../assets/img/bg-dummy.png";
 import dummyImg2 from "../../../assets/img/2.jpg";
@@ -11,6 +12,7 @@ import dummyImg2 from "../../../assets/img/2.jpg";
 function Introduction(props) {
     const dispatch = useDispatch();
     let introduction = useSelector((state: RootState) => state.introductionReducer.data);
+    const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
     if(introduction == null){
         introduction = {};
         dispatch(getItroductionReducer());
@@ -20,18 +22,16 @@ function Introduction(props) {
         <IntroduceComp>
             <IntroduceTitle src={introduction.introduction_image}>
                 <div>
-                    <h2>“Built on Hope”</h2>
-                    Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.
-                    <br/><br/>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lectus nunc, vulputate eget sollicitudin ac, pretium vitae nisi. Praesent auctor nisl ut luctus mollis. Aliquam elementum nunc non libero sollicitudin, sit amet tempus tortor commodo. Mauris lectus lectus, congue quis erat sit amet, condimentum mattis erat.
-                    <h2>D-34</h2>
+                    <h2>{languageData==null || languageData.introduction == null? '' : languageData.introduction.title}</h2>
+                    {languageData==null || languageData.introduction == null? '' : textLineBreak(languageData.introduction.title_description)}
+                    <h2>{languageData==null || languageData.introduction == null? '' : languageData.introduction.dday}</h2>
                 </div>
             </IntroduceTitle>
             <div className="compArea summary">
                 <div className='title'>
-                    Summary
+                    {languageData==null || languageData.introduction == null? '' : languageData.introduction.summaryTitle}
                 </div>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis. Nunc justo risus, ultrices in ultricies eget, dignissim et velit. Proin elementum ante eget metus rhoncus vulputate. Praesent tempor quam fermentum ipsum tristique placerat. Suspendisse ac laoreet arcu. Sed vitae lacinia felis, vel ullamcorper magna. Donec sagittis sem at dolor varius, et dapibus tellus placerat. In semper, sem vitae cursus pulvinar, libero odio condimentum ipsum, non consequat mi diam eu dolor.
+                {languageData==null || languageData.introduction == null? '' : textLineBreak(languageData.introduction.summary)}
             </div>
             <div className="compArea">
                 <div className="parallel verticalMiddle">
@@ -39,85 +39,49 @@ function Introduction(props) {
                     <img src={dummyImg2} width={510} height={560} />
                     <div className="description">
                         <div className="title-large">
-                            The World<br/>
-                            Bank :
+                            {languageData==null || languageData.introduction == null? '' : textLineBreak(languageData.introduction.theWorldBankTitle)}
                         </div>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis. Nunc justo risus, ultrices in ultricies eget, dignissim et velit.
-                        <br/><br/>
-                        Proin elementum ante eget metus rhoncus vulputate. Praesent tempor quam fermentum ipsum tristique placerat. Suspendisse ac laoreet arcu. Sed vitae lacinia felis, vel ullamcorper magna. Donec sagittis sem at dolor varius, et dapibus tellus placerat. In semper, sem vitae cursus pulvinar, libero odio condimentum ipsum, non consequat mi diam eu dolor.
+                        {languageData==null || languageData.introduction == null? '' : textLineBreak(languageData.introduction.theWorldBank)}
                     </div>
                 </div>
             </div>
             <div className="compArea">
                 <div className='title'>
-                    The mentor
+                    {languageData==null || languageData.introduction == null? '' : languageData.introduction.mentorTitle}
                 </div>
                 <div className="parallel">
-                    <div className="mentor">
-                        <Img src={dummyImg} />
-                        <div className='title-small'>Jane Cooper</div>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis.
-                    </div>
-                    <div className="mentor">
-                        <Img src={dummyImg} />
-                        <div className='title-small'>Jane Cooper</div>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis. Nunc justo risus, ultrices in ultricies eget.
-                    </div>
-                    <div className="mentor">
-                        <Img src={dummyImg} />
-                        <div className='title-small'>Jane Cooper</div>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum Phasellus sed augue ex. Vestibulum est urna.
-                    </div>
+                    {languageData==null || languageData.introduction == null? '' :
+                        languageData.introduction.mentors.map((item, key)=>{
+                            return <div className="mentor">
+                                <Img src={dummyImg} />
+                                <div className='title-small'>{item.name}</div>
+                                {textLineBreak(item.content)}
+                            </div>;
+                        })}
                 </div>
             </div>
             <div className="faq">
                 <div className="compArea summary">
                     <div className="title-large">
-                        FAQ
+                        {languageData==null || languageData.introduction == null? '' : languageData.introduction.faqTitle}
                     </div>
-                    <div className="faqComp">
-                        <div className="title-small">
-                            1. Online Exhibition
-                        </div>
-                        <div className="answers">
-                            <div className="answer">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis.</div>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis. Nunc justo risus, ultrices in ultricies eget, dignissim et velit. Proin elementum ante eget metus rhoncus vulputate. Praesent tempor quam fermentum ipsum tristique placerat.
-                        </div>
-                        <div className="answers">
-                            <div className="answer">Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis.</div>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis. Nunc justo risus, ultrices in ultricies eget, dignissim et velit.
-                        </div>
-                        <div className="answers">
-                            <div className="answer">Curabitur vel lacus quam. Nulla ut arcu sit amet risus ultricies aliquet sed eget turpis.</div>
-                            Ut cursus erat quis posuere tempor. Phasellus vitae rutrum dolor. Praesent sit amet aliquet sem. Aliquam semper turpis elit. Mauris laoreet, metus eu semper volutpat, felis ligula tincidunt purus, a eleifend elit nunc et sapien. Curabitur lacinia bibendum justo. Integer gravida pulvinar mauris.
-                        </div>
-                    </div>
-                    <div className="faqComp">
-                        <div className="title-small">
-                            2. Mentoring
-                        </div>
-                        <div className="answers">
-                            <div className="answer">Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis.</div>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis. Nunc justo risus, ultrices in ultricies eget, dignissim et velit.
-                        </div>
-                        <div className="answers">
-                            <div className="answer">Curabitur vel lacus quam. Nulla ut arcu sit amet risus ultricies aliquet sed eget turpis.</div>
-                            Ut cursus erat quis posuere tempor. Phasellus vitae rutrum dolor. Praesent sit amet aliquet sem. Aliquam semper turpis elit. Mauris laoreet, metus eu semper volutpat, felis ligula tincidunt purus, a eleifend elit nunc et sapien. Curabitur lacinia bibendum justo. Integer gravida pulvinar mauris.
-                        </div>
-                    </div>
-                    <div className="faqComp">
-                        <div className="title-small">
-                            3. ETC
-                        </div>
-                        <div className="answers">
-                            <div className="answer">Sed auctor egestas ipsum, vel blandit mauris mattis in</div>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna.
-                        </div>
-                        <div className="answers">
-                            <div className="answer">Integer convallis eu justo id efficitur. Mauris ultricies sit amet sem eget scelerisque.</div>
-                            Praesent laoreet nisi sed fringilla tincidunt. Vestibulum nec orci commodo, placerat eros eu, gravida diam. Fusce in orci non nibh gravida suscipit.
-                        </div>
-                    </div>
+                    {languageData==null || languageData.introduction == null? '' :
+                        languageData.introduction.faqList.map((item, key)=>{
+                            return <div className="faqComp">
+                                <div className="title-small">
+                                    {item.title}
+                                </div>
+                                {item.list != null && item.list.length > 0?
+                                    item.list.map((qItem, key) => {
+                                        return <div className="answers">
+                                            <div className="answer">{qItem.question}</div>
+                                            {textLineBreak(qItem.answer)}
+                                        </div>
+                                    })
+                                    : null
+                                }
+                            </div>;
+                        })}
                 </div>
             </div>
         </IntroduceComp>

@@ -14,10 +14,12 @@ import {
     Namecard,UserinfoModal,
     Booth, Profile, Sendmsg, Custommodal, Video
 } from './../../../components/index'
+import {textLineBreak} from "../../../common/common";
 
 import dummyImg from "./../../../assets/img/bg-dummy.png"
 
 function Detail(props){
+    const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
     const dispatch = useDispatch();
     let introductionData = useSelector((state: RootState) => state.introductionReducer.data);
     if(introductionData == null){
@@ -37,29 +39,29 @@ function Detail(props){
     const [showSendMsgModal, setShowSendMsgModal] = useState(false);
 
     const tabList = [{
-        title: 'Exhibition details',
+        title: languageData.exhibitionDetails,
         name: 'details'
     }, {
-        title: 'Registered visitor',
+        title: languageData.registerdVisitors,
         name: 'visitors'
     }];
     const exhibitInfo = [{
-        'fieldname': 'name',
+        'fieldname': languageData.name,
         'value': introductionData != null? introductionData.exhibition_name : ''
     },{
-        'fieldname': 'Exhibits',
+        'fieldname': languageData.exhibits,
         'value': introductionData != null? introductionData.exhibition_category  : ''
     },{
-        'fieldname': 'Date',
+        'fieldname': languageData.date,
         'value': introductionData != null? introductionData.start_date + "~" + introductionData.end_date : ''
     },{
-        'fieldname': 'Hosted',
+        'fieldname': languageData.hosted,
         'value': introductionData != null? introductionData.hosted  : ''
     },{
-        'fieldname': 'Organized',
+        'fieldname': languageData.organized,
         'value': introductionData != null? introductionData.organized  : ''
     },{
-        'fieldname': 'Operated',
+        'fieldname': languageData.operated,
         'value': introductionData != null? introductionData.operated  : ''
     }];
     const msgModalData = {
@@ -80,14 +82,6 @@ function Detail(props){
 
     const _setActiveTab = (idx) => {
         setActiveTab(idx);
-    }
-
-    const textLineBreak = (lines) => {
-        return lines ?
-            lines.split(/[\r\n]/).map((partial, i) =>
-                <span key={i}>{partial}{i !== lines.length - 1 && <br />}</span>
-            )
-            : lines;
     }
 
     const _onShowUserInfoModal = (data) => {
@@ -117,12 +111,12 @@ function Detail(props){
                 <Tabpannel tabs={tabList} activeTab={activeTab} changeActiveTab={_setActiveTab} width={width} titleBg={'#ffffff'} contentBg={'#E5E5E5'}>
                     <div className='tabContent details hide'>
                         <div className='border'>
-                            <Pannel title="Exhibition information">
+                            <Pannel title={languageData.exhibitionInformation}>
                                 <Infofields list={exhibitInfo} fieldWidth={110}/>
                             </Pannel>
                         </div>
                         <div className='border'>
-                            <Pannel title="Exhibition introduction">
+                            <Pannel title={languageData.exhibitionIntroduction}>
                                 { introductionData != null && introductionData.introduction != null && introductionData.introduction.length > 0 ?
                                     introductionData.introduction.map((component, key)=> {
                                         switch(component.type){
@@ -139,17 +133,17 @@ function Detail(props){
                             </Pannel>
                         </div>
                         <div className='border'>
-                            <Pannel title="Press release">
+                            <Pannel title={languageData.pressRelease}>
                                 <Boardlist list={introductionData.press_release}/>
                             </Pannel>
                         </div>
                         <div className='border'>
-                            <Documentlist title="Exhibition documents" list={introductionData.documents} />
+                            <Documentlist title={languageData.exhibitDocuments} list={introductionData.documents} />
                         </div>
                     </div>
                     <div className='tabContent visitors hide'>
                         <div className='visitorCount'>
-                            Number of visitors : {visitorsData != null? visitorsData.length : 0}
+                            {languageData.numberOfVisitors} : {visitorsData != null? visitorsData.length : 0}
                         </div>
                         <div className='visitorList'>
                             {visitorsData != null && visitorsData.length > 0 ?
