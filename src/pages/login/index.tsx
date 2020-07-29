@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
 import {RootState} from "../../modules";
@@ -23,11 +23,24 @@ const Login = props => {
     const [pageType, setPageType] = useState<string>(props.location != null && props.location.pathname != null && props.location.pathname.indexOf("resetpwd") > -1? 'resetPwd' : 'login');
     const loginForm = useRef<HTMLFormElement>(null);
     const warnningEmailRef = useRef(null);
-    const [emailValue, setEmailValue] = useState<string>('');
+    const [emailValue, setEmailValue] = useState<string>(''); // 중복계정 확인용도
     const warnningPwdRef = useRef(null);
     const warnningAccountRef = useRef(null);
     const [rememberAccount, setRememberAccount] = useState<boolean>(false);
     const [showRegistAlert, setShowRegistAlert] = useState<boolean>(false);
+
+    useEffect(()=>{
+        const localstorageEmail = localStorage.getItem('email');
+        if(localstorageEmail != null){
+            setRememberAccount(true);
+            let loginFormEl: any;
+            if (typeof loginForm !== 'undefined' &&
+                typeof loginForm.current !== 'undefined') {
+                loginFormEl = loginForm.current;
+            }
+            loginFormEl.querySelector('[name=email]').value = localstorageEmail;
+        }
+    }, [])
     
     const registAlertData = {
         title: 'Lorem ipsum dolor',
@@ -288,9 +301,16 @@ const Login = props => {
             loginFormEl = loginForm.current;
         }
         // const formData = new FormData(loginFormEl);
-        const isRememberAccount = loginFormEl.querySelector('[name=rememberEmail]');
 
         dispatch(getTokenReducer(email, pwd));
+
+        if(rememberAccount) {
+            //이메일 저장
+            localStorage.setItem("email", email);
+        }
+        else{
+            localStorage.removeItem("email");
+        }
     };
     const _SendResetPwdLink = () => {
         const email = _checkEmailFormat();

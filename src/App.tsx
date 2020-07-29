@@ -3,7 +3,7 @@ import './App.css';
 import { useHistory, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './modules';
-import {getRefreshTokenReducer, setLanguageDataReducer, isLanguageChangeTrueReducer} from "./modules/token/token";
+import {getRefreshTokenReducer, logoutReducer, setLanguageDataReducer, isLanguageChangeTrueReducer} from "./modules/token/token";
 
 import base64 from 'base-64';
 
@@ -15,7 +15,7 @@ import Introduction from "./pages/main/submain/introduction";
 function App(props) {
   const history = useHistory();
   const dispatch = useDispatch();
-  const isLoginCheck = useSelector((state: RootState) => state.tokenReducer.isLogin);
+  const isLogin = useSelector((state: RootState) => state.tokenReducer.isLogin);
   const language = useSelector((state: RootState) => state.tokenReducer.language);
   if(language == 'kor'){
     import('./language/kor.json').then(module => dispatch(setLanguageDataReducer(module)))
@@ -25,29 +25,30 @@ function App(props) {
     import('./language/eng.json').then(module => dispatch(setLanguageDataReducer(module)))
     dispatch(isLanguageChangeTrueReducer());
   }
-  console.log("isLoginCheck::", isLoginCheck, language);
-  let isLogin = false;
-
-  // sessionStorage.removeItem('token')
-  if(sessionStorage.getItem('token') == null){
-    isLogin = false;
-  }
-  else{
-    const token = sessionStorage.getItem('token');
-    const tokenData = token != null ? token.split('.') : new Array();
-    const userInfo = JSON.parse(base64.decode(tokenData[1]));
-    if(Date.now() > userInfo.exp){
-      // 토큰 만료 시 갱신 >> 현재 제공 받은 토큰 정보가 만료기한이 지나 계속 재로그인 시도 >> api연결 후 주석 풀고 확인 필요
-      // dispatch(getRefreshTokenReducer());
-    }
-    isLogin = true;
-  }
 
   const [isFindPwd, setIsFindPwd] = useState(false);
   useEffect(()=>{
     if(history.location.pathname.indexOf("resetpwd") > -1) {
       setIsFindPwd(true);
     }
+
+    history.listen((location, action) => {
+      console.log("on route change###########################################");
+      //Router path 이동 시 토큰 여부 확인,
+      if(sessionStorage.getItem('token') == null){
+        //없으면 로그인 페이지로 이동
+        dispatch(logoutReducer());
+      }
+      else{
+        const token = sessionStorage.getItem('token');
+        const tokenData = token != null ? token.split('.') : new Array();
+        const userInfo = JSON.parse(base64.decode(tokenData[1]));
+        if(Date.now() > userInfo.exp){
+          // 토큰 만료 시 갱신 >> 현재 제공 받은 토큰 정보가 만료기한이 지나 계속 재로그인 시도 >> api연결 후 주석 풀고 확인 필요
+          // dispatch(getRefreshTokenReducer());
+        }
+      }
+    });
   }, []);
 
   return (
