@@ -70,6 +70,23 @@ export function sendFindPwdMail (params) {
         }
     };
 };
+export function setNewPassword (params) {
+    const response = request({
+        url: 'setNewPassword',
+        method: 'post',
+        params: params
+    });
+
+    // return response;
+    //sendFIndPwdMailReducer
+
+    return {
+        code: "200",
+        message: "",
+        data:{
+        }
+    };
+};
 export function regist (params) {
     const response = request({
         url: 'regist',

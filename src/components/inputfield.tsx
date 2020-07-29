@@ -84,7 +84,7 @@ function Inputfield(props){
                     }
                     <input type="file" ref={inputRef} name={props.name} className={props.noEmpty? 'noempty':''}  width={ props.width } onChange={_onChangeFile} />
                 </ImgInput>
-            : <input type={props.type? props.type : "text"} ref={inputRef} name={props.name} className={props.noEmpty? 'noempty':''} placeholder={props.placeholder} width={ props.width } onFocus={()=> _setFocusVal(true) } onBlur={()=> _setFocusVal(false)}/>
+            : <input type={props.type? props.type : "text"} ref={inputRef} name={props.name} className={props.noEmpty? 'noempty':''} placeholder={props.placeholder} width={ props.width } onFocus={()=> _setFocusVal(true) } onBlur={()=> _setFocusVal(false)} onKeyUp={props._onKeyUp} />
             }
       </InputField>
     )

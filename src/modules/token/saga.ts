@@ -8,10 +8,10 @@ import {
     logoutReducer,
     setIsOverlapEmailReducer_ture,
     setIsOverlapEmailReducer_false,
-    SET_LOGIN_FAILED, SEND_FIND_PWD_MAIL, REGIST
+    SET_LOGIN_FAILED, SEND_FIND_PWD_MAIL, REGIST, SET_NEW_PASSWORD
 } from "./token";
 
-import {getToken, getRefreshToken, checkEmailOverlap, sendFindPwdMail, regist} from './../../api/index'
+import {getToken, getRefreshToken, checkEmailOverlap, sendFindPwdMail, regist, setNewPassword} from './../../api/index'
 
 
 function* getToken_saga(action){
@@ -84,6 +84,21 @@ function* sendFindPwdMail_saga(action: any) {
         // yield put(logoutReducer());
     }
 }
+function* setNewPassword_saga(action: any) {
+    try {
+        const params = {
+            password: action.payload.password
+        };
+        const { data } = yield call(setNewPassword, params);
+        if(data != null){
+            //성공 시 로그인 화면 이동
+            window.location.href = window.location.origin;
+        }
+
+    } catch (error) {
+        // yield put(logoutReducer());
+    }
+}
 function* regist_saga(action: any) {
     try {
         console.log(action);
@@ -105,5 +120,6 @@ export function* tokenSaga() {
     yield takeLatest (GET_REGRESH_TOKEN, getRefresjToken_saga);
     yield takeLatest (EMAIL_OVERLAP_CONFIRM, isEmailOverlapConfirm_saga);
     yield takeLatest (SEND_FIND_PWD_MAIL, sendFindPwdMail_saga);
+    yield takeLatest (SET_NEW_PASSWORD, setNewPassword_saga);
     yield takeLatest (REGIST, regist_saga);
 }

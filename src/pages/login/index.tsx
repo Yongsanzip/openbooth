@@ -6,7 +6,8 @@ import {
     isEmailOverlapConfirmReducer,
     getTokenReducer,
     sendFIndPwdMailReducer,
-    registReducer
+    registReducer,
+    setNewPasswordReducer
 } from "../../modules/token/token";
 
 import {Img, Checkboxfield, Inputfield, Button, Alertmodal} from "../../components";
@@ -19,7 +20,7 @@ const Login = props => {
 
     const dispatch = useDispatch();
     const history = props.history;
-    const [pageType, setPageType] = useState<string>('login');
+    const [pageType, setPageType] = useState<string>(props.location != null && props.location.pathname != null && props.location.pathname.indexOf("resetpwd") > -1? 'resetPwd' : 'login');
     const loginForm = useRef<HTMLFormElement>(null);
     const warnningEmailRef = useRef(null);
     const [emailValue, setEmailValue] = useState<string>('');
@@ -34,7 +35,7 @@ const Login = props => {
     };
 
     const isOverlapEmail = useSelector((state: RootState) => state.tokenReducer.isOverlap);
-    console.log("isOverlapEmail::", isOverlapEmail);
+    // console.log("isOverlapEmail::", isOverlapEmail);
     let warnningEmailEl: any;
     if (typeof warnningEmailRef !== 'undefined' &&
         typeof warnningEmailRef.current !== 'undefined') {
@@ -67,6 +68,7 @@ const Login = props => {
         'border-color': '#ffffff',
         background: 'rgba(255, 255, 255, 0)',
         'font-weight': 'bold',
+        'line-height': '22px',
         color: '#ffffff',
         hover: {
             'border-color': '#ffffff',
@@ -83,7 +85,9 @@ const Login = props => {
     // registBtnStyle['letter-spacing'] = '0';
     const inputFieldStyle = {
         'background': 'transparent',
-        'color': '#ffffff'
+        'color': '#ffffff',
+        'border-color': '#ffffff',
+        // 'padding': '16px'
     }
     const LoginBtnStyle = {
         'font-weight': 'bold',
@@ -221,7 +225,7 @@ const Login = props => {
             }
             return pwd;
         }
-        else if(pageType == 'regist' || pageType == 'regist2'){
+        else if(pageType == 'regist' || pageType == 'regist2' || pageType == 'resetPwd'){
             const pwdConfirm = loginFormEl.querySelector('[name=passwordConfirm]').value;
             if(pwd == '' || pwdConfirm == '') return false;
 
@@ -304,6 +308,21 @@ const Login = props => {
 
         _resetForm();
     }
+    const _setNewPwd = () => {
+        const pwdCheck = _checkPwdFormat();
+        if(!pwdCheck) {
+            return false;
+        }
+        let loginFormEl: any;
+        if (typeof loginForm !== 'undefined' &&
+            typeof loginForm.current !== 'undefined') {
+            loginFormEl = loginForm.current;
+        }
+        const loginFormData = new FormData(loginFormEl);
+        dispatch(setNewPasswordReducer({
+            loginFormData
+        }));
+    }
     const _regist = () => {
         const emailCheck = _checkEmailFormat();
         const pwdCheck = _checkPwdFormat();
@@ -356,10 +375,17 @@ const Login = props => {
         setShowRegistAlert(false);
         setPageType('login');
     };
-    const _onKeyPressPassword = (e) => {
-        console.log(e);
-        if(pageType == 'login' && e.keyCode == 13){//enter
-            _login();
+    const _onKeyUp = (e) => {
+        if(e.keyCode == 13){//enter
+            if(pageType == 'login' && e.target.name == 'password'){
+                _login();
+            }
+            else if(pageType == 'findPwd' && e.target.name == 'email'){
+                _SendResetPwdLink();
+            }
+            else if(pageType == 'resetPwd' && e.target.name == 'passwordConfirm'){
+                _setNewPwd();
+            }
         }
     }
 
@@ -393,21 +419,22 @@ const Login = props => {
                     }
                 </div>
                 <div className='loginForm'>
-                    <form ref={loginForm}>
-                        <div className={pageType == 'findPwd'? 'show findPwdDescript' : 'hide findPwdDescript'} >
+                    <form ref={loginForm}  onSubmit={()=> function(){ return false; } }>
+                        <div className={pageType == 'findPwd' || pageType == 'resetPwd'? 'show findPwdDescript' : 'hide findPwdDescript'} >
                             <h2>Reset your password</h2>
-                            <div>Enter your email address and we'll send you a link to reset your password.</div>
+                            {pageType == 'findPwd'? <div>Enter your email address and we'll send you a link to reset your password.</div> : null}
+                            {pageType == 'resetPwd'? <div className={'weightNormal'}><b>openbooth@openbooth.net</b><br/>You can create your new password here.</div> : null}
                         </div>
-                        <InputFieldComp marginTop={0} className={pageType != 'regist2'? 'show' : 'hide'} >
+                        <InputFieldComp marginTop={0} className={pageType != 'regist2' && pageType != 'resetPwd'? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>ID <span ref={warnningEmailRef} className={'warn'}>{languageData.incorrectEmailFormat}</span></div>
-                            <Inputfield name={'email'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Email'} noEmpty={true} validator={_checkEmailFormat} />
+                            <Inputfield name={'email'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Email'} noEmpty={true} validator={_checkEmailFormat} _onKeyUp={_onKeyUp} />
                         </InputFieldComp>
-                        <InputFieldComp marginTop={0} className={pageType == 'login' || pageType == 'regist'? 'show' : 'hide'} >
+                        <InputFieldComp marginTop={0} className={pageType == 'login' || pageType == 'regist' || pageType == 'resetPwd'? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Password <span ref={warnningPwdRef} className={'warn'}>Password format is incorrect</span></div>
-                            <Inputfield type={'password'} name={'password'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={languageData.passwordRule} noEmpty={true} validator={pageType == 'login'? null : _checkPwdFormat} onKeyPress={_onKeyPressPassword}/>
+                            <Inputfield type={'password'} name={'password'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={languageData.passwordRule} noEmpty={true} validator={pageType == 'login'? null : _checkPwdFormat} _onKeyUp={_onKeyUp}/>
                         </InputFieldComp>
-                        <InputFieldComp marginTop={8} className={pageType == 'regist'? 'show' : 'hide'} >
-                            <Inputfield type={'password'} name={'passwordConfirm'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={languageData.repeatPwd} noEmpty={true} validator={_checkPwdFormat} />
+                        <InputFieldComp marginTop={8} className={pageType == 'regist' || pageType == 'resetPwd'? 'show' : 'hide'} >
+                            <Inputfield type={'password'} name={'passwordConfirm'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={languageData.repeatPwd} noEmpty={true} validator={_checkPwdFormat} _onKeyUp={_onKeyUp} />
                         </InputFieldComp>
                         <InputFieldComp marginTop={0} className={pageType == 'regist'? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Name <span className={'warn'}>{languageData.emptyValueMsg}</span></div>
@@ -417,7 +444,7 @@ const Login = props => {
                             <div className={'fieldTitle'}>Phone <span className={'warn'}>{languageData.emptyValueMsg}</span></div>
                             <Inputfield name={'phone'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Phone'} noEmpty={true} />
                         </InputFieldComp>
-                        <InputFieldComp marginTop={12} className={pageType == 'login'? 'show inlineBox' : 'hide inlineBox'} >
+                        <InputFieldComp marginTop={13} className={pageType == 'login'? 'show inlineBox' : 'hide inlineBox'} >
                             <Checkboxfield name={'rememberEmail'} onChange={(val: any)=>setRememberAccount(val)} checked={rememberAccount} width={'100%'} style={inputFieldStyle} text={languageData.rememberEmail} type={'login'} textColor={'#ffffff'} />
                             <div className={'warn alignRight'} ref={warnningAccountRef} >{languageData.incorrectAccount}</div>
                         </InputFieldComp>
@@ -440,11 +467,14 @@ const Login = props => {
                             <div className={'fieldTitle'}>Position <span className={'warn'}>Select this value</span></div>
                             <Inputfield name={'position'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Position'} noEmpty={true} />
                         </InputFieldComp>
-                        <InputFieldComp marginTop={16} className={pageType == 'login'? 'show' : 'hide'} >
+                        <InputFieldComp marginTop={14} className={pageType == 'login'? 'show' : 'hide'} >
                             <Button fill={true} width={'100%'} style={LoginBtnStyle} _clickBtn={_login}>Login</Button>
                         </InputFieldComp>
                         <InputFieldComp marginTop={8} className={pageType == 'findPwd'? 'show alignRight' : 'hide alignRight'} >
                             <Button fill={true} width={104} style={{height: '36px', padding: '7px 35px', 'font-weight': 'bold'}} _clickBtn={_SendResetPwdLink}>Send</Button>
+                        </InputFieldComp>
+                        <InputFieldComp marginTop={30} className={pageType == 'resetPwd'? 'show alignRight' : 'hide alignRight'} >
+                            <Button fill={true} width={104} style={{height: '36px', padding: '7px 35px', 'font-weight': 'bold'}} _clickBtn={_setNewPwd}>Save</Button>
                         </InputFieldComp>
                         <InputFieldComp  marginTop={16} className={pageType == 'regist'? 'show' : 'hide'} >
                             <Button width={'100%'} style={registBtnStyle} _clickBtn={()=>_setPageType('regist2')}>Next step</Button>
@@ -462,7 +492,7 @@ const Login = props => {
                                 <Button width={'210'} style={btnStyle} _clickBtn={()=>_setPageType('regist')}>Register</Button>
                             </div>
                         </InputFieldComp>
-                        <InputFieldComp marginTop={16} className={pageType == 'regist' || pageType == 'regist2'? 'show inlineBox btns' : 'hide inlineBox btns'} >
+                        <InputFieldComp marginTop={11} className={pageType == 'regist' || pageType == 'regist2'? 'show inlineBox btns' : 'hide inlineBox btns'} >
                             <div>
                                 <div className={'fieldTitle'}>{languageData.forgotPwdTitle}</div>
                                 <Button width={'210'} style={btnStyle} _clickBtn={()=>_setPageType('findPwd')}>Find your password</Button>
@@ -614,5 +644,8 @@ background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))${(prop
             }
         }
     }
+}
+.weightNormal {
+    font-weight: normal;
 }
 `;

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
+import { useHistory, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './modules';
 import {getRefreshTokenReducer, setLanguageDataReducer} from "./modules/token/token";
@@ -9,8 +10,10 @@ import base64 from 'base-64';
 import Main from "./pages/main"
 import Login from "./pages/login"
 import FindPwd from "./pages/findPwd"
+import Introduction from "./pages/main/submain/introduction";
 
-function App() {
+function App(props) {
+  const history = useHistory();
   const dispatch = useDispatch();
   const isLoginCheck = useSelector((state: RootState) => state.tokenReducer.isLogin);
   const language = useSelector((state: RootState) => state.tokenReducer.language);
@@ -38,13 +41,17 @@ function App() {
     isLogin = true;
   }
 
-    const isFindPwd = false;
-    console.log("isLogin::", isLogin);
+  const [isFindPwd, setIsFindPwd] = useState(false);
+  useEffect(()=>{
+    if(history.location.pathname.indexOf("resetpwd") > -1) {
+      setIsFindPwd(true);
+    }
+  }, [])
   return (
     <div className="App" id="app">
-          {isLogin?
-              <Main />
-              : isFindPwd? <FindPwd /> : <Login />
+          {isFindPwd?
+              <Route path={`/resetpwd/:data`} component={Login} />
+              : isLogin? <Main /> : <Login />
           }
           
     </div>

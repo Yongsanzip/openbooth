@@ -32,6 +32,7 @@ export const GET_LANGUAGE_DATA = `${prefix}GET_LANGUAGE_DATA`;
 export const SET_LANGUAGE_DATA = `${prefix}SET_LANGUAGE_DATA`;
 
 export const SEND_FIND_PWD_MAIL = `${prefix}SEND_FIND_PWD_MAIL`;
+export const SET_NEW_PASSWORD = `${prefix}SET_NEW_PASSWORD`;
 
 export const REGIST = `${prefix}REGIST`;
 
@@ -89,6 +90,10 @@ export const sendFIndPwdMailReducer = (data) => ({
     type: SEND_FIND_PWD_MAIL,
     payload: data
 });
+export const setNewPasswordReducer = (data) => ({
+    type: SET_NEW_PASSWORD,
+    payload: data
+});
 
 export const registReducer = (data) => ({
     type: REGIST,
@@ -135,6 +140,9 @@ type loginTokenAction = {
     type: "token/SEND_FIND_PWD_MAIL",
     payload: any
 } | {
+    type: "token/SET_NEW_PASSWORD",
+    payload: any
+} | {
     type: "token/REGIST",
     payload: any
 }
@@ -147,6 +155,7 @@ function tokenReducer(state: tokenState = initialState, action: loginTokenAction
     case GET_LANGUAGE_DATA:
     case SEND_FIND_PWD_MAIL:
     case REGIST:
+    case SET_NEW_PASSWORD:
       return { ...state };
     case SET_LOGIN:
         console.log("SET Is SET_LOGIN????", action.payload);
