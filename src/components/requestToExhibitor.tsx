@@ -3,10 +3,16 @@ import styled from "styled-components";
 import {Inputfield, Checkboxfield, Button, Tabpannel, Selectfield, CalendarField} from "./index";
 import base64 from 'base-64';
 import {DayRange} from "react-modern-calendar-datepicker";
+import {isEmailOverlapConfirmReducer} from "../modules/token/token";
+import {RootState} from "../modules";
+import { useSelector, useDispatch } from 'react-redux';
 
 function RequestToExhibitor(props){
+    const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
     const requestForm = useRef(null);
+    const warnningReqEmailRef = useRef(null);
     const meetupForm = useRef(null);
+    const warnningMeetEmailRef = useRef(null);
     const [introduction, setIntroduction] = useState(false);
     const [constInfo, setConstInfo] = useState(false);
     const [offMeetReq, setOffMeetReq] = useState(false);
@@ -172,6 +178,71 @@ function RequestToExhibitor(props){
         //parameter
         //formData
     }
+    const emailValidator = (inputValue:string) => {
+        const regExp = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+        if(inputValue == null || inputValue.length < 1){
+            return {
+                result: false,
+                msg: languageData.emptyValueMsg
+            };
+        }
+        else if (inputValue.match(regExp) == null) {
+            return {
+                result: false,
+                msg: languageData.incorrectEmailFormat
+            };
+        }
+        return {
+            result: true,
+            value: inputValue
+        };
+    }
+
+    const _checkReqEmailFormat = () => {
+        let requestFormEl: any;
+        if (typeof requestForm !== 'undefined' &&
+            typeof requestForm.current !== 'undefined') {
+            requestFormEl = requestForm.current;
+        }
+        let warnningEmailEl: any;
+        if (typeof warnningReqEmailRef !== 'undefined' &&
+            typeof warnningReqEmailRef.current !== 'undefined') {
+            warnningEmailEl = warnningReqEmailRef.current;
+        }
+
+        const inputValue = requestFormEl.querySelector('[name=email]').value;
+        const check = emailValidator(inputValue);
+        if(!check.result){
+            warnningEmailEl.style.display = 'block';
+            warnningEmailEl.innerText = check.msg;
+            return false;
+        }
+        warnningEmailEl.style.display = 'none';
+        return inputValue;
+    };
+
+    const _checkMeetEmailFormat = () => {
+        let meetupFormEl: any;
+        if (typeof meetupForm !== 'undefined' &&
+            typeof meetupForm.current !== 'undefined') {
+            meetupFormEl = meetupForm.current;
+        }
+        let warnningEmailEl: any;
+        if (typeof warnningMeetEmailRef !== 'undefined' &&
+            typeof warnningMeetEmailRef.current !== 'undefined') {
+            warnningEmailEl = warnningMeetEmailRef.current;
+        }
+
+        const inputValue = meetupFormEl.querySelector('[name=email]').value;
+        const check = emailValidator(inputValue);
+        if(!check.result){
+            warnningEmailEl.style.display = 'block';
+            warnningEmailEl.innerText = check.msg;
+            return false;
+        }
+        warnningEmailEl.style.display = 'none';
+        return inputValue;
+    };
 
     return (
         <RequestToExhibitorComp>
@@ -182,7 +253,12 @@ function RequestToExhibitor(props){
                             <div className='border-bottom'>
                                 <div className='title'>Visitor information</div>
                                 <Inputfield name='name' placeholder='Name' padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.name} />
-                                <Inputfield name='email' placeholder='Email'padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.email} />
+                                <div className='relative'>
+                                    <Inputfield name='email' placeholder='Email'padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.email} validator={_checkReqEmailFormat} />
+                                    <div ref={warnningReqEmailRef} className={'warn'}>
+                                        Email format is incorrect.
+                                    </div>
+                                </div>
                                 <Inputfield name='company' placeholder='Company/affiliation'padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.company} />
                             </div>
                             <div className='border-bottom'>
@@ -207,7 +283,12 @@ function RequestToExhibitor(props){
                             <div className='border-bottom'>
                                 <div className='title'>Visitor information</div>
                                 <Inputfield name='name' placeholder='Name' padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.name} />
-                                <Inputfield name='email' placeholder='Email' padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.email} />
+                                <div className='relative'>
+                                    <Inputfield name='email' placeholder='Email' padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.email} validator={_checkMeetEmailFormat} />
+                                    <div ref={warnningMeetEmailRef} className={'warn'}>
+                                        Email format is incorrect.
+                                    </div>
+                                </div>
                                 <Inputfield name='company' placeholder='Company/affiliation' padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.company} />
                             </div>
                             <div className='border-bottom'>
@@ -254,6 +335,16 @@ border-radius: 8px;
             &.btns {
                 text-align: right;
             }
+        }
+        & .relative { position: relative; }
+        & .warn { 
+            color: #F58181;
+            display: none;
+            position: absolute;
+            top: 9px;
+            right: 12px;
+            font-size: 12px;
+            line-height: 20px;
         }
         & .title {
             padding-top: 8px;
