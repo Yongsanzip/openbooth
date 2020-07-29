@@ -7,13 +7,14 @@ function Logininfo() {
     const token = sessionStorage.getItem('token');
     const tokenData = token != null ? token.split('.') : new Array();
     const userInfo = JSON.parse(base64.decode(tokenData[1]));
-    console.log("userInfo::", userInfo);
+    const count = 1;
+
     return (
         <div>
             {isLogin?
                 <ProfileInfo>
                     <img src={userInfo.profile_image} />
-                    <div className="count"><div>0</div></div>
+                    <div className="count"><div>{count > 9? '9+' : count}</div></div>
                 </ProfileInfo>
             : <LoginBtns>
                     <div>로그인</div>

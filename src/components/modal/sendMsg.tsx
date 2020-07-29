@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
-import {Button, Custommodal} from "./../index";
+import {Button, Custommodal, Ellipsis} from "./../index";
 
 function Sendmsg(props) {
     const _Send = function() {
@@ -16,7 +16,7 @@ function Sendmsg(props) {
     return(
         <Custommodal showModal={props.showModal} width="640px" height="400px" closeModal={props.closeModal}>
             <div className='modalcontent'>
-                <div className='modalTitle'>Send Message to {props.data == null? '' : props.data.name}</div>
+                <div className='modalTitle'><Ellipsis>Send Message to {props.data == null? '' : props.data.name}</Ellipsis></div>
                 <textarea placeholder='Leave a message here' />
             </div>
             <SendMsgComp className='modalBtns'>

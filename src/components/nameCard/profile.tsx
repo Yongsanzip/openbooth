@@ -139,7 +139,7 @@ function Profile(props) {
                     }) : null }
             </div>
         </Profilecomp>
-  )
+    )
 }
 
 const Profilecomp = styled.div`
@@ -156,8 +156,10 @@ const Profilecomp = styled.div`
     color: #999999;
     & > div {
         padding-top: 24px;
+        height: ${props => (props.type != null && props.type == 'company' ?  '24px' : '')};
         & > * {
             display: ${props => (props.type != null && props.type == 'company' ?  'inline-block' : '')};
+            vertical-align: ${props => (props.type != null && props.type == 'company' ?  'middle' : '')};
         }
     }
     .fieldname {

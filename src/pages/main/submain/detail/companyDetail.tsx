@@ -24,6 +24,7 @@ import {getCompanyDetailDataReducer} from "../../../../modules/exhibition/exhibi
 
 
 function Companydetail(props) {
+    let languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
     const dispatch = useDispatch();
     //company detail data
     let companyDetailData = useSelector((state: RootState) => state.exhibitionReducer.companyDetail);
@@ -36,19 +37,19 @@ function Companydetail(props) {
     const requestFormBoxRef = useRef(null);
     const bottomPanelRef = useRef(null);
     const businessInfo = [{
-        'fieldname': 'Business model',
+        'fieldname': languageData == null? '' : languageData.businessModel,
         'value': companyDetailData == null? '' : companyDetailData.business_information.business_model
     },{
-        'fieldname': 'Currnet entry area',
+        'fieldname': languageData == null? '' : languageData.currentEntryArea,
         'value': companyDetailData == null? '' : companyDetailData.business_information.current_entry_area
     },{
-        'fieldname': 'Desired entry area',
+        'fieldname': languageData == null? '' : languageData.desiredEntryArea,
         'value': companyDetailData == null? '' : companyDetailData.business_information.desired_entry_area
     },{
-        'fieldname': 'Sell, contract condition',
+        'fieldname': languageData == null? '' : languageData.sell,
         'value': companyDetailData == null? '' : companyDetailData.business_information.contract_condition
     },{
-        'fieldname': 'Desired investment stage',
+        'fieldname': languageData == null? '' : languageData.desiredInvestment,
         'value': companyDetailData == null? '' : companyDetailData.business_information.investment_stage
     }];
 
@@ -162,7 +163,7 @@ function Companydetail(props) {
                             {companyDetailData != null? <Profile data={companyDetailData} type='company' /> : null }
                         </CompanyNamePannel>
                         <div className='border'>
-                            <Pannel title="Exhibitor description">
+                            <Pannel title={languageData==null? '' : languageData.ExhibitorDescription}>
                                 {companyDetailData != null && companyDetailData.exhibitor_description != null?
                                     companyDetailData.exhibitor_description.map((component, key)=> {
                                         switch(component.type){
@@ -199,13 +200,13 @@ function Companydetail(props) {
                         }
                         {companyDetailData != null && companyDetailData.documents != null?
                             <div className='border'>
-                                <Documentlist title="Mentoring documents" list={companyDetailData.documents} />
+                                <Documentlist title={languageData.mentoringDocument} list={companyDetailData.documents} />
                             </div>
                             : null
                         }
                         {companyDetailData != null && companyDetailData.questions != null?
                             <div className='border'>
-                                <Qnalist title="Frequently asked questions" list={companyDetailData.questions} />
+                                <Qnalist title={languageData.frequentlyQuestionsTitle} list={companyDetailData.questions} />
                             </div>
                             : null
                         }
@@ -217,7 +218,7 @@ function Companydetail(props) {
                     </div>
                 </div>
                 <div className='bottomContent' ref={bottomPanelRef}>
-                    <div className='panelTitle'>Related online booth</div>
+                    <div className='panelTitle'>{languageData.relatedOnlineBooth}</div>
                     <div className='boothList'>
                         {randomNumbs != null && randomNumbs.length > 0?
                             randomNumbs.map((numb, key)=> {

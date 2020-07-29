@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
+import { useSelector, useDispatch } from 'react-redux';
+import {RootState} from "../modules";
 import {Button, Custommodal, Inputfield} from "./index";
-import {Link} from "react-router-dom";
 
 function Accesscode(props) {
+    const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
     const _access = function(e){
         console.log("click btn on accesscode modal!", props._access);
         if(props._access != null) props._access();
@@ -19,8 +21,8 @@ function Accesscode(props) {
                 <div className='title'>{props.data.title}</div>
                 {props.data.content != null ? <div className='description'>{props.data.content}</div> : null }
                 <div>
-                    <Inputfield width={'100%'} inputHeight={'22px'} padding={'9px 12px'} placeholder="Access code" />
-                    <div className="warning">Access code does not match.</div>
+                    <Inputfield width={'100%'} inputHeight={'22px'} padding={'9px 12px'} placeholder={languageData.accessCode} />
+                    <div className="warning">{languageData.accessCodeNotMatch}</div>
                 </div>
             </div>
             <div className='btns'>

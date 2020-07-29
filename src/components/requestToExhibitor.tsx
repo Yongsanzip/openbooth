@@ -43,11 +43,11 @@ function RequestToExhibitor(props){
     }
 
     const tabList  = [{
-            title: 'Inquiry/Request',
-            name: 'inquiry'
-        }, {
-            title: 'Online Meet up',
-            name: 'onlineMeetup'
+        title: languageData.inqueryRequest,
+        name: 'inquiry'
+    }, {
+        title: languageData.onlineMeetUp,
+        name: 'onlineMeetup'
     }]
     const selectList = [{
         name: 'Republic of Korea',
@@ -251,25 +251,25 @@ function RequestToExhibitor(props){
                     <div className='formpanel'>
                         <form ref={requestForm} onSubmit={()=> function(){ return false; } }>
                             <div className='border-bottom'>
-                                <div className='title'>Visitor information</div>
-                                <Inputfield name='name' placeholder='Name' padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.name} />
+                                <div className='title'>{languageData.visitorInformation}</div>
+                                <Inputfield name='name' placeholder={languageData.name} padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.name} />
                                 <div className='relative'>
-                                    <Inputfield name='email' placeholder='Email'padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.email} validator={_checkReqEmailFormat} />
+                                    <Inputfield name='email' placeholder={languageData.email}padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.email} validator={_checkReqEmailFormat} />
                                     <div ref={warnningReqEmailRef} className={'warn'}>
                                         Email format is incorrect.
                                     </div>
                                 </div>
-                                <Inputfield name='company' placeholder='Company/affiliation'padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.company} />
+                                <Inputfield name='company' placeholder={languageData.company} padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.company} />
                             </div>
                             <div className='border-bottom'>
-                                <div className='title'>Inquiry/Request</div>
-                                <Checkboxfield name='intro' text='Introduction materials' onChange={_setIntroduction} checked={introduction} />
-                                <Checkboxfield name='cost' text='Cost information' onChange={_setConstInfo} checked={constInfo} />
-                                <Checkboxfield name='meeting' text='offline meeting request' onChange={_setOffMeetReq} checked={offMeetReq} />
-                                <Checkboxfield name='collaboration' text='Collaboration proposal' onChange={_setCollab} checked={collab} />
+                                <div className='title'>{languageData.inqueryRequest}</div>
+                                <Checkboxfield name='intro' text={languageData.introductionMaterials} onChange={_setIntroduction} checked={introduction} />
+                                <Checkboxfield name='cost' text={languageData.costInformation} onChange={_setConstInfo} checked={constInfo} />
+                                <Checkboxfield name='meeting' text={languageData.offlineMeetingReq} onChange={_setOffMeetReq} checked={offMeetReq} />
+                                <Checkboxfield name='collaboration' text={languageData.collaborationProposal} onChange={_setCollab} checked={collab} />
                             </div>
                             <div className='border-bottom'>
-                                <textarea name='detail' placeholder='Detail' />
+                                <textarea name='detail' placeholder={languageData.details} />
                             </div>
                             <div className='border-bottom btns'>
                                 <Button fill={true} width={104} style={sendButtonStyle} _clickBtn={_sendInquiry}>Send</Button>
@@ -281,22 +281,22 @@ function RequestToExhibitor(props){
                     <div className='formpanel'>
                         <form ref={meetupForm} onSubmit={()=> function(){ return false; } }>
                             <div className='border-bottom'>
-                                <div className='title'>Visitor information</div>
-                                <Inputfield name='name' placeholder='Name' padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.name} />
+                                <div className='title'>{languageData.visitorInformation}</div>
+                                <Inputfield name='name' placeholder={languageData.name} padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.name} />
                                 <div className='relative'>
-                                    <Inputfield name='email' placeholder='Email' padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.email} validator={_checkMeetEmailFormat} />
+                                    <Inputfield name='email' placeholder={languageData.email} padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.email} validator={_checkMeetEmailFormat} />
                                     <div ref={warnningMeetEmailRef} className={'warn'}>
                                         Email format is incorrect.
                                     </div>
                                 </div>
-                                <Inputfield name='company' placeholder='Company/affiliation' padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.company} />
+                                <Inputfield name='company' placeholder={languageData.company} padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.company} />
                             </div>
                             <div className='border-bottom'>
-                                <div className='title'>Inquiry/Request</div>
-                                <Inputfield name='phone' placeholder='Your phone' padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.phone} />
-                                <Selectfield name='country' text='Cost information' list={selectList} width={'100%'} type={'white'} value={userInfo.country} rows={2} reset={countryReset} afterReset={()=>setCountryReset(false)}/>
-                                <CalendarField name='date' placeholder={'Request date'} dayRange={dayRange} setDayRange={setDayRange} reset={reqDateReset} afterReset={()=>setReqDateReset(false)} />
-                                <Selectfield name='time' text='Collaboration proposal' list={selectList} width={'100%'} type={'white'} reset={reqTimeReset} afterReset={()=>setReqTimeReset(false)} />
+                                <div className='title'>{languageData.inqueryRequest}</div>
+                                <Inputfield name='phone' placeholder={languageData.yourPhone} padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.phone} />
+                                <Selectfield name='country' text={languageData.yourContry} list={selectList} width={'100%'} type={'white'} value={userInfo.country} rows={2} reset={countryReset} afterReset={()=>setCountryReset(false)}/>
+                                <CalendarField name='date' placeholder={languageData.reqDate} dayRange={dayRange} setDayRange={setDayRange} reset={reqDateReset} afterReset={()=>setReqDateReset(false)} />
+                                <Selectfield name='time' text={languageData.reqTime} list={selectList} width={'100%'} type={'white'} reset={reqTimeReset} afterReset={()=>setReqTimeReset(false)} />
                             </div>
                             <div className='border-bottom btns'>
                                 <Button fill={true} width={104} style={sendButtonStyle} _clickBtn={_sendOnlineMeetUp}>Send</Button>

@@ -1,7 +1,5 @@
 import React, {createRef, useEffect, useState} from 'react';
 import styled from "styled-components";
-import { useSelector, useDispatch } from 'react-redux';
-import {RootState} from "../modules";
 
 function Submenubar(props) {
   // const isLanguageChange = useSelector((state: RootState) => state.tokenReducer.isLanguageChange);
@@ -71,19 +69,19 @@ function Submenubar(props) {
   return (
       <SubmenuComp className='submenubar' activePosition={activePosition} customStyle={props.style} ref={submenubarRef}>
         <ul>
-        {props.menuList && props.menuList.length > 0 ?
-            props.menuList.map((el, key) => {
-            return (
-                <li key={key} className={_setLiClass(el, key)} >
-                  {el.name != '-'?
-                      <a onClick={()=>_setActive(el, key)}>{el.name}</a>
-                      : ''
-                  }
-                  {el.cnt != null? <div className="count"><span>{el.cnt}</span></div> : ''}
-                </li>
-            )
-          }) : null
-        }
+          {props.menuList && props.menuList.length > 0 ?
+              props.menuList.map((el, key) => {
+                return (
+                    <li key={key} className={_setLiClass(el, key)} >
+                      {el.name != '-'?
+                          <a onClick={()=>_setActive(el, key)}>{el.name}</a>
+                          : ''
+                      }
+                      {el.cnt != null? <div className="count"><span>{el.cnt}</span></div> : ''}
+                    </li>
+                )
+              }) : null
+          }
         </ul>
       </SubmenuComp>
   )

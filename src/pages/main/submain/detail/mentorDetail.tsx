@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
+import { useSelector, useDispatch } from 'react-redux';
+import {RootState} from "../../../../modules";
 import {Detailmenubar, MentordetailContentComp, Documentlist, Accesscode} from "../../../../components";
 
 function Mentordetail(props){
+    const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
     const mentorData = {
         mentorInfo: {
             img: '',
@@ -32,7 +35,7 @@ function Mentordetail(props){
             <DetailContent>
                 <MentordetailContentComp data={mentorData.mentorInfo} />
                 <div>
-                    <Documentlist title="Mentoring documents" list={mentorData.documentList} />
+                    <Documentlist title={languageData.mentoringDocument} list={mentorData.documentList} />
                     <Accesscode data={mentorData.accessModalData} btn="Button" type="small" />
                 </div>
             </DetailContent>

@@ -11,6 +11,7 @@ import {
 } from "../../modules/token/token";
 
 import {Img, Checkboxfield, Inputfield, Button, Alertmodal} from "../../components";
+import {textLineBreak} from "../../common/common";
 
 import dummyImg from "../../assets/img/bg-dummy.png";
 
@@ -409,14 +410,6 @@ const Login = props => {
         }
     }
 
-    const textLineBreak = (lines) => {
-        return lines ?
-            lines.split(/[\r\n]/).map((partial, i) =>
-                <span key={i}>{partial}{i !== lines.length - 1 && <br />}</span>
-            )
-            : lines;
-    }
-
     return (
         <LoginComp src={dummyImg} loginFormWidth={loginFormWidth} pageType={pageType} >
             <div>
@@ -432,8 +425,8 @@ const Login = props => {
                         </div>
                         :
                         <div className='info'>
-                            <div><span className={'bold'}>{languageData.organizedField} : </span>{languageData.organized}</div>
-                            <div><span className={'bold'}>{languageData.hostField} : </span>{languageData.hosted}</div>
+                            <div><span className={'bold'}>{languageData.organizedField} : </span>{languageData.organizedValue}</div>
+                            <div><span className={'bold'}>{languageData.hostField} : </span>{languageData.hostedValue}</div>
                             <div><span className={'bold'}>{languageData.supportField} : </span>{languageData.supported}</div>
                         </div>
                     }
