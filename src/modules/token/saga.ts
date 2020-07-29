@@ -8,7 +8,8 @@ import {
     logoutReducer,
     setIsOverlapEmailReducer_ture,
     setIsOverlapEmailReducer_false,
-    SET_LOGIN_FAILED, SEND_FIND_PWD_MAIL, REGIST, SET_NEW_PASSWORD
+    isLanguageChangefalseReducer,
+    SET_LOGIN_FAILED, SEND_FIND_PWD_MAIL, REGIST, SET_NEW_PASSWORD, IS_LANGUAGE_CHANGE_TRUE, setLanguage
 } from "./token";
 
 import {getToken, getRefreshToken, checkEmailOverlap, sendFindPwdMail, regist, setNewPassword} from './../../api/index'
@@ -114,6 +115,9 @@ function* regist_saga(action: any) {
         // yield put(logoutReducer());
     }
 }
+function* setLanguageChangeFalse_saga() {
+    yield put(isLanguageChangefalseReducer());
+}
 
 export function* tokenSaga() {
     yield takeLatest (GET_TOKEN, getToken_saga);
@@ -122,4 +126,5 @@ export function* tokenSaga() {
     yield takeLatest (SEND_FIND_PWD_MAIL, sendFindPwdMail_saga);
     yield takeLatest (SET_NEW_PASSWORD, setNewPassword_saga);
     yield takeLatest (REGIST, regist_saga);
+    yield takeLatest (IS_LANGUAGE_CHANGE_TRUE, setLanguageChangeFalse_saga);
 }

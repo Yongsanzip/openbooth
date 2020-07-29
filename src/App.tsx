@@ -3,7 +3,7 @@ import './App.css';
 import { useHistory, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './modules';
-import {getRefreshTokenReducer, setLanguageDataReducer} from "./modules/token/token";
+import {getRefreshTokenReducer, setLanguageDataReducer, isLanguageChangeTrueReducer} from "./modules/token/token";
 
 import base64 from 'base-64';
 
@@ -19,9 +19,11 @@ function App(props) {
   const language = useSelector((state: RootState) => state.tokenReducer.language);
   if(language == 'kor'){
     import('./language/kor.json').then(module => dispatch(setLanguageDataReducer(module)))
+    dispatch(isLanguageChangeTrueReducer());
   }
   else{
     import('./language/eng.json').then(module => dispatch(setLanguageDataReducer(module)))
+    dispatch(isLanguageChangeTrueReducer());
   }
   console.log("isLoginCheck::", isLoginCheck, language);
   let isLogin = false;

@@ -4,6 +4,7 @@ type tokenState = {
     isLogin: boolean;
     language: string;
     languageData: any;
+    isLanguageChange: any;
     isFailedLogin: boolean;
 }
 const initialState: tokenState = {
@@ -11,6 +12,7 @@ const initialState: tokenState = {
     isLogin: false,
     language: 'kor',
     languageData: {},
+    isLanguageChange: false,
     isFailedLogin: false,
 };
 
@@ -24,6 +26,9 @@ export const SET_LOGIN_FAILED = `${prefix}SET_LOGIN_FAILED`;
 export const SET_LOGOUT = `${prefix}SET_LOGOUT`;
 
 export const SET_LANGUAGE = `${prefix}SET_LANGUAGE`;
+export const IS_LANGUAGE_CHANGE_TRUE = `${prefix}IS_LANGUAGE_CHANGE_TRUE`;
+export const IS_LANGUAGE_CHANGE_FALSE = `${prefix}IS_LANGUAGE_CHANGE_FALSE`;
+
 export const EMAIL_OVERLAP_CONFIRM = `${prefix}EMAIL_OVERLAP_CONFIRM`;
 export const SET_IS_EMAIL_OVERLAP_TRUE = `${prefix}SET_IS_EMAIL_OVERLAP_TRUE`;
 export const SET_IS_EMAIL_OVERLAP_FALSE = `${prefix}SET_IS_EMAIL_OVERLAP_FALSE`;
@@ -85,6 +90,14 @@ export const setLanguageDataReducer = (data) => ({
     type: SET_LANGUAGE_DATA,
     payload: data
 });
+export const isLanguageChangeTrueReducer = () => ({
+    type: IS_LANGUAGE_CHANGE_TRUE,
+    payload: true
+});
+export const isLanguageChangefalseReducer = () => ({
+    type: IS_LANGUAGE_CHANGE_FALSE,
+    payload: false
+});
 
 export const sendFIndPwdMailReducer = (data) => ({
     type: SEND_FIND_PWD_MAIL,
@@ -137,6 +150,12 @@ type loginTokenAction = {
     type: "token/SET_LANGUAGE_DATA",
     payload: any
 } | {
+    type: "token/IS_LANGUAGE_CHANGE_TRUE",
+    payload: any
+} | {
+    type: "token/IS_LANGUAGE_CHANGE_FALSE",
+    payload: any
+} | {
     type: "token/SEND_FIND_PWD_MAIL",
     payload: any
 } | {
@@ -179,10 +198,15 @@ function tokenReducer(state: tokenState = initialState, action: loginTokenAction
     case SET_LANGUAGE_DATA:
       state.languageData = action.payload;
       return { ...state };
-
     case SET_LOGIN_FAILED:
         state.isFailedLogin = true;
         return { ...state };
+    case IS_LANGUAGE_CHANGE_TRUE:
+          state.isLanguageChange = true;
+          return { ...state };
+    case IS_LANGUAGE_CHANGE_FALSE:
+          state.isLanguageChange = false;
+          return { ...state };
     default:
       return state;
   }

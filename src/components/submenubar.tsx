@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import {RootState} from "../modules";
 
 function Submenubar(props) {
+  // const isLanguageChange = useSelector((state: RootState) => state.tokenReducer.isLanguageChange);
+  // console.log("isLanguageChange::", isLanguageChange);
   const [activePosition, setActivePosition] = useState({width:0, left: 0});
   const [submenubarRef, setSubmenubarRef] = useState(()=>createRef());
 
@@ -42,6 +44,7 @@ function Submenubar(props) {
     if(document.getElementsByClassName("submenu"+idx).length > 0){
       menuEl = document.getElementsByClassName("submenu"+idx)[0];
     }
+    if(menuEl == null) return;
     console.log("offsetWidth::::", menuEl.offsetWidth);
     setActivePosition({width: menuEl.offsetWidth, left: menuEl.offsetLeft});
     console.log(activePosition);
