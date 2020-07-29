@@ -16,7 +16,7 @@ function Sendmsg(props) {
     return(
         <Custommodal showModal={props.showModal} width="640px" height="400px" closeModal={props.closeModal}>
             <div className='modalcontent'>
-                <div className='modalTitle'>Send Message to {props.data.name}</div>
+                <div className='modalTitle'>Send Message to {props.data == null? '' : props.data.name}</div>
                 <textarea placeholder='Leave a message here' />
             </div>
             <SendMsgComp className='modalBtns'>

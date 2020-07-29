@@ -135,10 +135,16 @@ function RequestToExhibitor(props){
             requestFormEl = requestForm.current;
         }
         const formData = new FormData(requestFormEl);
-        if(introduction) formData.append('intro', 'checked');
-        if(constInfo) formData.append('cost', 'checked');
-        if(offMeetReq) formData.append('meeting', 'checked');
-        if(collab) formData.append('collaboration', 'checked');
+        let checkValues = new Array();
+        if(introduction) checkValues.push("Introduction materials");
+        if(constInfo) checkValues.push("Cost information");
+        if(offMeetReq) checkValues.push("offline meeting request");
+        if(collab) checkValues.push("Collaboration proposal");
+
+        formData.append('checkeList', checkValues.join(','));
+
+        //parameter
+        //formData
 
     }
 
@@ -163,9 +169,8 @@ function RequestToExhibitor(props){
             formData.append('dateTo', to);
         }
 
-        console.log(formData.get('country'))
-        console.log(formData.get('dateFrom'))
-        console.log(formData.get('time'))
+        //parameter
+        //formData
     }
 
     return (

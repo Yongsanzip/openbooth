@@ -520,11 +520,11 @@ export function getCompanyDetailData (params) {
                     }]
             }],
             "business_information": {
-                "business_model": "",
-                "current_entry_area": "",
-                "desired_entry_area": "",
-                "contract_condition": "",
-                "investment_stage": ""
+                "business_model": "B2B, B2G, B2C",
+                "current_entry_area": "동북아시아 | 대한민국, 중국, 일본",
+                "desired_entry_area": "유럽, 북아메리카 | 영국, 프랑스, 미국",
+                "contract_condition": "단품 판매",
+                "investment_stage": "Series-A"
             },
             "documents": [{
                 "file_name": "Company Co, ltd. Company Introduction_2020.04.31.pdf"

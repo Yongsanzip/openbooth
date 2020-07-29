@@ -35,65 +35,21 @@ function Companydetail(props) {
 
     const requestFormBoxRef = useRef(null);
     const bottomPanelRef = useRef(null);
-    const companyInfo = {
-        img: dummyImg,
-        name: 'Company',
-        email: 'abcdef@ghijklmnopqr.com',
-        ltd: 'Global Co., Ltd',
-        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lectus nunc, vulputate eget sollicitudin ac, pretium vitae nisi.',
-        country: 'Republic of Korea',
-        phone: '+82-10-1234-1234',
-        company: 'Bank of America',
-        department: 'Design team',
-        position: 'UI/UX designer'
-    };
-    const documentList = [{
-        title: 'Company Co, ltd. Company Introduction_2020.04.31.pdf'
-    },{
-        title: 'Phasellus dignissin vitae velit.pdf'
-    }];
-    const accessModalData = {
-        title: 'To enter another mentoring room'
-    };
-    const questionList = [{
-        question: 'Company Co, ltd. Company Introduction_2020.04.31.pdf',
-        answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lectus nunc, vulputate eget sollicitudin ac, pretium vitae nisi.'
-    },{
-        question: 'Phasellus dignissin vitae velit.pdf',
-        answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lectus nunc, vulputate eget sollicitudin ac, pretium vitae nisi.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lectus nunc, vulputate eget sollicitudin ac, pretium vitae nisi.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lectus nunc, vulputate eget sollicitudin ac, pretium vitae nisi.'
-    }];
     const businessInfo = [{
         'fieldname': 'Business model',
-        'value': 'B2B, B2G, B2C'
+        'value': companyDetailData == null? '' : companyDetailData.business_information.business_model
     },{
         'fieldname': 'Currnet entry area',
-        'value': '동북아시아, 대한민국, 중국, 일본'
+        'value': companyDetailData == null? '' : companyDetailData.business_information.current_entry_area
     },{
         'fieldname': 'Desired entry area',
-        'value': '유럽, 북아메리카, 영국, 프랑스, 미국'
+        'value': companyDetailData == null? '' : companyDetailData.business_information.desired_entry_area
     },{
         'fieldname': 'Sell, contract condition',
-        'value': '단품 판매'
+        'value': companyDetailData == null? '' : companyDetailData.business_information.contract_condition
     },{
         'fieldname': 'Desired investment stage',
-        'value': 'Series-A'
-    }];
-    const thumbList = [{
-        src: ''
-    },{
-        src: ''
-    },{
-        src: ''
-    },{
-        src: ''
-    },{
-        src: ''
-    },{
-        src: ''
-    },{
-        src: ''
-    },{
-        src: ''
+        'value': companyDetailData == null? '' : companyDetailData.business_information.investment_stage
     }];
 
     useEffect(() => {
@@ -186,7 +142,7 @@ function Companydetail(props) {
 
     return (
         <CompanyDetailComp>
-            <Detailmenubar data={companyInfo} title={companyInfo.name} />
+            <Detailmenubar data={companyDetailData} title={companyDetailData == null? '' : companyDetailData.company_name} />
             <CompanyDetailTitleComp src={companyDetailData != null? companyDetailData.main_banner : null}>
                 {/*<Img src={companyInfo.img} width="100%" height="1016px"/>*/}
                 <div className={'info'}>
@@ -245,27 +201,16 @@ function Companydetail(props) {
                                     })
                                     : null
                                 }
-                                <div className='product1 hide'>
-                                    <Pannel noPadding>
-                                        <Video height={'480px'} />
-                                        <div className='text'>product 1, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum Phasellus sed augue ex. Vestibulum est urna.</div>
-                                        <Thumblist list={thumbList} />
-                                    </Pannel>
-                                </div>
-                                <div className='product2 hide'>
-                                    <Pannel noPadding>
-                                        <div className='text'>product 2, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum Phasellus sed augue ex. Vestibulum est urna.</div>
-                                        <Video height={'480px'} />
-                                        <Thumblist list={thumbList} />
-                                    </Pannel>
-                                </div>
                             </Tabpannel>
                         </div>
-                        <div className='border'>
-                            <Pannel title="Business information">
-                                <Infofields list={businessInfo} />
-                            </Pannel>
-                        </div>
+                        {companyDetailData != null && companyDetailData.business_information != null?
+                            <div className='border'>
+                                <Pannel title="Business information">
+                                    <Infofields list={businessInfo} />
+                                </Pannel>
+                            </div>
+                            : null
+                        }
                         {companyDetailData != null && companyDetailData.documents != null?
                             <div className='border'>
                                 <Documentlist title="Mentoring documents" list={companyDetailData.documents} />
