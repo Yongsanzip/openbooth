@@ -60,7 +60,7 @@ function Namecard(props) {
     }
     
     return (
-        <Userinfocomp className="profile">
+        <Userinfocomp className="profile" imgMarginRight={props.imgMarginRight}>
             <Img src={props.type == null || props.type != 'company'? props.data.profile_image : props.data.company_thumbnail} full={true} />
             <div className="profileInfo">
                 <div className="mentorName">
@@ -100,7 +100,7 @@ const Userinfocomp = styled.div`
     > *:first-child {
         width: 80px;
         height: 80px;
-        margin-right: 18px;
+        margin-right: ${props => (props.imgMarginRight != null ?  props.imgMarginRight : '16px')};
         border-radius: 50%;
     }
     .profileInfo {
@@ -127,8 +127,8 @@ const MentorInfoBtn = styled.div`
     line-height: 80px;
     vertical-align: middle;
     button {
-        width: 40px;
-        height: 25px;
+        width: 30px;
+        height: 22px;
         line-height: 25px;
         vertical-align: middle;
         background: transparent;

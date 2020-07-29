@@ -66,6 +66,9 @@ box-sizing: border-box;
   > *:nth-child(2) {
     flex: 1;
   }
+  > *:last-child {
+    margin-right: 6px;
+  }
 }
 `;
 

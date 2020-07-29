@@ -133,7 +133,7 @@ height: 920px;
 background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${(props: IntroduceTitleProps) => (props.src != null ? props.src : '')});
 > div {
     padding-top: 200px;
-    width: 820px;
+    width: 840px;
     margin: 0 auto;
     font-weight: bold;
     font-size: 20px;

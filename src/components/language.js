@@ -41,7 +41,8 @@ function Language(props){
 
 const LanguageComp = styled.div`
 position: relative;
-min-width: 80px;
+min-width: 72px;
+height: 40px;
 text-align: center;
 font-style: normal;
 font-weight: bold;

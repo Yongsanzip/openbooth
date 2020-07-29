@@ -28,6 +28,7 @@ const HashBox = styled.div`
     font-size: 10px !important;
     line-height: 18px !important;
     font-weight: bold !important;
+    ${(props: any) => (props.customStyle != null ? props.customStyle : '')}
     > * {
     }    
 `;

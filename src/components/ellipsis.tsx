@@ -18,7 +18,9 @@ const EllipsisComp = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: ${(props: EllipsisCompProps) => (props.line != null && props.line > 1 ? props.line : '1')};
   -webkit-box-orient: vertical;
-  word-break: break-all;
+  
+  word-break: break-word;
 }
 `;
+// word-break: break-all;
 export default Ellipsis;

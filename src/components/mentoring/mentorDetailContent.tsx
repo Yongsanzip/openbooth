@@ -33,6 +33,10 @@ img {
     width: 1280px;
     height: auto;
 }
+> div:first-child {
+    height: 719px;
+    overflow: hidden;
+}
 > div:nth-child(2) {
     display: flex;
     height: 280px;
@@ -58,6 +62,13 @@ img {
         }
         &:last-child {
             flex: 1;
+            padding: 32px 30px 0 39px;
+            & button {
+                > svg {
+                    margin-top: 2px;
+                    margin-left: 5px;
+                }
+            }
         }
     }
 }

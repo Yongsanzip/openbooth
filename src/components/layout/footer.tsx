@@ -19,7 +19,7 @@ function Footer(props) {
                             <li>{languageData.contact}</li>
                         </Footeritem>
                     </div>
-                    <div>
+                    <div className={"lanBox"}>
                         <Language lan={props.lan} setLanguage={props.setLanguage} />
                     </div>
                 </Flexcomp>
@@ -77,7 +77,10 @@ const Flexcomp = styled.div`
     > div:last-child {
         position: absolute;
         right: 0;
-        top: 15px;
+        top: 20px;
+        &.lanBox {
+            top: 13px;
+        }
     }
 `;
 

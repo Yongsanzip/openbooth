@@ -87,7 +87,7 @@ ul {
   display: flex;
   max-width: 1280px;
   width: 100%;
-  height: 56px;
+  height: 55px;
   list-style: none;
   margin: 0 auto;
   padding: 0;

@@ -17,9 +17,9 @@ function Mentordetail(props){
             position: 'UI/UX designer'
         },
         documentList: [{
-            title: 'Company Co, ltd. Company Introduction_2020.04.31.pdf'
+            file_name: 'Company Co, ltd. Company Introduction_2020.04.31.pdf'
         },{
-            title: 'Company Co, ltd. Company Introduction_2020.05.01.pdf'
+            file_name: 'Company Co, ltd. Company Introduction_2020.05.01.pdf'
         }],
         accessModalData: {
             title: 'To enter another mentoring room'

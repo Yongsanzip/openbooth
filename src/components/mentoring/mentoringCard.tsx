@@ -71,6 +71,14 @@ function Mentoringcard(props){
         content: 'An access code is required to enter the mentoring room.'
     }
 
+    const hashStyle = {
+        'padding': '2px 9px  !important',
+        'font-weight': 'bold',
+        'font-size': '10px',
+        'line-height': '18px',
+        'color': '#005CB9'
+    };
+
     return (
         <Card ref={cardRef}>
             <Img src={dummyImg} />
@@ -81,7 +89,7 @@ function Mentoringcard(props){
                         {props.data.hashtags && props.data.hashtags.length > 0 ?
                             props.data.hashtags.map((hashItem, key) => {
                                 return (
-                                    <Hash id={1} name={hashItem.title} key={key}/>)
+                                    <Hash id={1} name={hashItem.title} style={hashStyle} key={key}/>)
                             }) : null }
                     </div>
                 </div>
@@ -97,7 +105,7 @@ function Mentoringcard(props){
                         }) : null }
                 </div>
             </div>
-            <Mentorinfo data={props.data.mentorInfo} className="mentorInfo" />
+            <Mentorinfo data={props.data.mentorInfo} className="mentorInfo" padding={"32px 24px 24px 40px"} />
             <Custommodal showModal={isShowModal} closeModal={_closeModal} width={480} height={240}>
                 <Accesscode data={accessModalData} btn={'Enter'}  _access={()=>_onClickAccessBtn(props.data)} />
             </Custommodal>
@@ -116,12 +124,13 @@ border-radius: 8px;
 overflow: hidden;
 transition: transform 0.5s 0s ease, box-shadow 0.3s 0s ease-in-out;
 transform: translatey(0);
+background: #ffffff;
 :hover {
     box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.08);
     transform: translatey(-4px);
 }
 > *:first-child {
-    width: 360px;
+    width: 358px;
     height: 280px;
 }
 > .mentoringInfo {
@@ -182,17 +191,17 @@ transform: translatey(0);
             font-size: 14px;
             line-height: 22px;
             color: #999999;    
-            margin-top: 26px;
+            margin-top: 25px;
         }
         > * {
             display: inline-block;
-            margin-top: 10px;
-            width: 200px;
+            margin-top: 8px;
+            width: 193px;
         }
     }
 }
 > :last-child {
-    width: calc(440px - 64px);
+    width: calc(440px - 67px);
 }
 `;
 

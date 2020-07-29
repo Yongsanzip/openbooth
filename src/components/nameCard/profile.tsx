@@ -161,6 +161,7 @@ const Profilecomp = styled.div`
     }
     .fieldname {
         font-weight: bold;
+        margin-bottom: 4px;
         ${props => (props.type != null && props.type == 'company' ?  'width: 80px; margin-right: 3px;' : '')}
     }
     

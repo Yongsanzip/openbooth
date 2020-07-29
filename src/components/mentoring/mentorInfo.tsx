@@ -38,8 +38,8 @@ function Mentorinfo(props){
     }
 
     return (
-        <MentorinfoComp>
-            <Namecard data={props.data} showMoreinfoBtn={_showMentorInfo} />
+        <MentorinfoComp padding={props.padding}>
+            <Namecard data={props.data} showMoreinfoBtn={_showMentorInfo} imgMarginRight={"15px"} />
             {props.data.content}
             <MentorinfoModal showModal={showMentorInfoModal} handleCloseModal={_closeMentorInfo} data={props.data} />
         </MentorinfoComp>
@@ -47,7 +47,7 @@ function Mentorinfo(props){
 }
 
 const MentorinfoComp = styled.div`
-padding: 32px;
+padding: ${(props: any) => (props.padding != null ? props.padding : '32px')};
 font-weight: bold;
 font-size: 14px;
 line-height: 22px;

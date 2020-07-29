@@ -17,6 +17,8 @@ function Hambutton (props) {
 const Buttoncomp = styled.div`
 width: 16px;
 height: 12px;
+margin-left: 4px;
+margin-top: 10px;
 > div {
    position: relative;
    width: 100%;

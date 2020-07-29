@@ -41,7 +41,9 @@ const ProfileInfo = styled.div`
     position: relative;
     width: 32px;
     height: 32px;
-    margin-top: 12px;
+    height: 32px;
+    margin-top: 10px;
+    margin-right: 3px;
     background: #C4C4C4;
     border: 1px solid #E9E9E9;
     border-radius: 50%;

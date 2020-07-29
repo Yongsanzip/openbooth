@@ -42,7 +42,7 @@ function Mentoring(props){
             country: 'Republic of Korea',
             phone: '+82-10-1234-1234',
             company: 'Bank of America',
-            Department: 'Design team',
+            department: 'Design team',
             position: 'UI/UX designer'
         }
     },{
@@ -80,7 +80,7 @@ function Mentoring(props){
             country: 'Republic of Korea',
             phone: '+82-10-1234-1234',
             company: 'Bank of America',
-            Department: 'Design team',
+            department: 'Design team',
             position: 'UI/UX designer'
         }
     }];
@@ -117,6 +117,16 @@ padding: 80px 0;
     letter-spacing: -0.01em;
     
     color: #000000;
+}
+.mentoringList {
+    > * {
+        transition: transform 0.5s 0s ease, box-shadow 0.3s 0s ease-in-out;
+        transform: translatey(0);
+        &:hover {
+            box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.08);
+            transform: translatey(-4px);
+        }
+    }
 }
 `;
 
