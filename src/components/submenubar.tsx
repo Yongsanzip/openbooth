@@ -27,7 +27,7 @@ function Submenubar(props) {
       submenubarRef.current.classList.remove('fixedOnTop');
     }
 
-    _setActiveUnderBar(props.activeIdx);
+    // _setActiveUnderBar(props.activeIdx);
   }
 
   const _setActive = function(data, idx) {
