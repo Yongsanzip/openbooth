@@ -8,44 +8,45 @@ import { Hash } from "./../index"
 import {Img, Namecard} from "./../index";
 
 function Profile(props) {
+    const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
     const companyFields = [{
-        name: 'Name',
+        name: languageData.name,
         fieldname: 'company_name'
     },{
-        name: 'Field',
+        name: languageData.field,
         fieldname: 'company_field',
         type: 'hash'
     },{
-        name: 'Website',
+        name: languageData.website,
         fieldname: 'website'
     },{
-        name: 'Email',
+        name: languageData.email,
         fieldname: 'email'
     },{
-        name: 'SNS',
+        name: languageData.sns,
         fieldname: 'sns'
     },{
-        name: 'Manager',
+        name: languageData.manager,
         fieldname: 'manager'
     }];
 
     const userFields = [{
-        name: 'Country',
+        name: languageData.country,
         fieldname: 'country'
     },{
-        name: 'Email',
+        name: languageData.email,
         fieldname: 'email'
     },{
-        name: 'Phone number',
+        name: languageData.phone,
         fieldname: 'phone'
     },{
-        name: 'Company / Affiliation',
+        name: languageData.company,
         fieldname: 'company'
     },{
-        name: 'Department',
+        name: languageData.department,
         fieldname: 'department'
     },{
-        name: 'Position',
+        name: languageData.position,
         fieldname: 'position'
     }];
 

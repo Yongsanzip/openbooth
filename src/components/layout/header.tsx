@@ -20,21 +20,24 @@ function Header(props) {
         left: 0
     });
 
-    // useEffect(() => {
-    //     _setUserinfoModalPosition();
-    //     window.addEventListener('resize', _setUserinfoModalPosition);
-    //     return () => {
-    //         window.removeEventListener('resize', _setUserinfoModalPosition);
-    //     };
-    // }, []);
-    //
-    // const _setUserinfoModalPosition= () => {
-    //     if(document.getElementsByName('userInfoMenu').length < 0) return;
-    //     setUserinfoModalPosition({
-    //         top: document.getElementsByName('userInfoMenu')[0].offsetTop + 50,
-    //         left: document.getElementsByName('userInfoMenu')[0].offsetLeft + 32 - 480
-    //     })
-    // }
+    useEffect(() => {
+        _setUserinfoModalPosition();
+        window.addEventListener('resize', _setUserinfoModalPosition);
+        return () => {
+            window.removeEventListener('resize', _setUserinfoModalPosition);
+        };
+    }, []);
+
+    const _setUserinfoModalPosition= () => {
+        let iconEl:any;
+        if(document.getElementsByClassName('userInfoMenuIcon').length > 0){
+            iconEl = document.getElementsByClassName('userInfoMenuIcon')[0];
+            setUserinfoModalPosition({
+                top: iconEl.offsetTop + 50,
+                left: iconEl.offsetLeft + 32 - 480
+            })
+        }
+    }
 
     const _showModal = ()=> {
         setIsShowModal(true);
@@ -61,7 +64,7 @@ function Header(props) {
                 <div className='title' onClick={goMain}>
                     <div>Online Exhibition of Third Countries with The World Bank | Bulit on Hope</div>
                 </div>
-                <div onClick={_showModal} >
+                <div onClick={_showModal} className={"userInfoMenuIcon"}>
                     <Logininfo/>
                 </div>
             </div>

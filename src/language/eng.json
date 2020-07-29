@@ -23,9 +23,28 @@
     "notOverlapEmail":"가입되지 않은 이메일 입니다.",
     "overlapEmail": "이미 가입된 이메일 입니다.",
 
+    "subMenu_intoroduction": "Introduction",
+    "subMenu_mentoring": "Mentoring hall",
+    "subMenu_exhibition": "Exhibition hall",
+    "subMenu_detail": "Details",
+
     "privacyPolicy": "Privacy Policy",
     "termsUse": "Terms of Use",
     "participationRules": "Participation Rules",
     "serviceIntro": "Service",
-    "contact": "Contact"
+    "contact": "Contact",
+
+    "country": "Country",
+    "email": "Email",
+    "phone": "Phone number",
+    "company": "Company / Affiliation",
+    "department": "Department",
+    "position": "Position",
+    "name": "Name",
+    "field": "Field",
+    "website": "Website",
+    "sns": "SNS",
+    "manager": "Manager",
+    "login": "Login",
+    "logout": "Logout"
 }

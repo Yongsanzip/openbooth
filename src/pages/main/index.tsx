@@ -25,18 +25,18 @@ function Main(){
     },[])
 
     const menuList = [{
-        name: 'Introduction',
+        name: languageData.subMenu_intoroduction,
         path: 'intro'
     },{
-        name: 'Mentoring hall',
+        name: languageData.subMenu_mentoring,
         path: 'meeting'
     }, {
-        name: 'Exhibit hall',
+        name: languageData.subMenu_exhibition,
         path: 'exhibit'
     }, {
         name: '-'
     },{
-        name: 'Details',
+        name: languageData.subMenu_detail,
         path: 'detail'
     }];
     const _onChangeLanguage = (key) => {

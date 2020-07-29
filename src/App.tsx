@@ -46,7 +46,8 @@ function App(props) {
     if(history.location.pathname.indexOf("resetpwd") > -1) {
       setIsFindPwd(true);
     }
-  }, [])
+  }, []);
+
   return (
     <div className="App" id="app">
           {isFindPwd?

@@ -23,9 +23,28 @@
     "notOverlapEmail":"가입되지 않은 이메일 입니다.",
     "overlapEmail": "이미 가입된 이메일 입니다.",
 
+    "subMenu_intoroduction": "소개",
+    "subMenu_mentoring": "멘토링 hall",
+    "subMenu_exhibition": "Exhibition hall",
+    "subMenu_detail": "Details",
+
     "privacyPolicy": "개인정보 처리방침",
     "termsUse": "웹사이트 이용 약관",
     "participationRules": "박람회 참가규정",
     "serviceIntro": "서비스 소개",
-    "contact": "문의하기"
+    "contact": "문의하기",
+
+    "country": "국가",
+    "email": "Email",
+    "phone": "휴대폰 번호",
+    "company": "직장",
+    "department": "부서",
+    "position": "직급",
+    "name": "이름",
+    "field": "Field",
+    "website": "Website",
+    "sns": "SNS",
+    "manager": "매니저",
+    "login": "로그인",
+    "logout": "로그아웃"
 }

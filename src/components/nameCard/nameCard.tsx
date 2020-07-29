@@ -138,7 +138,8 @@ const MentorInfoBtn = styled.div`
         }
         &.sendMailBtn {
             position: absolute;
-            right: 10px;
+            right: 16px;
+            top: 38px;
             height: 80px;
         }
     }

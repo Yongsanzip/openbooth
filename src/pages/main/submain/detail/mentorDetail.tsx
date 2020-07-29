@@ -13,7 +13,7 @@ function Mentordetail(props){
             country: 'Republic of Korea',
             phone: '+82-10-1234-1234',
             company: 'Bank of America',
-            Department: 'Design team',
+            department: 'Design team',
             position: 'UI/UX designer'
         },
         documentList: [{

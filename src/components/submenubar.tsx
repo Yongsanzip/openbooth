@@ -7,10 +7,14 @@ function Submenubar(props) {
   const [activePosition, setActivePosition] = useState({width:0, left: 0});
   const [submenubarRef, setSubmenubarRef] = useState(()=>createRef());
 
-  useEffect((e) => {
+  useEffect(() => {
     _setActive(new Object(), props.activeIdx);
+    _isSubmenuTop();
     window.addEventListener('resize', function(){_setActive(new Object(), props.activeIdx)});
     window.addEventListener('scroll', _isSubmenuTop);
+    setTimeout(function(){
+      _setActive(new Object(), props.activeIdx);
+    }, 300)
   }, []);
 
   const _isSubmenuTop = function() {
@@ -22,19 +26,26 @@ function Submenubar(props) {
     else{
       submenubarRef.current.classList.remove('fixedOnTop');
     }
+
+    _setActiveUnderBar(props.activeIdx);
   }
 
   const _setActive = function(data, idx) {
+    _setActiveUnderBar(idx);
+    if(data.highlight) return true;
+
+    if(props.onChangeTab != null) props.onChangeTab(idx);
+  }
+
+  const _setActiveUnderBar = function(idx){
     let menuEl: any;
     if(document.getElementsByClassName("submenu"+idx).length > 0){
       menuEl = document.getElementsByClassName("submenu"+idx)[0];
     }
+    console.log("offsetWidth::::", menuEl.offsetWidth);
     setActivePosition({width: menuEl.offsetWidth, left: menuEl.offsetLeft});
     console.log(activePosition);
 
-    if(data.highlight) return true;
-
-    if(props.onChangeTab != null) props.onChangeTab(idx);
   }
 
   const _setLiClass = function(menu, key) {
@@ -53,7 +64,6 @@ function Submenubar(props) {
 
     return classes.join(' ');
   }
-
 
   return (
       <SubmenuComp className='submenubar' activePosition={activePosition} customStyle={props.style} ref={submenubarRef}>
