@@ -18,12 +18,11 @@ function BoothHashes(props){
 }
 function Booth(props){
     const { data, onClick, type } = props;
-
     return (
         <BoothComp type={type}>
             <Img src={data.imgSrc} width={type != null && type == 'sub'? '290px' : '400px'} height={type != null && type == 'sub'? '174px' : '240px'} />
             <div className='boothInfo'>
-                    {data.category != null && data.category.length > 0? <BoothHashes list={data.category}/> : null}
+                    {props.noHash != true? data.category != null && data.category.length > 0? <BoothHashes list={data.category}/> : null : null}
                 <div className='title'>{data.booth_name}</div>
             </div>
             <div className='company'>

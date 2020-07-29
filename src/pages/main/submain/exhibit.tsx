@@ -1,14 +1,15 @@
 import React, {Component, useState} from 'react';
+import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from "../../../modules/index";
-import { getExhibitionReducer } from "../../../modules/exhibition/exhibition";
+import { getExhibitionReducer, getBoothListReducer, getSelectedExhibitCategoryReducer, setSelectedExhibitCategoryReducer } from "../../../modules/exhibition/exhibition";
 
 import { Category, RollingButton, Booth } from './../../../components/index'
 
-import dummyImg from "../../../assets/img/bg-dummy.png";
-
 function Exhibit(props) {
+
+    //최초 호출, 전체 전시 카테고리 목록
     const dispatch = useDispatch();
     let exhibition = useSelector((state: RootState) => state.exhibitionReducer.data);
     if(exhibition == null){
@@ -19,10 +20,28 @@ function Exhibit(props) {
         if(exhibition.length < 2) exhibition = exhibition[0];
     }
 
+    //최초 호출, 전체 부스 목록
+    let boothList = useSelector((state: RootState) => state.exhibitionReducer.boothList);
+    if(boothList == null){
+        boothList = {};
+        let BoothListData = {
+            category_id: ''
+        };
+        dispatch(getBoothListReducer(BoothListData));
+    }
+    else{
+        if(boothList.length < 2) boothList = boothList[0];
+    }
+
+    //선택한 전시 카테고리
+    let selectedCategory = useSelector((state: RootState) => state.exhibitionReducer.selectedExhibit);
+    const setSelectedCategoryItem = (el)=> {
+        console.log(el);
+        dispatch(setSelectedExhibitCategoryReducer(el));
+    }
+
+    //Exhibition category 목록 페이징
     const [categoryPage, setCategoryPage] = useState(1);
-    const [selectedCategory, setSelectedCategory] = useState(null);
-    const [selectedCategory_title, setSelectCategory_title] = useState('');
-    const [selectedCategory_datas, setSelectedCategory_datas] = useState([]);
     let categoryList = exhibition.data;
 
     const _movePrevCategoryPage = () => {
@@ -33,13 +52,6 @@ function Exhibit(props) {
         const categoryTotalPage = categoryList.length;
         categoryPageVal = Math.ceil(categoryTotalPage / 3) > categoryPage ? categoryPage + 1 : categoryPage;
         setCategoryPage(categoryPageVal);
-    }
-
-    const setSelectedCategoryItem = (el)=> {
-        console.log(el);
-        setSelectedCategory(el);
-        setSelectCategory_title(el.category);
-        setSelectedCategory_datas(typeof el.booth == "object"? new Array(el.booth) : el.booth);
     }
 
     return (
@@ -53,30 +65,41 @@ function Exhibit(props) {
                             <RollingButton toRight onClick={_moveNextCategoryPage} />
                         </div>
                     </div>
-                    <CategoryListComp>
+                    <CategoryListComp categoryPage={categoryPage}>
+                        <div>
                         {categoryList && categoryList.length > 0 ?
-                            categoryList.slice((categoryPage-1)*3, (categoryPage-1)*3 + 3).map((el, key) => {
+                            categoryList.map((el, key) => {
                                 return (
                                     <Category key={key} data={el} listType="companyProfile" onClickTitle={()=>setSelectedCategoryItem(el)} />
                                 )
                             }) : null
                         }
+                        </div>
                     </CategoryListComp>
                 </div>
             </div>
             <div>
                 <div>
                     <div className='titleBox'>
-                        <div className='title'>{ selectedCategory == null? 'View all' : selectedCategory_title }</div>
+                        <div className='title'>{ selectedCategory == null? 'View all' : selectedCategory.category }</div>
                     </div>
-                    <CategoryListComp className=''>
-                        {selectedCategory != null && selectedCategory_datas.length > 0 ?
-                            selectedCategory_datas.map((el, key) => {
+                    <CategoryListComp>
+                        <div>
+                        {selectedCategory != null && typeof selectedCategory.booth.length == "undefined"?
+                            <Link to='/company' ><Booth data={selectedCategory.booth} /></Link> :
+                            selectedCategory != null && selectedCategory.booth.length > 0 ?
+                            selectedCategory.booth.map((el, key) => {
                                 return (
-                                    <Booth data={el} key={key} />
+                                    <Link to='/company' key={key}><Booth data={el} key={key} /></Link>
                                 )
-                            }) : null
+                            }) : boothList != null && boothList.length > 0 ?
+                                boothList.map((el, key) => {
+                                    return (
+                                        <Link to='/company' key={key}><Booth data={el} key={key} /></Link>
+                                    )
+                                }) : null
                         }
+                        </div>
                     </CategoryListComp>
                 </div>
 
@@ -87,8 +110,11 @@ function Exhibit(props) {
 
 const ExhibitComp = styled.div`
 width: 100%;
+a {
+    text-decoration: none;
+}
 > div {
-    margin-bottom: 80px;
+    padding-bottom: 80px;
     :last-child { border-top: 1px solid #E9E9E9; box-sizing: border-box; }
     > div {
         max-width: 1280px;
@@ -113,14 +139,24 @@ width: 100%;
     }
 }
 `;
+export default Exhibit;
+
 const CategoryListComp = styled.div`
 margin-top: 40px;
+width: 100%;
+height: 460px;
+overflow: hidden;
 > * {
-    display: inline-block;
-                margin: 0 40px 40px 0;
-    vertical-align: top;
-                :nth-child(3n){ margin-right: 0; }
+    width: 100%;
+    height: 100%;
+    transform: ${(props:any) => (props.categoryPage > 1 ? 'translatex(-'+(100 * (props.categoryPage - 1))+'%)' : '')};
+    transition: transform 0.5s 0s ease, box-shadow 0.3s 0s ease-in-out;
+    display: flex;
+     > * {
+        display: inline-block;
+        margin: 0 40px 40px 0;
+        vertical-align: top;
+        :nth-child(3n){ margin-right: 0; }
+    }
 }
 `;
-
-export default Exhibit;

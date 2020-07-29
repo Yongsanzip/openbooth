@@ -3,6 +3,10 @@ import styled from "styled-components";
 import {Img} from "./index";
 
 function Boardlist(props){
+    const _onClickLink = (link) => {
+        if(link == null) return;
+        window.location.href = link;
+    }
     return (
         <BoardListComp>
             {props.list && props.list.length > 0 ? props.list.map((el, key) => {
@@ -11,14 +15,13 @@ function Boardlist(props){
                         <div>
                             <div className='boardTitle'>{el.title}</div>
                             <div>
-                                {el.date}  | {el.name}
+                                {el.reg_date}  | {el.registrant}
                             </div>
                         </div>
-                        <div>
+                        <div onClick={()=>_onClickLink(el.link)}>
                             <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M0.589844 10.59L5.16984 6L0.589844 1.41L1.99984 0L7.99984 6L1.99984 12L0.589844 10.59Z" fill="#999999"/>
                             </svg>
-
                         </div>
                     </BoardItemComp>
                 )} ) : null

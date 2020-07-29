@@ -7,7 +7,7 @@ function Thumblist(props){
         <ThumblistComp size={props.size} marginRight={props.marginRight} columns={props.columns}>
             {props.list && props.list.length > 0 ? props.list.map((el, key) => {
                 return (
-                    <Img key={key} src={props.list.src} />
+                    <Img key={key} src={el} />
                 )} ) : null
             }
         </ThumblistComp>

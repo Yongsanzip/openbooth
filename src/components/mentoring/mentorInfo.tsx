@@ -48,6 +48,9 @@ function Mentorinfo(props){
 
 const MentorinfoComp = styled.div`
 padding: 32px;
+font-weight: bold;
+font-size: 14px;
+line-height: 22px;
 color: #999999;
 > *:first-child {
 margin-bottom: 16px;

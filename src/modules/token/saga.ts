@@ -1,70 +1,102 @@
-import {put, takeLatest} from "@redux-saga/core/effects";
-import {GET_TOKEN, EMAIL_OVERLAP_CONFIRM, GET_REGRESH_TOKEN, setIsLoginReducer, setIsEmailOverlapReducer} from "./token";
-import {fetch} from "./../fetch";
-import axios from 'axios';
+import {put, call, takeLatest} from "@redux-saga/core/effects";
+import {
+    GET_TOKEN,
+    EMAIL_OVERLAP_CONFIRM,
+    GET_REGRESH_TOKEN,
+    setLoginReducer,
+    setLoginFailedReducer,
+    logoutReducer,
+    setIsOverlapEmailReducer_ture,
+    setIsOverlapEmailReducer_false,
+    SET_LOGIN_FAILED, SEND_FIND_PWD_MAIL, REGIST
+} from "./token";
 
-async function getTokenF(){
-    const response = await axios("http://localhost:4000/getToken", {
-        method : "POST",
-        headers: new Headers()
-    });
-    console.log(response);
-}
+import {getToken, getRefreshToken, checkEmailOverlap, sendFindPwdMail, regist} from './../../api/index'
 
-function* getToken_saga(){
-    // getTokenF();
-    // return;
-    //
-    // fetch()
 
-    if(true){
-        const response = {
-            "code": "200",
-            "message": "",
-            "data":{
-                token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiZW1haWwiOiJvcGVuYm9vdGhAb3BlbmJvb3RoLm5ldCIsImNvdW50cnkiOiJSZXB1YmxpYyBvZiBLb3JlYSIsInBob25lIjoiKzgyLTEwLTEyMzQtMTIzNCIsImNvbXBhbnkiOiJCYW5rIG9mIGFtZXJpY2EiLCJkZXBhcnRtZW50IjoiRGVzaWduIHRlYW0iLCJwb3NpdGlvbiI6IlVJL1VYIGRlc2lnbmVyIiwicHJvZmlsZV9pbWFnZSI6Imh0dHBzOi8vY2RuLnBpeGFiYXkuY29tL3Bob3RvLzIwMTUvMTAvMDUvMjIvMzcvYmxhbmstcHJvZmlsZS1waWN0dXJlLTk3MzQ2MF85NjBfNzIwLnBuZyIsImlhdCI6MTU5NDcwMDk4MywiZXhwIjoxNTk0NzA1MDUyLCJqdGkiOiI3ZjI2MjNkMi05YjYxLTRhMDMtOTA5Ny0yNmYxNjc2NmQ4MjgifQ.MYUNxziEZFT7x6G6FobEKEJqYbTWEqE-72qBixNx2zM"
-            }
-        }
-        if(response.code == "200"){
-            sessionStorage.setItem('token', response.data.token);
-            yield put(setIsLoginReducer(true));
+function* getToken_saga(action){
+    try {
+        const params = {
+            email: action.payload.email,
+            password: action.payload.password
+        };
+        const { data } = yield call(getToken, params);
+        console.log("gettoken::", data);
+        if(data.token != null){
+            sessionStorage.setItem('token', data.token);
+            yield put(setLoginReducer());
         }
         else{
-            yield put(setIsLoginReducer(false));
+            yield put(setLoginFailedReducer());
         }
+    } catch (error) {
+        console.log("catch")
+        yield put(logoutReducer());
+    }
+}
+
+function * getRefresjToken_saga(action){
+    try {
+        const params = {
+            email: action.payload.email
+        };
+        const { data } = yield call(getRefreshToken, params);
+        if(data.token != null){
+            //토큰 갱신 후 이벤트 없음..
+            sessionStorage.setItem('token', data.token);
+            // yield put(setLoginReducer());
+        }
+        else{
+            //토큰 갱신 실패 시 동작 > 로그아웃?
+            yield put(logoutReducer());
+        }
+    } catch (error) {
+        yield put(logoutReducer());
     }
 }
 function* isEmailOverlapConfirm_saga(action: any) {
-    console.log("isEmailOverlapConfirm_saga saga function")
-    const response = {
-        "code": "200",
-        "message": "",
-        "data":{}
-    }
-    if(response.code == "200"){
-        yield put(setIsEmailOverlapReducer(true));
-    }
-    else{
-        yield put(setIsEmailOverlapReducer(false));
-    }
-}
-
-function * getRefresjToken_saga(){
-    if(true){
-        const response = {
-            "code": "200",
-            "message": "",
-            "data":{
-                token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiZW1haWwiOiJvcGVuYm9vdGhAb3BlbmJvb3RoLm5ldCIsImNvdW50cnkiOiJSZXB1YmxpYyBvZiBLb3JlYSIsInBob25lIjoiKzgyLTEwLTEyMzQtMTIzNCIsImNvbXBhbnkiOiJCYW5rIG9mIGFtZXJpY2EiLCJkZXBhcnRtZW50IjoiRGVzaWduIHRlYW0iLCJwb3NpdGlvbiI6IlVJL1VYIGRlc2lnbmVyIiwicHJvZmlsZV9pbWFnZSI6Imh0dHBzOi8vY2RuLnBpeGFiYXkuY29tL3Bob3RvLzIwMTUvMTAvMDUvMjIvMzcvYmxhbmstcHJvZmlsZS1waWN0dXJlLTk3MzQ2MF85NjBfNzIwLnBuZyIsImlhdCI6MTU5NDcwMDk4MywiZXhwIjoxNTk0NzA1MDUyLCJqdGkiOiI3ZjI2MjNkMi05YjYxLTRhMDMtOTA5Ny0yNmYxNjc2NmQ4MjgifQ.MYUNxziEZFT7x6G6FobEKEJqYbTWEqE-72qBixNx2zM"
-            }
-        }
-        if(response.code == "200"){
-            sessionStorage.setItem('token', response.data.token);
-            yield put(setIsLoginReducer(true));
+    try {
+        const params = {
+            email: action.payload.email
+        };
+        const { data } = yield call(checkEmailOverlap, params);
+        if(data.isOverlap === true){
+            //이메일 중복
+            yield put(setIsOverlapEmailReducer_ture());
         }
         else{
-            yield put(setIsLoginReducer(false));
+            //이메일 중복 아님
+            yield put(setIsOverlapEmailReducer_false());
         }
+    } catch (error) {
+        // yield put(logoutReducer());
+    }
+}
+function* sendFindPwdMail_saga(action: any) {
+    try {
+        const params = {
+            email: action.payload.email
+        };
+        const { data } = yield call(sendFindPwdMail, params);
+        //메일 전송 후 동작 없음
+
+    } catch (error) {
+        // yield put(logoutReducer());
+    }
+}
+function* regist_saga(action: any) {
+    try {
+        console.log(action);
+        const params = {
+            email: action.payload.email
+        };
+        const { data } = yield call(regist, params);
+        if(data){
+            window.location.reload();
+        }
+
+    } catch (error) {
+        // yield put(logoutReducer());
     }
 }
 
@@ -72,4 +104,6 @@ export function* tokenSaga() {
     yield takeLatest (GET_TOKEN, getToken_saga);
     yield takeLatest (GET_REGRESH_TOKEN, getRefresjToken_saga);
     yield takeLatest (EMAIL_OVERLAP_CONFIRM, isEmailOverlapConfirm_saga);
+    yield takeLatest (SEND_FIND_PWD_MAIL, sendFindPwdMail_saga);
+    yield takeLatest (REGIST, regist_saga);
 }

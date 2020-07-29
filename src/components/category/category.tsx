@@ -11,16 +11,18 @@ function Category(props) {
 
     const { data, showIndex, listType } = props;
     let list = data.booth;
-    if(typeof list == "object"){
+    if(list.length == null || list.length < 0){
         list = new Array(data.booth);
     }
     return (
         <CategoryBox>
             <div className='categoryTitle' onClick={props.onClickTitle}>
-                <div className='titleImg'>{data.category_image}</div>
+                <div className='titleImg'>
+                    {data.category_image != null? <img src={data.category_image} width="100%" height="100%" /> : null }
+                </div>
                 <div className='titleText'>{data.category}</div>
             </div>
-            <List type={listType} list={list} showIndex={showIndex} >list</List>
+            <List type={listType} list={list} showIndex={showIndex}  >list</List>
         </CategoryBox>
     )
 }
@@ -43,10 +45,23 @@ const CategoryBox = styled.div`
         .titleImg {
             width: 100%;
             height: 100%;
-            background: linear-gradient(360deg, rgba(0, 0, 0, 0.64) 0%, rgba(0, 0, 0, 0) 100%);
-            border: 1px solid #E9E9E9;
             box-sizing: border-box;
-            border-radius: 8px;
+            overflow: hidden;
+            &:after {
+                content: '';
+                position: absolute;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                border: 1px solid #E9E9E9;
+                background: linear-gradient(360deg, rgba(0, 0, 0, 0.64) 0%, rgba(0, 0, 0, 0) 100%);
+                box-sizing: border-box;
+                border-radius: 8px;
+            }
+            > img {
+                box-sizing: border-box;
+                border-radius: 8px;
+            }
         }
     }
 `;

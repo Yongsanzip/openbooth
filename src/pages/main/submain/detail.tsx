@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from "../../../modules";
+import {getItroductionReducer, getVisitorsReducer} from "../../../modules/introduction/introduction";
 
 import {
     Tabpannel,
@@ -8,13 +11,29 @@ import {
     Thumblist,
     Documentlist,
     Boardlist,
-    Namecard,
-    Booth, Profile, Sendmsg, Custommodal
+    Namecard,UserinfoModal,
+    Booth, Profile, Sendmsg, Custommodal, Video
 } from './../../../components/index'
+
 import dummyImg from "./../../../assets/img/bg-dummy.png"
 
 function Detail(props){
+    const dispatch = useDispatch();
+    let introductionData = useSelector((state: RootState) => state.introductionReducer.data);
+    if(introductionData == null){
+        introductionData = {};
+        dispatch(getItroductionReducer());
+    }
+
+    let visitorsData = useSelector((state: RootState) => state.introductionReducer.visitors);
+    if(visitorsData == null){
+        visitorsData = {};
+        dispatch(getVisitorsReducer());
+    }
+
     const [activeTab, setActiveTab] = useState(0);
+    const [selectedVisitor, setSelectedVisitor] = useState(null);
+    const [showUserInfoModal, setShowUserInfoModal] = useState(false);
     const [showSendMsgModal, setShowSendMsgModal] = useState(false);
 
     const tabList = [{
@@ -26,86 +45,26 @@ function Detail(props){
     }];
     const exhibitInfo = [{
         'fieldname': 'name',
-        'value': 'Online Exhibition of Thired Countries with The World Bank | Bulit on Hope'
+        'value': introductionData != null? introductionData.exhibition_name : ''
     },{
         'fieldname': 'Exhibits',
-        'value': 'hashes'
+        'value': introductionData != null? introductionData.exhibition_category  : ''
     },{
         'fieldname': 'Date',
-        'value': 'September 15th ~ September 21th, 2020'
+        'value': introductionData != null? introductionData.start_date + "~" + introductionData.end_date : ''
     },{
         'fieldname': 'Hosted',
-        'value': 'The World Bank'
+        'value': introductionData != null? introductionData.hosted  : ''
     },{
         'fieldname': 'Organized',
-        'value': 'Bank of America, Ministry of Science and ICT of Korea'
+        'value': introductionData != null? introductionData.organized  : ''
     },{
         'fieldname': 'Operated',
-        'value': 'Openbooth'
+        'value': introductionData != null? introductionData.operated  : ''
     }];
-    const thumbList = [{
-        src: dummyImg
-    },{
-        src: dummyImg
-    },{
-        src: dummyImg
-    },{
-        src: dummyImg
-    },{
-        src: dummyImg
-    }];
-    const documentList = [{
-        title: 'Company Co, ltd. Company Introduction_2020.04.31.pdf'
-    },{
-        title: 'Phasellus dignissim vitae velit.pdf'
-    },{
-        title: 'Nam vel bibendum.pdf'
-    }];
-    const boardList = [{
-        title: 'Lorem ipsum dolor sit amet, consectetur adipiscing eli.',
-        date: '2020.09.12',
-        name: 'Press name'
-    },{
-        title: 'In faucibus est ipsum, a cursus mi commodo sit amet?',
-        date: '2020.09.12',
-        name: 'Press name'
-    },{
-        title: 'Lorem ipsum dolor sit amet, consectetur adipiscing eli.',
-        date: '2020.09.12',
-        name: 'Press name'
-    },{
-        title: 'Maecenas accumsan sem consectetu?',
-        date: '2020.09.12',
-        name: 'Press name'
-    }];
-    const visitors = [{
-        img: '',
-        name: 'Username',
-        email: 'sinhyeok@openbooth.net',
-        phone: 'Company or affiliation'
-    },{
-        img: '',
-        name: 'Username',
-        email: '',
-        phone: ''
-    },{
-        img: '',
-        name: 'Username',
-        email: '',
-        phone: ''
-    },{
-        img: '',
-        name: 'Username',
-        email: '',
-        phone: ''
-    },{
-        img: '',
-        name: 'Username',
-        email: '',
-        phone: ''
-    }];
-    const modalData = {
-        name: 'asdfaesf'
+    const msgModalData = {
+        name: introductionData.exhibition_name,
+        email: introductionData.exhibition_email
     };
 
     const _showSendMsgModal = () => {
@@ -123,15 +82,30 @@ function Detail(props){
         setActiveTab(idx);
     }
 
+    const textLineBreak = (lines) => {
+        return lines ?
+            lines.split(/[\r\n]/).map((partial, i) =>
+                <span key={i}>{partial}{i !== lines.length - 1 && <br />}</span>
+            )
+            : lines;
+    }
+
+    const _onShowUserInfoModal = (data) => {
+        setSelectedVisitor(data);
+        setShowUserInfoModal(true);
+    }
+    const _onCloseUserInfoModal = () => {
+        setShowUserInfoModal(false);
+    }
+
     const width = 840;
     return (
         <div>
             <DescriptionComp width={width}>
                 <div>
-                    <img className='posterImg' src={dummyImg} />
-                    <div className='title'>Online Exhibition of Third Countries with The World Bank | Bulit on Hope</div>
-                    Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.
-                    Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat
+                    <img className='posterImg' src={introductionData != null? introductionData.exhibition_thumbnail : ''} />
+                    <div className='title'>{introductionData != null? introductionData.exhibition_name : ''}</div>
+                    {introductionData != null && introductionData.exhibition_description != null? textLineBreak(introductionData.exhibition_description) : ''}
                     <div className='sendMailBtn' onClick={_showSendMsgModal}>
                         <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M18 0H2C0.9 0 0.00999999 0.9 0.00999999 2L0 14C0 15.1 0.9 16 2 16H18C19.1 16 20 15.1 20 14V2C20 0.9 19.1 0 18 0ZM17 14H3C2.45 14 2 13.55 2 13V4L8.94 8.34C9.59 8.75 10.41 8.75 11.06 8.34L18 4V13C18 13.55 17.55 14 17 14ZM10 7L2 2H18L10 7Z" fill="#999999"/>
@@ -149,30 +123,39 @@ function Detail(props){
                         </div>
                         <div className='border'>
                             <Pannel title="Exhibition introduction">
-                                <div className='text'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum Phasellus sed augue ex. Vestibulum est urna.</div>
-                                <div className='video'><div/></div>
-                                <Thumblist list={thumbList} size={{width: 144, height: 144}} marginRight={18}>
-                                </Thumblist>
+                                { introductionData != null && introductionData.introduction != null && introductionData.introduction.length > 0 ?
+                                    introductionData.introduction.map((component, key)=> {
+                                        switch(component.type){
+                                            case "text":
+                                                return <div key={key} className='text'>{textLineBreak(component.value)}</div>;
+                                            case "video":
+                                                return <Video key={key} height={'480px'} src={component.value}/>;
+                                            case "thumbnails":
+                                                return <Thumblist key={key} list={component.value} size={{width: 144, height: 144}} marginRight={18} /> ;
+                                        }
+                                    })
+                                    : null
+                                }
                             </Pannel>
                         </div>
                         <div className='border'>
                             <Pannel title="Press release">
-                                <Boardlist list={boardList}/>
+                                <Boardlist list={introductionData.press_release}/>
                             </Pannel>
                         </div>
                         <div className='border'>
-                            <Documentlist title="Exhibition documents" list={documentList} />
+                            <Documentlist title="Exhibition documents" list={introductionData.documents} />
                         </div>
                     </div>
                     <div className='tabContent visitors hide'>
                         <div className='visitorCount'>
-                            Number of visitors : {visitors.length}
+                            Number of visitors : {visitorsData != null? visitorsData.length : 0}
                         </div>
                         <div className='visitorList'>
-                            {visitors != null && visitors.length > 0 ?
-                                visitors.map((el, key) => {
+                            {visitorsData != null && visitorsData.length > 0 ?
+                                visitorsData.map((el, key) => {
                                     return (
-                                        <div key={key}><Namecard data={el} showMoreinfoBtn={true} /></div>
+                                        <div key={key}><Namecard data={el} showMoreinfoBtn={()=>_onShowUserInfoModal(el)} /></div>
                                     )
                                 }) : null
                             }
@@ -180,7 +163,8 @@ function Detail(props){
                     </div>
                 </Tabpannel>
             </TabpanelComp>
-            <Sendmsg showModal={showSendMsgModal} data={modalData} closeModal={_closeSendMsgModal} sentMsgToMentor={_sentMsg} />
+            <UserinfoModal data={selectedVisitor} showModal={showUserInfoModal} handleCloseModal={_onCloseUserInfoModal} />
+            <Sendmsg showModal={showSendMsgModal} data={msgModalData} closeModal={_closeSendMsgModal} sentMsgToMentor={_sentMsg} />
         </div>
     )
 }

@@ -8,7 +8,7 @@ function Qnalist(props){
             <div className='title'>{props.title}</div>
             {props.list && props.list.length > 0 ?
                 props.list.map((el, key) => {
-                    return ( <Qna key={key} question={el.question} answer={el.answer} />)
+                    return ( <Qna key={key} question={el.title} answer={el.answer} />)
                 })
                 : null
             }

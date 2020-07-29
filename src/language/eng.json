@@ -1,0 +1,31 @@
+{
+    "loginText": "Online Exhibition of Third Countries with The World Bank",
+    "loginText2": "“Built on Hope”",
+    "registDescript": "Aliqua id fugiat nostrud irure ex duis ea quis id quis ad\net. Sunt qui esse pariatur duis deserunt mollit dolore\ncillum minim tempor enim. Elit aute irure tempor\ncupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lectus nunc, vulputate eget sollicitudin ac, pretium vitae nisi. Praesent auctor nisl ut luctus mollis. Aliquam elementum nunc non libero sollicitudin, sit amet tempus tortor commodo. Mauris lectus lectus, congue quis erat sit amet, condimentum mattis erat.",
+    "organizedField": "Organized by",
+    "organized": "The World Bank",
+    "hostField": "Hosted by",
+    "hosted": "Cnttech, Openbooth",
+    "supportField": "Supported by",
+    "supported": "Value",
+    "incorrectEmailFormat": "Email format is incorrect",
+    "passwordRule": "At least 8 characters long including letter and number",
+    "repeatPwd": "Repeat password",
+    "pwdNotSame": "password is not correct",
+    "rememberEmail": "Remember my email",
+    "incorrectAccount": "The ID or password do not match.",
+    "forgotPwdTitle": "Forgot your password?",
+    "registerTitle":  "Welcome!",
+    "alreadyRegistTitle": "Already registered?",
+    "sendPwdResetMailDescript": "We just sent to your mailbox to get your reset link.",
+    "emptyValueMsg": "Enter this value",
+
+    "notOverlapEmail":"가입되지 않은 이메일 입니다.",
+    "overlapEmail": "이미 가입된 이메일 입니다.",
+
+    "privacyPolicy": "Privacy Policy",
+    "termsUse": "Terms of Use",
+    "participationRules": "Participation Rules",
+    "serviceIntro": "Service",
+    "contact": "Contact"
+}

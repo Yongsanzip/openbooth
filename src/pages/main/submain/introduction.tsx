@@ -6,6 +6,7 @@ import { getItroductionReducer } from "../../../modules/introduction/introductio
 import {Img} from "../../../components";
 
 import dummyImg from "../../../assets/img/bg-dummy.png";
+import dummyImg2 from "../../../assets/img/2.jpg";
 
 function Introduction(props) {
     const dispatch = useDispatch();
@@ -18,28 +19,28 @@ function Introduction(props) {
     return (
         <IntroduceComp>
             <IntroduceTitle src={introduction.introduction_image}>
-                <div className='table'>
-                    <div className='cell'>
-                        <h2>“Built on Hope”</h2>
-                        Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.
-                        <br/><br/>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lectus nunc, vulputate eget sollicitudin ac, pretium vitae nisi. Praesent auctor nisl ut luctus mollis. Aliquam elementum nunc non libero sollicitudin, sit amet tempus tortor commodo. Mauris lectus lectus, congue quis erat sit amet, condimentum mattis erat.
-                        <h2>D-34</h2>
-                    </div>
+                <div>
+                    <h2>“Built on Hope”</h2>
+                    Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.
+                    <br/><br/>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lectus nunc, vulputate eget sollicitudin ac, pretium vitae nisi. Praesent auctor nisl ut luctus mollis. Aliquam elementum nunc non libero sollicitudin, sit amet tempus tortor commodo. Mauris lectus lectus, congue quis erat sit amet, condimentum mattis erat.
+                    <h2>D-34</h2>
                 </div>
             </IntroduceTitle>
             <div className="compArea summary">
                 <div className='title'>
-                    111
+                    Summary
                 </div>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis. Nunc justo risus, ultrices in ultricies eget, dignissim et velit. Proin elementum ante eget metus rhoncus vulputate. Praesent tempor quam fermentum ipsum tristique placerat. Suspendisse ac laoreet arcu. Sed vitae lacinia felis, vel ullamcorper magna. Donec sagittis sem at dolor varius, et dapibus tellus placerat. In semper, sem vitae cursus pulvinar, libero odio condimentum ipsum, non consequat mi diam eu dolor.
             </div>
             <div className="compArea">
-                <div className="parallel">
-                    <Img src={dummyImg} />
+                <div className="parallel verticalMiddle">
+                    {/*<Img src={dummyImg2} widthFull={true} />*/}
+                    <img src={dummyImg2} width={510} height={560} />
                     <div className="description">
                         <div className="title-large">
-                            The World Bank :
+                            The World<br/>
+                            Bank :
                         </div>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis. Nunc justo risus, ultrices in ultricies eget, dignissim et velit.
                         <br/><br/>
@@ -130,6 +131,22 @@ const IntroduceTitle = styled.div`
 position: relative;
 height: 920px;
 background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${(props: IntroduceTitleProps) => (props.src != null ? props.src : '')});
+> div {
+    padding-top: 200px;
+    width: 820px;
+    margin: 0 auto;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 28px;
+    color: #FFFFFF;
+    h2 {
+        font-weight: 800;
+        font-size: 64px;
+        line-height: 72px;
+        :first-child { margin-top: 0; margin-bottom: 62px }
+        :last-child { margin-top: 90px; margin-bottom: 0; }
+    }
+}
 .table {
     display: table;
     width: 840px;
@@ -141,22 +158,14 @@ background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url($
     vertical-align: middle;
     
     margin: 0 auto;
-    font-weight: bold;
-    font-size: 20px;
-    line-height: 28px;
-    color: #FFFFFF;
-    h2 {
-        font-weight: 800;
-        font-size: 64px;
-        line-height: 72px;
-        margin: 88px 0;
-        :first-child { margin-top: 0 }
-        :last-child { margin-bottom: 0 }
-    }
 }
 `;
 
+interface IntroductionCompProps {
+    verticalMiddle: any;
+}
 const IntroduceComp = styled.div`
+background: #f7f7f9;
 .compArea {
     width: 100%;
     max-width: 1280px;
@@ -181,12 +190,17 @@ const IntroduceComp = styled.div`
     }
     & .title-large {
         font-weight: 800;
+        font-weight: 800;
         font-size: 64px;
         line-height: 72px;
         color: #333333;
+        margin-bottom: 48px;
     }
     & .parallel {
         display: flex;
+        &.verticalMiddle {
+            align-items: center;
+        }
         & > *:first-child {
             width: 510px;
             // height: 364px;
@@ -226,6 +240,7 @@ const IntroduceComp = styled.div`
     }
     
     .answers {
+        font-style: normal;
         font-weight: bold;
         font-size: 20px;
         line-height: 28px;

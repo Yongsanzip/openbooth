@@ -1,13 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from "styled-components";
+import base64 from 'base-64';
 
 function Logininfo() {
     const isLogin = true;
+    const token = sessionStorage.getItem('token');
+    const tokenData = token != null ? token.split('.') : new Array();
+    const userInfo = JSON.parse(base64.decode(tokenData[1]));
+    console.log("userInfo::", userInfo);
     return (
         <div>
             {isLogin?
                 <ProfileInfo>
-                    <img src="" />
+                    <img src={userInfo.profile_image} />
                     <div className="count"><div>0</div></div>
                 </ProfileInfo>
             : <LoginBtns>
@@ -41,8 +46,14 @@ const ProfileInfo = styled.div`
     border: 1px solid #E9E9E9;
     border-radius: 50%;
     box-sizing: border-box;
+    
     > img {
         position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
     }
     & .count {
         position: relative;
@@ -66,7 +77,7 @@ const ProfileInfo = styled.div`
             width: 16px;
             height: 16px;
             text-align: center;
-            line-height: 16px;
+            line-height: 17px;
             vertical-align: middle;
         }
     }

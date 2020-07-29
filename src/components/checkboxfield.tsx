@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 function Checkboxfield(props) {
   const _setCheckVal = ()=> {
-      props.onChange(!props.checked);
+      if(props.onChange != null) props.onChange(!props.checked);
   }
 
 return (
@@ -61,12 +61,12 @@ const CheckBoxComp = styled.div`
     }
     & .text {
         display: inline-block;
-        line-height: 22px;
-        vertical-align: middle;
         font-weight: normal;
-        font-size: 14px;
+        font-size: 12px;
+        line-height: 20px;
+        vertical-align: middle;
         color: ${(props: CheckBoxCompProps) => (props.textColor != null ? props.textColor : '#999999')};
-        padding-left: 10px;
+        padding-left: 8px;
     }
 `;
 export default Checkboxfield;

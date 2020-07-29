@@ -110,9 +110,12 @@ max-width: 1280px;
 margin: 0 auto;
 padding: 80px 0;
 .compTitle {
+    font-style: normal;
     font-weight: bold;
     font-size: 24px;
     line-height: 32px;
+    letter-spacing: -0.01em;
+    
     color: #000000;
 }
 `;

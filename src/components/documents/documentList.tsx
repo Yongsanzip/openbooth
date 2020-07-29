@@ -8,7 +8,7 @@ function Documentlist(props) {
             <div className='title'>{props.title}</div>
             {props.list && props.list.length > 0 ? props.list.map((el, key) => {
                 return (
-                    <Documentitem key = {key} title = {el.title} />
+                    <Documentitem key = {key} title = {el.file_name} />
                 )} ) : null
             }
         </DocumentlistComp>

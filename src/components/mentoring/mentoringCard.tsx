@@ -98,8 +98,8 @@ function Mentoringcard(props){
                 </div>
             </div>
             <Mentorinfo data={props.data.mentorInfo} className="mentorInfo" />
-            <Custommodal showModal={isShowModal} closeModal={_closeModal} width={480}>
-                <Accesscode data={accessModalData} btn={'Enter'} _access={()=>_onClickAccessBtn(props.data)} />
+            <Custommodal showModal={isShowModal} closeModal={_closeModal} width={480} height={240}>
+                <Accesscode data={accessModalData} btn={'Enter'}  _access={()=>_onClickAccessBtn(props.data)} />
             </Custommodal>
         </Card>
     )

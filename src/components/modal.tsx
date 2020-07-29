@@ -24,7 +24,7 @@ function Custommodal(props){
     e.stopPropagation();
   }
 
-  let contentCustomStyles: CSS.Properties = {
+  let contentCustomStyles: any = {
     top                   : '50%',
     left                  : '50%',
     right                 : 'auto',
@@ -32,7 +32,11 @@ function Custommodal(props){
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)',
     width                 : props.width != null? props.width : '480px',
-    padding               : 0
+    height                : props.height != null? props.height : 'auto',
+    padding               : 0,
+    borderRadius       : '8px',
+    boxSizing          : 'border-box',
+    overflow              : 'hidden'
   };
   let overlayCustomStyles: CSS.Properties = {
     position: "fixed",
@@ -88,21 +92,32 @@ color: #999999;
   }
   textarea {
     width: 100%;
-    height: 250px;
+    height: 270px;
     background: #F7F7F9;
+    font-family: NanumSquare;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
     line-height: 22px;
-    padding: 10px 15px;
+    padding: 12px 23px 20px 23px;
     margin-top: 24px;
     border: 1px solid #E9E9E9;
     box-sizing: border-box;
+    color: #999999;
     resize: none;
     :focus {
       outline: 0;
     }
   }
+  textarea::placeholder {
+      font-family: NanumSquare;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 22px;
+      color: #999999;
+  }
+
   > div {
     padding: 24px 24px 0 24px;
     &.profile {

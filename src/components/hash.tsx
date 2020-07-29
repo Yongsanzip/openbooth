@@ -4,11 +4,12 @@ import styled from "styled-components";
 function Hash(props){
   const _clickHash = (id) => {
       console.log("clicked hash");
+      if(props._onClick != null) props._onClick();
   }
 
     const { id, name } = props;
     return (
-        <HashBox>
+        <HashBox customStyle={props.style}>
             <div onClick={()=>_clickHash(id)}>{name}</div>
         </HashBox>
     )
@@ -22,11 +23,13 @@ const HashBox = styled.div`
     border-radius: 12px;
     text-align: center;
     letter-spacing: -0.01em;
-    color: #005CB9;
-    padding: 3px 10px;
-    font-size: 10px;
-    line-height: 18px;
-    font-weight: bold;
+    color: #005CB9 !important;
+    padding: 3px 10px !important;
+    font-size: 10px !important;
+    line-height: 18px !important;
+    font-weight: bold !important;
+    > * {
+    }    
 `;
 
 export default Hash;

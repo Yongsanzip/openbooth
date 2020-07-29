@@ -12,7 +12,8 @@ function MentordetailContent(props){
             <div>
                 <div>
                     <div className='title'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lectus nunc, vul</div>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras consectetur elit ac dolor laoreet iaculis.
+                    Curabitur rutrum tempus facilisis. Quisque hendrerit enim sit amet velit porttitor lacinia. Proin ut magna nec velit egestas efficitur. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Suspendisse sed ligula lacinia, mollis sapien in, imperdiet dolor.
                 </div>
                 <Mentorinfo data={props.data} className="mentorInfo" />
             </div>
@@ -22,6 +23,7 @@ function MentordetailContent(props){
 
 const MentordetailContentComp = styled.div`
 width: 100%;
+height: 1000px;
 border: 1px solid #E9E9E9;
 box-sizing: border-box;
 border-radius: 8px;
@@ -33,14 +35,17 @@ img {
 }
 > div:nth-child(2) {
     display: flex;
+    height: 280px;
     & > div {
         &:first-child {
             width: 840px;
             border-right: 1px solid #E9E9E9;
             box-sizing: border-box;
-            font-weight: normal;
+            font-style: normal;
+            font-weight: bold;
             font-size: 16px;
             line-height: 24px;
+            
             color: #999999;
             padding: 40px;
             & .title {

@@ -46,6 +46,8 @@ function Namecard(props) {
 
     const _logout = () => {
         dispatch(logoutReducer());
+        sessionStorage.removeItem('token');
+        history.push("/");
     }
     
     const logoutBtnStyle = {
@@ -59,16 +61,16 @@ function Namecard(props) {
     
     return (
         <Userinfocomp className="profile">
-            <Img src={props.data.profile_image} />
+            <Img src={props.type == null || props.type != 'company'? props.data.profile_image : props.data.company_thumbnail} full={true} />
             <div className="profileInfo">
                 <div className="mentorName">
-                    {props.data.name}
+                    {props.type == null || props.type != 'company'? props.data.name : props.data.company_name}
                     {!props.showLogoutBtn? '' :
                         <Button style={logoutBtnStyle} _clickBtn={_logout}>Logout</Button>
                     }
                 </div>
                 {props.type == null || props.type != 'company'?
-                    <div className="mentorInfo">{props.data.email}<br/>{props.data.ltd}</div>
+                    <div className="mentorInfo">{props.data.email}<br/>{props.data.department}</div>
                     : <div className="mentorInfo">{props.data.content}</div>
                 }
             </div>

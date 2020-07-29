@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
 import Language from "../language";
+import {RootState} from "../../modules";
+import { useSelector } from 'react-redux';
 
 function Footer(props) {
+    let languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
 
         return (
             <Mainfooter>
                 <Flexcomp alignItem="baseline">
                     <div>
                         <Footeritem>
-                            <li>개인정보 처리방침</li>
-                            <li>웹사이트 이용 약관</li>
-                            <li>박람회 참가규정</li>
-                            <li>서비스 소개</li>
-                            <li>문의하기</li>
+                            <li>{languageData.privacyPolicy}</li>
+                            <li>{languageData.termsUse}</li>
+                            <li>{languageData.participationRules}</li>
+                            <li>{languageData.serviceIntro}</li>
+                            <li>{languageData.contact}</li>
                         </Footeritem>
                     </div>
                     <div>
@@ -21,7 +24,7 @@ function Footer(props) {
                     </div>
                 </Flexcomp>
                 <div>
-                    <Footeritem>
+                    <Footeritem type={'icons'}>
                         <li>
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M17.6667 12.6667V10.6667C17.6667 9.8 17.8667 9.33333 19.2667 9.33333H21V6H18.3333C15 6 13.6667 8.2 13.6667 10.6667V12.6667H11V16H13.6667V26H17.6667V16H20.6L21 12.6667H17.6667Z" fill="#999999"/>
@@ -47,7 +50,6 @@ function Footer(props) {
                             <li>오픈북스</li>
                             <li>대표자명 허민재</li>
                             <li>사업자등록번호 432-98-348093</li>
-                            <li>통신판매업신고번호 2020-서울강남-2331</li>
                         </Footeritem>
                         <Footeritem>
                             <li>서울특별시 강남구 역삼로 512 인테크빌딩 6층, 오픈부스</li>
@@ -66,10 +68,16 @@ interface FlexcompProps {
     alignItem: any
 }
 const Flexcomp = styled.div`
+    position: relative;
     display: flex;
     align-items: ${(props: FlexcompProps) => (props.alignItem != null ? props.alignItem : '')};
     > div:first-child {
         flex: 1;
+    }
+    > div:last-child {
+        position: absolute;
+        right: 0;
+        top: 15px;
     }
 `;
 
@@ -78,14 +86,16 @@ list-style: none; margin: 0; padding: 0;
 li { 
     position: relative;
     display: inline-block;
-    margin:  0 10px;
+    width: ${(props: any) => (props.type == 'icons' ? '40px' : '')};
+    margin: ${(props: any) => (props.type == 'icons' ? '0' : '0 8px')};
+    text-align: ${(props: any) => (props.type == 'icons' ? 'center' : 'left')};
     &:first-child { margin-left: 0; }
     &:after {
         content: '';
         position: absolute;
         top: 50%;
         margin-top: -8px;
-        right: -8px;
+        right: ${(props: any) => (props.type == 'icons' ? '0' : '-8px')};
         width: 1px;
         height: 16px;
         background: #E9E9E9;
@@ -99,21 +109,25 @@ li {
 `;
 
 const Mainfooter = styled.div`
+    background: #f7f7f9;
     width: 100%;
     height: 246px;
     border-top: 1px solid #E9E9E9;
     box-sizing: border-box;
     > div {
         max-width: 1280px;
-        color: #999999;
         font-weight: bold;
         font-size: 14px;
         line-height: 22px;
-        padding-bottom: 36px;
+        color: #999999;
+        padding-bottom: 30px;
         margin: 0 auto;
         &:first-child{
             padding-top: 32px;
-        }        
+        }
+        &:last-child{
+            padding-bottom: 56px;
+        }
     }
 `;
 

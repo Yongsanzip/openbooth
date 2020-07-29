@@ -5,13 +5,14 @@ import '@brainhubeu/react-carousel/lib/style.css';
 import img1 from "./../assets/img/1.jpg";
 import img2 from "./../assets/img/2.jpg";
 import img3 from "./../assets/img/3.jpg";
-import {RollingBannerButton} from "./index";
+import {Ellipsis, RollingBannerButton} from "./index";
 
 function Mainbanner(props){
     const height = 280;
     const [activeIdx, setActiveIdx] = useState(0);
 
     const onActiveChange = (v) => {
+        if(v >= props.data.length) v = 0;
         setActiveIdx(v)
     }
 
@@ -46,20 +47,27 @@ function Mainbanner(props){
                                 {/*el.booth_banner*/}
                                 <div className='titleInfo'>
                                     {el.category.join(', ')} | {el.company_name}<br/>
-                                    <span className='title'>{el.booth_description}</span>
-                                    <Bannerdots totalcnt={props.data.length} current={key}>
-                                        <div className='active' />
-                                    </Bannerdots>
-                                    <Bannerbtns>
-                                        <RollingBannerButton toLeft onClick={moveActiveBanner}/>
-                                        <RollingBannerButton toRight onClick={moveActiveBanner} />
-                                    </Bannerbtns>
+                                    {/*<span className='title'>{el.booth_description}</span>*/}
+                                    <div className='title'>
+                                        <Ellipsis line={2}>
+                                            {el.booth_description}
+                                        </Ellipsis>
+                                    </div>
                                 </div>
                             </Banneritem>
                         )
                     }) : null
                 }
             </Carousel>
+            <div className="controllers">
+                <Bannerdots totalcnt={props.data.length} current={activeIdx}>
+                    <div className='active' />
+                </Bannerdots>
+                <Bannerbtns>
+                    <RollingBannerButton toLeft onClick={moveActiveBanner}/>
+                    <RollingBannerButton toRight onClick={moveActiveBanner} />
+                </Bannerbtns>
+            </div>
         </Banner>
     )
 }
@@ -80,11 +88,13 @@ const Bannerdots = styled.div`
     background: rgba(0, 0, 0, 0.8);
     > .active {
         position: absolute;
-        left: ${props => (props.current != null ? ((320 / props.totalcnt ) * props.current) + 'px' : '0')};
-        width: ${props => (props.totalcnt != null ? 'calc(100% / '+props.totalcnt+')' : '100px')};
+        left: ${(props: any) => (props.current != null ? ((320 / props.totalcnt ) * props.current) + 'px' : '0')};
+        width: ${(props: any) => (props.totalcnt != null ? 'calc(100% / '+props.totalcnt+')' : '100px')};
         height: 4px;
         background: rgba(255, 255, 255, 0.8);
         border-radius: 2px;
+        transition-duration:0.5s;
+        transition-timing-function: ease;
     }
 `;
 
@@ -114,7 +124,9 @@ text-align: center;
     font-weight: normal;
     font-size: 14px;
     line-height: 22px;
+    padding-top: 24px;
     .title {
+        width: 620px;
         font-weight: bold;
         font-size: 24px;
         line-height: 32px;
@@ -125,6 +137,12 @@ const Banner = styled.div`
 position: relative;
 width: 100%;
 height: ${props => (props.height != null ? props.height+'px' : '280px')};
+.controllers {
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1280px;
+}
 `;
 
 export default Mainbanner;

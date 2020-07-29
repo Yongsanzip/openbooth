@@ -1,24 +1,17 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
 
-class Hambutton extends Component {
-  constructor() {
-    super()
-  }
-
-  _onclick = (e) => {
+function Hambutton (props) {
+  const _onclick = (e) => {
       e.stopPropagation();
-      this.props.onClick();
+      props.onClick();
   }
 
-  render(){
-      const { _onclick } = this;
-      return (
-          <Buttoncomp onClick={_onclick} >
-              <div />
-          </Buttoncomp>
+    return (
+        <Buttoncomp onClick={_onclick} >
+            <div />
+        </Buttoncomp>
     )
-  }
 }
 
 const Buttoncomp = styled.div`

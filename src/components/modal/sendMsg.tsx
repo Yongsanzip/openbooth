@@ -9,22 +9,27 @@ function Sendmsg(props) {
 
     const btnStyle = {
         padding: '7px 0',
-        width: '105px'
+        width: '105px',
+        height: '36px'
     }
 
     return(
-        <Custommodal showModal={props.showModal} width="560px" closeModal={props.closeModal}>
+        <Custommodal showModal={props.showModal} width="640px" height="400px" closeModal={props.closeModal}>
             <div className='modalcontent'>
                 <div className='modalTitle'>Send Message to {props.data.name}</div>
                 <textarea placeholder='Leave a message here' />
             </div>
-            <div className='modalBtns'>
+            <SendMsgComp className='modalBtns'>
                 <Button className='modalBtn' _clickBtn={_Send} width={150} style={btnStyle} fill={true}>
                     Send
                 </Button>
-            </div>
+            </SendMsgComp>
         </Custommodal>
     )
 }
 
+const SendMsgComp = styled.div`
+    margin-top: -2px;
+    padding-top: 8px !important;
+`;
 export default Sendmsg;

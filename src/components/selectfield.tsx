@@ -1,10 +1,25 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled from "styled-components";
 
 function Selectfield(props){
+    let valueIdx = null;
+    if(props.value != null) {
+        props.list.map((item, idx) => {
+            if(item.name == props.value) valueIdx = idx;
+        })
+    }
     const [isFocus, setIsfocus] = useState(false);
-    const [selected, setSelected] = useState(props.list !=null && props.list.length > 0? props.list[0] : '');
+    const [selected, setSelected] = useState(props.list !=null && props.list.length > 0? valueIdx != null? props.list[valueIdx] : props.list[0] : '');
     const selectRef = useRef(null);
+    if(props.reset && props.afterReset != null){
+        if(selected.name != props.value && props.value != null && selected != null){
+            setSelected(props.list !=null && props.list.length > 0? valueIdx != null? props.list[valueIdx] : props.list[0] : '');
+        }
+        else if(selected.name != props.list[0].name){
+            setSelected(props.list[0]);
+        }
+        props.afterReset();
+    }
 
     const _setIsFocus = () => {
         setIsfocus(!isFocus);
@@ -16,18 +31,16 @@ function Selectfield(props){
             selectEl = selectRef.current;
         }
         selectEl.value = props.list[idx].value;
-        console.log(selectEl)
         setSelected(props.list[idx]);
         _setIsFocus();
 
     }
   return (
-      <SelectFieldComp className='selectField' type={props.type}>
+      <SelectFieldComp className='selectField' type={props.type} rows={props.rows}>
           <select name={props.name} ref={selectRef}>
               {props.list && props.list.length > 0 ?
                   props.list.map((el, key) => {
                       const view_url = '/view/' + el.board_id;
-
                       return (
                           <option key = {key} value = {el.value} > {el.name} </option>
                       )}
@@ -63,7 +76,8 @@ function Selectfield(props){
 
 interface SelectBoxProps {
   width: any,
-    type: any
+    type: any,
+    rows: any
 }
 const SelectFieldComp = styled.div`
 position: relative;
@@ -91,7 +105,7 @@ width: ${(props: SelectBoxProps) => (props.width != null ? props.width : 'auto')
     top: 0;
     right: 0;
     width: 100%;
-    z-index: 2;
+    z-index: 101;
     overflow: hidden;
     border: 1px solid #E9E9E9;
     box-sizing: border-box;
@@ -106,11 +120,16 @@ width: ${(props: SelectBoxProps) => (props.width != null ? props.width : 'auto')
         margin: 0;
         padding: 0;
     }
+    ul {
+    }
     li {
+        display: ${(props: SelectBoxProps) => (props.rows != null ? 'inline-block' : 'block')};
+        width: ${(props: SelectBoxProps) => (props.rows != null ? 'calc(100%/'+props.rows+')' : '')};
         background: ${(props: SelectBoxProps) => (props.type != 'white' ? '#F7F7F9' : '#ffffff')};
         border-bottom: 1px solid #E9E9E9;
         box-sizing: border-box;
         padding: 8px 16px;
+        :nth-last-child(2) {border-bottom: 0}
         :last-child {border-bottom: 0}
     }
 }

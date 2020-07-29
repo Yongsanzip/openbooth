@@ -37,6 +37,8 @@ function Tabpannel(props) {
         const key = props.tabs[idx].name;
         tabContentEl.getElementsByClassName(key)[0].classList.add('show');
         tabContentEl.getElementsByClassName(key)[0].classList.remove('hide');
+
+        if(props._onChangeTab) props._onChangeTab(idx);
     }
 
     useEffect(() => {
@@ -73,6 +75,7 @@ font-weight: normal;
 font-size: 16px;
 line-height: 26px;
 color: #999999;
+border-radius: 8px;
 > * {
     padding: ${(props: TabPannelCompProps) => (props.noMargin != null ? '0': '0 24px')};
 }

@@ -1,14 +1,15 @@
 import React, {createRef, useEffect, useState} from 'react';
 import styled from "styled-components";
+import { useSelector, useDispatch } from 'react-redux';
+import {RootState} from "../modules";
 
 function Submenubar(props) {
-  const [activeBarPositions, setActiveBarPositions] = useState(new Array());
+  const [activePosition, setActivePosition] = useState({width:0, left: 0});
   const [submenubarRef, setSubmenubarRef] = useState(()=>createRef());
 
   useEffect((e) => {
-    _setActiveBarPositions();
     _setActive(new Object(), props.activeIdx);
-    window.addEventListener('resize', _resetActiveBarPositions);
+    window.addEventListener('resize', function(){_setActive(new Object(), props.activeIdx)});
     window.addEventListener('scroll', _isSubmenuTop);
   }, []);
 
@@ -23,31 +24,16 @@ function Submenubar(props) {
     }
   }
 
-  const _resetActiveBarPositions = function() {
-    _setActiveBarPositions();
-    _setActive(new Object(), props.activeIdx);
-  }
-
-  const _setActiveBarPositions = function() {
-    if(props.menuList != null && props.menuList.length > 0) {
-      let positionList = [];
-      for(let i = 0; i < props.menuList.length; i++){
-        let menuEl = document.getElementsByName("submenu"+i)[0];
-        if(!menuEl || menuEl == null) continue;
-        positionList[i] = {
-          width: menuEl.offsetWidth,
-          left: menuEl.offsetLeft
-        };
-      }
-
-      setActiveBarPositions(positionList);
-    }
-  }
-
   const _setActive = function(data, idx) {
+    let menuEl: any;
+    if(document.getElementsByClassName("submenu"+idx).length > 0){
+      menuEl = document.getElementsByClassName("submenu"+idx)[0];
+    }
+    setActivePosition({width: menuEl.offsetWidth, left: menuEl.offsetLeft});
+    console.log(activePosition);
+
     if(data.highlight) return true;
 
-    if(activeBarPositions.length < 1 || activeBarPositions[idx] == null) _setActiveBarPositions();
     if(props.onChangeTab != null) props.onChangeTab(idx);
   }
 
@@ -56,7 +42,8 @@ function Submenubar(props) {
       return 'flex';
     }
 
-    let classes = [];
+    let classes:any = new Array();
+    classes.push('submenu' + key);
     if(props.activeIdx == key){
       classes.push('active');
     }
@@ -69,12 +56,12 @@ function Submenubar(props) {
 
 
   return (
-      <SubmenuComp className='submenubar' customStyle={props.style} ref={submenubarRef} activePosition={activeBarPositions[props.activeIdx]}>
+      <SubmenuComp className='submenubar' activePosition={activePosition} customStyle={props.style} ref={submenubarRef}>
         <ul>
         {props.menuList && props.menuList.length > 0 ?
             props.menuList.map((el, key) => {
             return (
-                <li key={key} className={_setLiClass(el, key)} name={'submenu'+key}>
+                <li key={key} className={_setLiClass(el, key)} >
                   {el.name != '-'?
                       <a onClick={()=>_setActive(el, key)}>{el.name}</a>
                       : ''
@@ -94,7 +81,7 @@ width: 100%;
 background: #ffffff;
 border-bottom: 1px solid #E9E9E9;
 box-sizing: border-box;
-${props => (props.customStyle != null ? props.customStyle : '')}
+${(props: any) => (props.customStyle != null ? props.customStyle : '')}
 ul {
   position: relative;
   display: flex;
@@ -108,8 +95,8 @@ ul {
     content: '';
     position: absolute;
     bottom: -1px;
-    left: ${props => (props.activePosition != null ? props.activePosition.left+'px' : '0')};
-    width: ${props => (props.activePosition != null ? props.activePosition.width+'px' : '100px')};
+    left: ${(props: any) => (props.activePosition != null ? props.activePosition.left+'px' : '0')};
+    width: ${(props: any) => (props.activePosition != null ? props.activePosition.width+'px' : '100px')};
     height: 4px;
     background: #006CB9;
     border-radius: 2px;
@@ -118,15 +105,18 @@ ul {
   }
   & li {
     list-style: none;
-    position: relative;
-    margin: 0 10px;
+    margin-right: 22px;
+    :nth-child(2){
+      margin-right: 24px;
+    }
     color: #999999;
     letter-spacing: -0.01em;
     text-align: center;
-    font-size: 16px;
     font-weight: bold;
+    font-size: 14px;
     height: 56px;
     line-height: 56px;
+    // :first-child { margin-left: 10px; }
     :first-child { margin-left: 0; }
     :last-child { margin-right: 0; }
     &.flex {

@@ -14,12 +14,12 @@ function Accesscode(props) {
     }
 
     return(
-        <AccesscodeComp small={props.type == 'small'? true : false} noDec={props.data.content != null ? true : false}>
+        <AccesscodeComp small={props.type == 'small'? true : false} noDec={props.data.content != null ? null : true}>
             <div className='content'>
                 <div className='title'>{props.data.title}</div>
                 {props.data.content != null ? <div className='description'>{props.data.content}</div> : null }
                 <div>
-                    <Inputfield width={'100%'} placeholder="Access code" />
+                    <Inputfield width={'100%'} inputHeight={'22px'} padding={'9px 12px'} placeholder="Access code" />
                     <div className="warning">Access code does not match.</div>
                 </div>
             </div>
@@ -33,8 +33,8 @@ function Accesscode(props) {
 const AccesscodeComp = styled.div`
     width: initial;
     background: #fff;
-    padding: ${props => (props.small ? '0 16px' : '0 24px')};
     > .content {
+        padding: ${props => (props.small ? '0 16px' : '0 24px')};
         font-weight: bold;
         font-size: 16px;
         line-height: 24px;
@@ -65,10 +65,12 @@ const AccesscodeComp = styled.div`
         }
     }
     > .btns {
+        padding: ${props => (props.small ? '0 10px' : '0 10px')};
         height: 56px;
         line-height: 56px;
         text-align: right;
         border-top: 1px solid #E9E9E9;
+        box-sizing: border-box;
     }
 `;
 

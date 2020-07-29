@@ -11,12 +11,28 @@ import {
     Booth,
     Thumblist,
     Tabpannel,
-    Button, Video, CalendarField
+    TabContent,
+    Button, Video, Imgslide
 } from "../../../../components";
 
 import dummyImg from "../../../../assets/img/bg-dummy.png";
+import { useSelector, useDispatch } from 'react-redux';
+import {RootState} from "../../../../modules";
+import {getCompanyDetailDataReducer} from "../../../../modules/exhibition/exhibition";
+
+// import { getBoothListReducer, getSelectedExhibitCategoryReducer } from "../../../../modules/exhibition/exhibition";
+
 
 function Companydetail(props) {
+    const dispatch = useDispatch();
+    //company detail data
+    let companyDetailData = useSelector((state: RootState) => state.exhibitionReducer.companyDetail);
+    if(companyDetailData == null){
+        const params = {};
+        dispatch(getCompanyDetailDataReducer(params));
+    }
+    console.log("companyDetailData::", companyDetailData);
+
     const requestFormBoxRef = useRef(null);
     const bottomPanelRef = useRef(null);
     const companyInfo = {
@@ -61,31 +77,6 @@ function Companydetail(props) {
     },{
         'fieldname': 'Desired investment stage',
         'value': 'Series-A'
-    }];
-    const boothList = [{
-        title: 'Amet minim mollit non deserunt ulla est sit aliqua dolor do amet sint.',
-        company: {
-            name: 'The Walt Disney Company',
-            img: ''
-        }
-    },{
-        title: 'Amet minim mollit non deserunt ulla est sit aliqua dolor do amet sint.',
-        company: {
-            name: 'The Walt Disney Company',
-            img: ''
-        }
-    },{
-        title: 'Amet minim mollit non deserunt ulla est sit aliqua dolor do amet sint.',
-        company: {
-            name: 'The Walt Disney Company',
-            img: ''
-        }
-    },{
-        title: 'Amet minim mollit non deserunt ulla est sit aliqua dolor do amet sint.',
-        company: {
-            name: 'The Walt Disney Company',
-            img: ''
-        }
     }];
     const thumbList = [{
         src: ''
@@ -142,19 +133,61 @@ function Companydetail(props) {
         }
     }
 
-    const tabList = [{
-        title: '제품/서비스명1',
-        name: 'product1'
-    },{
-        title: '제품/서비스명21111',
-        name: 'product2'
-    }];
+    let tabItem = [];
+    let tabList: any;
+    if(companyDetailData != null && companyDetailData.item != null){
+        tabItem = companyDetailData.item.length != null? companyDetailData.item : new Array(companyDetailData.item);
+        tabItem.forEach(function(tab: any, idx){
+            if(tabList == null) tabList = new Array();
+            tabList.push({
+                title: tab.item_name,
+                name: idx
+            })
+        })
+    }
 
+    //전체 부스 목록
+    let boothList = useSelector((state: RootState) => state.exhibitionReducer.boothList);
+    //선택한 전시 카테고리
+    const selectedCategory = useSelector((state: RootState) => state.exhibitionReducer.selectedExhibit);
+
+    //전체 목록 중 랜덤표시 vs 선택한 카테고리의 부스 중 랜덤 표시
+    if(true){
+        if(boothList != null && boothList.length == null){
+            boothList = new Array(boothList);
+        }
+    }
+    else{
+        let boothList = selectedCategory.booth;
+        if(typeof boothList.length == 'undefined'){
+            boothList = new Array(boothList);
+        }
+    }
+
+    const getRandomInt = (min, max) => {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
+    }
+
+    let randomNumbs = new Array();
+    if(boothList != null && boothList.length != null){
+        let i = 0;
+        let rand = 0;
+        while(i < 4){
+            rand = getRandomInt(0, boothList.length);
+            if(randomNumbs.length > 0 && randomNumbs.indexOf(rand) > -1){
+                continue;
+            }
+            randomNumbs.push(rand);
+            i++;
+        }
+    }
 
     return (
         <CompanyDetailComp>
             <Detailmenubar data={companyInfo} title={companyInfo.name} />
-            <CompanyDetailTitleComp src={''}>
+            <CompanyDetailTitleComp src={companyDetailData != null? companyDetailData.main_banner : null}>
                 {/*<Img src={companyInfo.img} width="100%" height="1016px"/>*/}
                 <div className={'info'}>
                     <div>Company name</div>
@@ -178,18 +211,40 @@ function Companydetail(props) {
                 <div>
                     <div className='companyContents'>
                         <CompanyNamePannel>
-                            <div style={{background: '#000'}}>img</div>
-                            <Profile data={companyInfo} type='company' />
+                            <div style={{background: '#000'}}>
+                                {companyDetailData != null && companyDetailData.thumbnails.length > 0 ?
+                                    <Imgslide list={companyDetailData != null ? companyDetailData.thumbnails : null}/>
+                                    : null
+                                }
+                            </div>
+                            {companyDetailData != null? <Profile data={companyDetailData} type='company' /> : null }
                         </CompanyNamePannel>
                         <div className='border'>
                             <Pannel title="Exhibitor description">
-                                <div className='text'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum Phasellus sed augue ex. Vestibulum est urna.</div>
-                                <Video height={'480px'} />
-                                <Thumblist list={thumbList} />
+                                {companyDetailData != null && companyDetailData.exhibitor_description != null?
+                                    companyDetailData.exhibitor_description.map((component, key)=> {
+                                        switch(component.type){
+                                            case "text":
+                                                return <div key={key} className='text'>{component.value}</div>;
+                                            case "video":
+                                                return <Video key={key} height={'480px'} src={component.value}/>;
+                                            case "thumbnails":
+                                                return <Thumblist key={key} list={component.value} /> ;
+                                        }
+                                    }): null
+                                }
                             </Pannel>
                         </div>
                         <div className='border'>
                             <Tabpannel tabs={tabList} >
+                                {tabItem != null && tabItem.length > 0?
+                                    tabItem.map((tab: any, key)=> {
+                                        return <div key={key} className={key+' hide'}>
+                                            <TabContent component={tab.component} />
+                                        </div>
+                                    })
+                                    : null
+                                }
                                 <div className='product1 hide'>
                                     <Pannel noPadding>
                                         <Video height={'480px'} />
@@ -211,12 +266,18 @@ function Companydetail(props) {
                                 <Infofields list={businessInfo} />
                             </Pannel>
                         </div>
-                        <div className='border'>
-                            <Documentlist title="Mentoring documents" list={documentList} />
-                        </div>
-                        <div className='border'>
-                            <Qnalist title="Frequently asked questions" list={questionList} />
-                        </div>
+                        {companyDetailData != null && companyDetailData.documents != null?
+                            <div className='border'>
+                                <Documentlist title="Mentoring documents" list={companyDetailData.documents} />
+                            </div>
+                            : null
+                        }
+                        {companyDetailData != null && companyDetailData.questions != null?
+                            <div className='border'>
+                                <Qnalist title="Frequently asked questions" list={companyDetailData.questions} />
+                            </div>
+                            : null
+                        }
                     </div>
                     <div className='requestBox'>
                         <div ref={requestFormBoxRef}>
@@ -227,12 +288,12 @@ function Companydetail(props) {
                 <div className='bottomContent' ref={bottomPanelRef}>
                     <div className='panelTitle'>Related online booth</div>
                     <div className='boothList'>
-                        {boothList != null && boothList.length > 0 ?
-                            boothList.map((el, key) => {
+                        {randomNumbs != null && randomNumbs.length > 0?
+                            randomNumbs.map((numb, key)=> {
                                 return (
-                                    <Booth data={el} key={key} type={'sub'} />
+                                    <Booth data={boothList[numb]} key={key} type={'sub'} noHash={true} />
                                 )
-                            }) : null
+                            }): null
                         }
                     </div>
                 </div>
@@ -322,6 +383,7 @@ width: 100%;
                 border: 1px solid #E9E9E9;
                 box-sizing: border-box;
                 border-radius: 8px;
+                // overflow: hidden;
             }
         }
     }

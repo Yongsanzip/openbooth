@@ -41,8 +41,10 @@ function Mentordetail(props){
 }
 
 const DetailContent = styled.div`
+background: #f7f7f9;
 width: 100%;
-margin: 40px 0 120px 0;
+padding-top: 40px;
+padding-bottom: 120px;
 > div {
     width: 100%;
     max-width: 1280px;

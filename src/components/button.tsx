@@ -5,7 +5,7 @@ function Button(props) {
 
   const _onclick = (e) => {
       e.stopPropagation();
-      props._clickBtn();
+      if(props._clickBtn != null) props._clickBtn();
   }
   
   return (
@@ -30,7 +30,7 @@ const Buttoncomp = styled.div`
     border-radius: 24px;
     font-weight: normal;
     font-size: 14px;
-    line-height: 22px;
+    line-height: 20px;
     vertical-align: center;
     text-align: center;
     color: ${(props: ButtoncompProps) => (props.type != null && props.type == 'whiteLine' ? '#ffffff' : '#005CB9')};

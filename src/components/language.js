@@ -20,7 +20,7 @@ function Language(props){
 
   return (
       <LanguageComp>
-        <div className="lanBox" onClick={()=>_onClickLanBox()}>{lanList[lanList.findIndex(l => l.lan === props.lan)].name}</div>
+        <div className="lanBox" onClick={()=>_onClickLanBox()}>{props.lan != null? lanList[lanList.findIndex(l => l.lan === props.lan)].name : lanList[0].name}</div>
         {isFocused?
             <div className="lanList">
               <ul>

@@ -20,12 +20,11 @@ export default function Submain(props) {
         mainBannerData = {};
         dispatch(getBoothBannerReducer());
     }
-    console.log("mainBannerData::", mainBannerData);
 
     if(props.location.pathname == '/main') props._onMenuChange(0);
 
     return (
-        <div>
+        <SubmainComp>
             <MainBannerComp className={props.activeMenu == 2? 'open show' : 'close'}>
                 <Mainbanner data={mainBannerData} />
             </MainBannerComp>
@@ -36,7 +35,7 @@ export default function Submain(props) {
                 <Route path={`${props.match.path}/exhibit`} component={()=><Exhibit />} />
                 <Route path={`${props.match.path}/detail`} component={()=><Detail />} />
             </div>
-        </div>
+        </SubmainComp>
     )
 }
 
@@ -51,4 +50,8 @@ overflow: hidden;
     height: 0;
     opacity: 0;
 }
+`;
+
+const SubmainComp = styled.div`
+background: #f7f7f9;
 `;

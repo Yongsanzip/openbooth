@@ -2,6 +2,7 @@ export { default as Inputfield } from './inputfield';
 export { default as Img } from './img'
 export { default as Checkboxfield } from './checkboxfield';
 export { default as Button } from './button';
+export { default as UserinfoModal } from './modal/userInfoModal'
 export { default as Alertmodal } from './modal/alertModal'
 export { default as Custommodal } from './modal'
 export { default as Profile } from './nameCard/profile'
@@ -24,6 +25,7 @@ export { default as Hash } from './hash';
 export { default as Infofields } from './infoFields'
 
 export { default as Tabpannel } from './tabPanel'
+export { default as TabContent } from './tabContent'
 export { default as Pannel } from './panel'
 export { default as Ellipsis } from './ellipsis'
 export { default as Selectfield } from './selectfield';
@@ -36,6 +38,7 @@ export { default as Boardlist } from './boardList'
 export { default as Category } from './category/category';
 
 export { default as Video } from './video';
+export { default as Imgslide } from './imgSlide'
 
 export { default as CalendarField } from './calendar'
 

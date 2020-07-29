@@ -89,13 +89,17 @@ const Mainheader = styled.div`
             line-height: 56px;
             vertical-align: middle;
             margin-right: 16px;
-            font-weight: normal;
-            font-size: 14px;
-            color: #999999;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 56px;
+            color: #000000;
+            letter-spacing: -0.01em;
             svg {
                 height: 56px;
             }
             &.logo {
+                margin-left: 8px;
                 margin-right: 24px;
             }
             &.menu {

@@ -13,6 +13,7 @@ import Mentordetail from "./submain/detail/mentorDetail";
 import Companydetail from "./submain/detail/companyDetail";
 
 function Main(){
+    const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
     const history = useHistory();
     const lan = useSelector((state: RootState) => state.tokenReducer.language);
     const dispatch = useDispatch();
@@ -38,7 +39,7 @@ function Main(){
         name: 'Details',
         path: 'detail'
     }];
-    const _onChangeLangage = (key) => {
+    const _onChangeLanguage = (key) => {
         dispatch(setLanguage(key));
     }
 
@@ -64,7 +65,7 @@ function Main(){
                     <Route path="/company" component={Companydetail} />
                 </Switch>
             </div>
-            <Footer lan={lan} setLanguage={_onChangeLangage} />
+            <Footer lan={lan} setLanguage={_onChangeLanguage} />
         </div>
     )
 }
