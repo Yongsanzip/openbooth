@@ -24,7 +24,7 @@ function Submenubar(props) {
       submenubarEl = submenubarRef.current;
 
       if(submenubarEl != null){
-        const offsetTop = submenubarEl.previousElementSibling.offsetTop + submenubarRef.current.previousElementSibling.offsetHeight;
+        const offsetTop = submenubarEl.previousElementSibling.offsetTop + submenubarEl.previousElementSibling.offsetHeight;
         if (window.scrollY > offsetTop) {
           submenubarEl.classList.add('fixedOnTop');
         } else {
