@@ -18,15 +18,18 @@ function Submenubar(props) {
   }, []);
 
   const _isSubmenuTop = function() {
-    if(submenubarRef.current == null) return;
-    const offsetTop = submenubarRef.current.previousElementSibling.offsetTop + submenubarRef.current.previousElementSibling.offsetHeight;
-    if(window.scrollY > offsetTop){
-      submenubarRef.current.classList.add('fixedOnTop');
-    }
-    else{
-      submenubarRef.current.classList.remove('fixedOnTop');
-    }
+    let submenubarEl:any;
+    if (typeof submenubarRef !== 'undefined' &&
+        typeof submenubarRef.current !== 'undefined') {
+      submenubarEl = submenubarRef.current;
 
+      const offsetTop = submenubarEl.previousElementSibling.offsetTop + submenubarRef.current.previousElementSibling.offsetHeight;
+      if (window.scrollY > offsetTop) {
+        submenubarEl.classList.add('fixedOnTop');
+      } else {
+        submenubarEl.classList.remove('fixedOnTop');
+      }
+    }
     // _setActiveUnderBar(props.activeIdx);
   }
 

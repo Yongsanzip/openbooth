@@ -27,10 +27,10 @@ const Detailmenubar = (props) => {
       
       const offsetTop = detailmenubarEl.offsetTop;
       if(window.scrollY > offsetTop){
-        detailmenubarRef.current.classList.add('fixedOnTop');
+        detailmenubarEl.classList.add('fixedOnTop');
       }
       else{
-        detailmenubarRef.current.classList.remove('fixedOnTop');
+        detailmenubarEl.classList.remove('fixedOnTop');
       }
     }
 
