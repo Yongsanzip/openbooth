@@ -24,13 +24,15 @@ const Detailmenubar = (props) => {
     if (typeof detailmenubarRef !== 'undefined' &&
         typeof detailmenubarRef.current !== 'undefined') {
       detailmenubarEl = detailmenubarRef.current;
-      
-      const offsetTop = detailmenubarEl.offsetTop;
-      if(window.scrollY > offsetTop){
-        detailmenubarEl.classList.add('fixedOnTop');
-      }
-      else{
-        detailmenubarEl.classList.remove('fixedOnTop');
+
+      if(detailmenubarEl != null){
+        const offsetTop = detailmenubarEl.offsetTop;
+        if(window.scrollY > offsetTop){
+          detailmenubarEl.classList.add('fixedOnTop');
+        }
+        else{
+          detailmenubarEl.classList.remove('fixedOnTop');
+        }
       }
     }
 

@@ -23,11 +23,13 @@ function Submenubar(props) {
         typeof submenubarRef.current !== 'undefined') {
       submenubarEl = submenubarRef.current;
 
-      const offsetTop = submenubarEl.previousElementSibling.offsetTop + submenubarRef.current.previousElementSibling.offsetHeight;
-      if (window.scrollY > offsetTop) {
-        submenubarEl.classList.add('fixedOnTop');
-      } else {
-        submenubarEl.classList.remove('fixedOnTop');
+      if(submenubarEl != null){
+        const offsetTop = submenubarEl.previousElementSibling.offsetTop + submenubarRef.current.previousElementSibling.offsetHeight;
+        if (window.scrollY > offsetTop) {
+          submenubarEl.classList.add('fixedOnTop');
+        } else {
+          submenubarEl.classList.remove('fixedOnTop');
+        }
       }
     }
     // _setActiveUnderBar(props.activeIdx);
