@@ -19,15 +19,21 @@ const Detailmenubar = (props) => {
   }, []);
 
   const _isSubmenuTop = function() {
-    if(detailmenubarRef.current == null) return;
 
-    const offsetTop = detailmenubarRef.current.offsetTop;
-    if(window.scrollY > offsetTop){
-      detailmenubarRef.current.classList.add('fixedOnTop');
+    let detailmenubarEl:any;
+    if (typeof detailmenubarRef !== 'undefined' &&
+        typeof detailmenubarRef.current !== 'undefined') {
+      detailmenubarEl = detailmenubarRef.current;
+      
+      const offsetTop = detailmenubarEl.offsetTop;
+      if(window.scrollY > offsetTop){
+        detailmenubarRef.current.classList.add('fixedOnTop');
+      }
+      else{
+        detailmenubarRef.current.classList.remove('fixedOnTop');
+      }
     }
-    else{
-      detailmenubarRef.current.classList.remove('fixedOnTop');
-    }
+
   }
 
   const msgData = {

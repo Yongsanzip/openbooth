@@ -564,13 +564,14 @@ const LoginComp = styled.div`
 font-family: 'NanumSquare';
 width: 100%;
 max-width: 1920px;
+min-width: 1170px;
 height: 100vh;
 max-height: 1080px;
 color: #FFFFFF;
 background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))${(props: LoginCompProps) => (props.src != null ? ', url('+props.src+')' : '')};
-
 > div {
     width: fit-content;
+    min-width: 1170px;
     margin-left: 320px;
     padding-top: ${(props: LoginCompProps) => props.pageType == 'regist' ? '240px' : '320px'};
     > div {
