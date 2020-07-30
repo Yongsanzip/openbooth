@@ -14,7 +14,7 @@ const Detailmenubar = (props) => {
     setIsShowMsgModal(false);
   };
 
-  useEffect((e) => {
+  useEffect(() => {
     window.addEventListener('scroll', _isSubmenuTop);
   }, []);
 
