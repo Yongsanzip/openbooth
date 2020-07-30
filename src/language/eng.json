@@ -46,5 +46,107 @@
     "sns": "SNS",
     "manager": "Manager",
     "login": "Login",
-    "logout": "Logout"
+    "logout": "Logout",
+
+    "introduction": {
+        "title": "“Built on Hope”",
+        "title_description": "Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lectus nunc, vulputate eget sollicitudin ac, pretium vitae nisi. Praesent auctor nisl ut luctus mollis. Aliquam elementum nunc non libero sollicitudin, sit amet tempus tortor commodo. Mauris lectus lectus, congue quis erat sit amet, condimentum mattis erat.",
+        "dday": "D-34",
+        "summaryTitle": "Summary",
+        "summary": "Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lectus nunc, vulputate eget sollicitudin ac, pretium vitae nisi. Praesent auctor nisl ut luctus mollis. Aliquam elementum nunc non libero sollicitudin, sit amet tempus tortor commodo. Mauris lectus lectus, congue quis erat sit amet, condimentum mattis erat.",
+        "theWorldBankTitle": "The World\nBank :",
+        "theWorldBank": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis. Nunc justo risus, ultrices in ultricies eget, dignissim et velit.\n\nProin elementum ante eget metus rhoncus vulputate. Praesent tempor quam fermentum ipsum tristique placerat. Suspendisse ac laoreet arcu. Sed vitae lacinia felis, vel ullamcorper magna. Donec sagittis sem at dolor varius, et dapibus tellus placerat. In semper, sem vitae cursus pulvinar, libero odio condimentum ipsum, non consequat mi diam eu dolor.",
+        "mentorTitle": "The mentor",
+        "mentors": [{
+            "name": "Jane Cooper",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis."
+        },{
+            "name": "Wade Warren",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis. Nunc justo risus, ultrices in ultricies eget."
+        },{
+            "name": "Esther Howard",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum\nPhasellus sed augue ex. Vestibulum est urna."
+        }],
+        "faqTitle": "FAQ",
+        "faqList": [{
+            "title": "1. Online Exhibition",
+            "list": [{
+                "question": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis.",
+                "answer":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis. Nunc justo risus, ultrices in ultricies eget, dignissim et velit. Proin elementum ante eget metus rhoncus vulputate. Praesent tempor quam fermentum ipsum tristique placerat."
+            },{
+                "question": "Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis.",
+                "answer":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis. Nunc justo risus, ultrices in ultricies eget, dignissim et velit."
+            },{
+                "question": "Curabitur vel lacus quam. Nulla ut arcu sit amet risus ultricies aliquet sed eget turpis.",
+                "answer":"Ut cursus erat quis posuere tempor. Phasellus vitae rutrum dolor. Praesent sit amet aliquet sem. Aliquam semper turpis elit. Mauris laoreet, metus eu semper volutpat, felis ligula tincidunt purus, a eleifend elit nunc et sapien. Curabitur lacinia bibendum justo. Integer gravida pulvinar mauris."
+            }]
+        },{
+            "title": "2. Mentoring",
+            "list": [{
+                "question": "Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis.",
+                "answer":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna, posuere non pharetra quis, viverra quis turpis. Nunc justo risus, ultrices in ultricies eget, dignissim et velit."
+            },{
+                "question": "Curabitur vel lacus quam. Nulla ut arcu sit amet risus ultricies aliquet sed eget turpis.",
+                "answer":"Ut cursus erat quis posuere tempor. Phasellus vitae rutrum dolor. Praesent sit amet aliquet sem. Aliquam semper turpis elit. Mauris laoreet, metus eu semper volutpat, felis ligula tincidunt purus, a eleifend elit nunc et sapien. Curabitur lacinia bibendum justo. Integer gravida pulvinar mauris."
+            }]
+        },{
+            "title": "3. ETC",
+            "list": [{
+                "question": "Sed auctor egestas ipsum, vel blandit mauris mattis in",
+                "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sed augue ex. Vestibulum est urna."
+            },{
+                "question": "Integer convallis eu justo id efficitur. Mauris ultricies sit amet sem eget scelerisque.",
+                "answer": "Praesent laoreet nisi sed fringilla tincidunt. Vestibulum nec orci commodo, placerat eros eu, gravida diam. Fusce in orci non nibh gravida suscipit."
+            }]
+        }]
+    },
+
+    "mentoringListTitle": "Mentoring list",
+    "live": "LIVE",
+    "off": "OFF",
+    "mentees": "Mentees",
+    "accessCode": "Access code",
+    "accessCodeNotMatch": "Access code does not match.",
+    "accessCodeModalTitle": "Please enter the access code",
+    "accessCodeModalContent": "An access code is required to enter the mentoring room.",
+
+    "ExhibitionCategoryTitle": "Exhibition Category",
+    "viewAll": "View all",
+
+    "ExhibitorDescription": "Exhibitor description",
+    "businessModel": "Business model",
+    "currentEntryArea": "Currnet entry area",
+    "desiredEntryArea": "Desired entry area",
+    "sell": "Sell, contract condition",
+    "desiredInvestment": "Desired investment stage",
+    "mentoringDocument": "Mentoring documents",
+    "frequentlyQuestionsTitle": "Frequently asked questions",
+    "relatedOnlineBooth": "Related online booth",
+
+    "inqueryRequest": "Inquiry/Request",
+    "onlineMeetUp": "Online Meet up",
+    "visitorInformation": "Visitor information",
+    "introductionMaterials": "Introduction materials",
+    "costInformation": "Cost information",
+    "offlineMeetingReq": "Offline meeting request",
+    "collaborationProposal": "Collaboration proposal",
+    "meetUpSchedule": "Meet up Schedule",
+    "details": "Details",
+    "yourPhone": "Your phone",
+    "yourContry": "Your country",
+    "reqDate": "Request date",
+    "reqTime": "Request time",
+
+    "exhibitionDetails": "Exhibition details",
+    "registerdVisitors": "Registered visitors",
+    "exhibitionInformation": "Exhibition information",
+    "exhibits": "Exhibits",
+    "date": "Date",
+    "operated": "Operated",
+    "exhibitionIntroduction": "Exhibition introduction",
+    "pressRelease": "Press release",
+    "exhibitDocuments": "Exhibition documents",
+    "numberOfVisitors": "Number of Visitors",
+    "hosted": "Hosted",
+    "organized": "Organized"
 }
