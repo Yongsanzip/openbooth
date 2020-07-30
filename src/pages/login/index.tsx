@@ -572,7 +572,8 @@ background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))${(prop
 > div {
     width: fit-content;
     min-width: 1170px;
-    margin-left: 320px;
+    // margin-left: 320px;
+    margin: 0 auto;
     padding-top: ${(props: LoginCompProps) => props.pageType == 'regist' ? '240px' : '320px'};
     > div {
         display: inline-block;
