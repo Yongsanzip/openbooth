@@ -15,6 +15,10 @@ function Hash(props){
     )
 }
 
+interface HashBoxProps {
+    customStyle: any
+}
+
 const HashBox = styled.div`
     display: inline-block;
     vertical-align: middle;
@@ -28,7 +32,7 @@ const HashBox = styled.div`
     font-size: 10px !important;
     line-height: 18px !important;
     font-weight: bold !important;
-    ${(props: any) => (props.customStyle != null ? props.customStyle : '')}
+    ${(props: HashBoxProps) => (props.customStyle != null ? props.customStyle : '')}
     > * {
     }    
 `;

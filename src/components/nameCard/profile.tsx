@@ -151,9 +151,12 @@ function Profile(props) {
     )
 }
 
+interface ProfilecompProps {
+    type: any
+}
 const Profilecomp = styled.div`
 > div {    
-    padding: ${props => (props.type != null && props.type == 'company' ?  '24px' : '32px 24px;')};
+    padding: ${(props: ProfilecompProps) => (props.type != null && props.type == 'company' ?  '24px' : '32px 24px;')};
 }
 .details {
     padding: 0 32px 32px 32px;
@@ -165,16 +168,16 @@ const Profilecomp = styled.div`
     color: #999999;
     & > div {
         padding-top: 24px;
-        height: ${props => (props.type != null && props.type == 'company' ?  '24px' : '')};
+        height: ${(props: ProfilecompProps) => (props.type != null && props.type == 'company' ?  '24px' : '')};
         & > * {
-            display: ${props => (props.type != null && props.type == 'company' ?  'inline-block' : '')};
-            vertical-align: ${props => (props.type != null && props.type == 'company' ?  'middle' : '')};
+            display: ${(props: ProfilecompProps) => (props.type != null && props.type == 'company' ?  'inline-block' : '')};
+            vertical-align: ${(props: ProfilecompProps) => (props.type != null && props.type == 'company' ?  'middle' : '')};
         }
     }
     .fieldname {
         font-weight: bold;
         margin-bottom: 4px;
-        ${props => (props.type != null && props.type == 'company' ?  'width: 80px; margin-right: 3px;' : '')}
+        ${(props: ProfilecompProps) => (props.type != null && props.type == 'company' ?  'width: 80px; margin-right: 3px;' : '')}
     }
     
     & .snsIcon {

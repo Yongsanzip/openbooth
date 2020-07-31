@@ -42,7 +42,7 @@ function Mainbanner(props){
                 {props.data && props.data.length > 0 ?
                     props.data.map((el, key) => {
                         return (
-                            <Banneritem key={key}>
+                            <Banneritem key={key} height={null}>
                                 <img src={img1} height={height} />
                                 {/*el.booth_banner*/}
                                 <div className='titleInfo'>
@@ -79,6 +79,11 @@ const Bannerbtns = styled.div`
         display: inline-block;
     }
 `;
+
+interface BannerdotsProps {
+    current: any,
+    totalcnt: any
+}
 const Bannerdots = styled.div`
     position: absolute;
     bottom: 24px;
@@ -88,8 +93,8 @@ const Bannerdots = styled.div`
     background: rgba(0, 0, 0, 0.8);
     > .active {
         position: absolute;
-        left: ${(props: any) => (props.current != null ? ((320 / props.totalcnt ) * props.current) + 'px' : '0')};
-        width: ${(props: any) => (props.totalcnt != null ? 'calc(100% / '+props.totalcnt+')' : '100px')};
+        left: ${(props: BannerdotsProps) => (props.current != null ? ((320 / props.totalcnt ) * props.current) + 'px' : '0')};
+        width: ${(props: BannerdotsProps) => (props.totalcnt != null ? 'calc(100% / '+props.totalcnt+')' : '100px')};
         height: 4px;
         background: rgba(255, 255, 255, 0.8);
         border-radius: 2px;
@@ -97,11 +102,13 @@ const Bannerdots = styled.div`
         transition-timing-function: ease;
     }
 `;
-
+interface BannerProps {
+    height: any
+}
 const Banneritem = styled.div`
 position: relative;
 width: 100%;
-height: ${props => (props.height != null ? props.height+'px' : '280px')};
+height: ${(props:BannerProps) => (props.height != null ? props.height+'px' : '280px')};
 text-align: center;
 :before {
     content: '';
@@ -117,7 +124,7 @@ text-align: center;
     max-width: 1280px;
     width: 100%;
     height: 100%;
-    top: ${props => (props.height != null ? '-' + props.height+'px' : '-280px')};
+    top: ${(props:BannerProps) => (props.height != null ? '-' + props.height+'px' : '-280px')};
     margin: 0 auto;
     text-align: left;
     color: #ffffff;
@@ -136,7 +143,7 @@ text-align: center;
 const Banner = styled.div`
 position: relative;
 width: 100%;
-height: ${props => (props.height != null ? props.height+'px' : '280px')};
+height: ${(props:BannerProps) => (props.height != null ? props.height+'px' : '280px')};
 .controllers {
     position: relative;
     margin: 0 auto;

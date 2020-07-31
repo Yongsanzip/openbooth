@@ -32,28 +32,32 @@ function Accesscode(props) {
     )
 }
 
+interface AccesscodeCompProps {
+    small: any,
+    noDec: any
+}
 const AccesscodeComp = styled.div`
     width: initial;
     background: #fff;
     > .content {
-        padding: ${props => (props.small ? '0 16px' : '0 24px')};
+        padding: ${(props:AccesscodeCompProps) => (props.small != null ? '0 16px' : '0 24px')};
         font-weight: bold;
         font-size: 16px;
         line-height: 24px;
         color: #999999;
         .title {
-            font-size: ${props => (props.small ? '16px' : '18px')};
-            line-height: ${props => (props.small ? '24px' : '26px')};
+            font-size: ${(props:AccesscodeCompProps) => (props.small != null ? '16px' : '18px')};
+            line-height: ${(props:AccesscodeCompProps) => (props.small != null? '24px' : '26px')};
             color: #000000;
-            margin-top: ${props => (props.small ? '16px' : '24px')};
+            margin-top: ${(props:AccesscodeCompProps) => (props.small != null ? '16px' : '24px')};
         }
         .description {
             margin-top: 16px;
         }
         > *:last-child {
             position: relative;
-            margin-top: ${props => (props.noDec != null ? '32px' : '22px')};
-            margin-bottom: ${props => (props.noDec != null ? '33px' : '32px')};
+            margin-top: ${(props:AccesscodeCompProps) => (props.noDec != null ? '32px' : '22px')};
+            margin-bottom: ${(props:AccesscodeCompProps) => (props.noDec != null ? '33px' : '32px')};
         }
         .warning {
             position: absolute;
@@ -67,7 +71,7 @@ const AccesscodeComp = styled.div`
         }
     }
     > .btns {
-        padding: ${props => (props.small ? '0 10px' : '0 10px')};
+        padding: ${(props:AccesscodeCompProps) => (props.small ? '0 10px' : '0 10px')};
         height: 56px;
         line-height: 56px;
         text-align: right;

@@ -11,7 +11,7 @@ function Footer(props) {
             <Mainfooter>
                 <Flexcomp alignItem="baseline">
                     <div>
-                        <Footeritem>
+                        <Footeritem type={null}>
                             <li>{languageData.privacyPolicy}</li>
                             <li>{languageData.termsUse}</li>
                             <li>{languageData.participationRules}</li>
@@ -46,12 +46,12 @@ function Footer(props) {
                 </div>
                 <Flexcomp alignItem="flex-end">
                     <div>
-                        <Footeritem>
+                        <Footeritem type={null}>
                             <li>오픈북스</li>
                             <li>대표자명 허민재</li>
                             <li>사업자등록번호 432-98-348093</li>
                         </Footeritem>
-                        <Footeritem>
+                        <Footeritem type={null}>
                             <li>서울특별시 강남구 역삼로 512 인테크빌딩 6층, 오픈부스</li>
                             <li>openbooth@openbooth.net</li>
                         </Footeritem>
@@ -84,21 +84,24 @@ const Flexcomp = styled.div`
     }
 `;
 
+interface FooteritemProps {
+    type: any
+}
 const Footeritem = styled.ul`
 list-style: none; margin: 0; padding: 0;
 li { 
     position: relative;
     display: inline-block;
-    width: ${(props: any) => (props.type == 'icons' ? '40px' : '')};
-    margin: ${(props: any) => (props.type == 'icons' ? '0' : '0 8px')};
-    text-align: ${(props: any) => (props.type == 'icons' ? 'center' : 'left')};
+    width: ${(props: FooteritemProps) => (props.type != null && props.type == 'icons' ? '40px' : '')};
+    margin: ${(props: FooteritemProps) => (props.type != null && props.type == 'icons' ? '0' : '0 8px')};
+    text-align: ${(props: FooteritemProps) => (props.type != null && props.type == 'icons' ? 'center' : 'left')};
     &:first-child { margin-left: 0; }
     &:after {
         content: '';
         position: absolute;
         top: 50%;
         margin-top: -8px;
-        right: ${(props: any) => (props.type == 'icons' ? '0' : '-8px')};
+        right: ${(props: FooteritemProps) => (props.type != null && props.type == 'icons' ? '0' : '-8px')};
         width: 1px;
         height: 16px;
         background: #E9E9E9;

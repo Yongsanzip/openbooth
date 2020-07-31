@@ -7,36 +7,3 @@
   font-weight: normal;
   letter-spacing: -0.01em;
 }
-
-.alignRight {
-  text-align: right;
-}
-.fixedOnTop {
-  position: fixed;
-  top: 0;
-  z-index: 1;
-}
-
-.hide {
-  opacity: 0;
-  animation-name: fadeInOpacity;
-  animation-iteration-count: 1;
-  animation-timing-function: ease-in;
-  animation-duration: 0.5s;
-  display: none;
-}
-.show {
-  opacity: 1;
-  animation-name: fadeInOpacity;
-  animation-iteration-count: 1;
-  animation-timing-function: ease-in;
-  animation-duration: 0.5s;
-}
-@keyframes fadeInOpacity {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}

@@ -32,7 +32,7 @@ function ImgViewer(props) {
     }
 
   return (
-      <ImgViewerComp isShow={props.isShow}>
+      <ImgViewerComp>
           <Carousel
               centered
               onChange={(idx)=>props.setActiveIdx(idx)}

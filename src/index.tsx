@@ -8,8 +8,9 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 
-import { createStore } from 'redux';
-import rootReducer from './modules';
+import GlobalStyle from './assets/style/global-styles';
+import theme from './assets/style/theme';
+import { ThemeProvider } from './assets/style/theme-components';
 
 import configureStore from './store';
 const store = configureStore();
@@ -17,9 +18,12 @@ const store = configureStore();
 
 ReactDOM.render(
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+        <GlobalStyle/>
+        <BrowserRouter>
+            <ThemeProvider theme={theme}>
+                    <App />
+            </ThemeProvider>
+        </BrowserRouter>
     </Provider>,
   document.getElementById('root')
 );

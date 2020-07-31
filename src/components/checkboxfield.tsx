@@ -67,7 +67,13 @@ const CheckBoxComp = styled.div`
         line-height: 20px;
         vertical-align: middle;
         color: ${(props: CheckBoxCompProps) => (props.textColor != null ? props.textColor : '#999999')};
+        
+        ${({theme}) => theme.media.desktop`
         padding-left: 8px;
+        `}
+        ${({theme}) => theme.media.mobile`
+        padding-left: 4px;
+        `}
         ${(props: CheckBoxCompProps) => (props.textStyle != null ? props.textStyle : null)};
     }
 `;

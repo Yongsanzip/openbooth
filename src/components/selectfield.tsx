@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from "styled-components";
 
 function Selectfield(props){
@@ -38,7 +38,7 @@ function Selectfield(props){
 
     }
   return (
-      <SelectFieldComp className='selectField' type={props.type} rows={props.rows}>
+      <SelectFieldComp type={props.type} rows={props.rows}>
           <select name={props.name} ref={selectRef}>
               {props.list && props.list.length > 0 ?
                   props.list.map((el, key) => {
@@ -77,10 +77,10 @@ function Selectfield(props){
 }
 
 interface SelectBoxProps {
-  width: any,
     type: any,
     rows: any
-}
+};
+
 const SelectFieldComp = styled.div`
 position: relative;
 font-style: normal;
@@ -89,7 +89,7 @@ font-size: 14px;
 line-height: 22px;
 letter-spacing: -0.01em;
 color: #999999;
-width: ${(props: SelectBoxProps) => (props.width != null ? props.width : 'auto')};
+width: 'auto';
 & .selectBox {
     padding: 8px 12px 8px 8px;
     border: 1px solid #E9E9E9;

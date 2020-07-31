@@ -24,11 +24,6 @@ function Thumblist(props){
     const width = props.size != null ? props.size.width : 160;
 
     return (
-        // {props.list && props.list.length > 0 ? props.list.map((el, key) => {
-        //         return (
-        //             <Img key={key} src={el} />
-        //         )} ) : null
-        // }
         <ThumblistComp size={props.size} marginRight={props.marginRight} columns={props.columns}>
             <Carousel
                 value={activeItemIndex}
@@ -53,7 +48,11 @@ function Thumblist(props){
         </ThumblistComp>
     )
 }
-
+interface ThumblistCompProps {
+    size:any;
+    marginRight:any;
+    columns:any;
+}
 const ThumblistComp = styled.div`
     width: 100%;
     overflow: hidden;
@@ -64,11 +63,11 @@ const ThumblistComp = styled.div`
             border-radius: 8px;
             overflow: hidden;
             
-            width: ${props => (props.size != null ? props.size.width+'px' : '160px;')};
-            height: ${props => (props.size != null ? props.size.height+'px' : '160px;')};
-            margin-right: ${props => (props.marginRight != null ? props.marginRight+'px' : '25px')};
-            margin-bottom: ${props => (props.marginRight != null ? props.marginRight+'px' : '25px')};
-            :nth-child(${props => (props.columns != null ? props.columns : '5')}n) { margin-right: 0; }
+            width: ${(props:ThumblistCompProps) => (props.size != null ? props.size.width+'px' : '160px;')};
+            height: ${(props:ThumblistCompProps) => (props.size != null ? props.size.height+'px' : '160px;')};
+            margin-right: ${(props:ThumblistCompProps) => (props.marginRight != null ? props.marginRight+'px' : '25px')};
+            margin-bottom: ${(props:ThumblistCompProps) => (props.marginRight != null ? props.marginRight+'px' : '25px')};
+            :nth-child(${(props:ThumblistCompProps) => (props.columns != null ? props.columns : '5')}n) { margin-right: 0; }
     }
 `;
 

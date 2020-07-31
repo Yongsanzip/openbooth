@@ -132,7 +132,7 @@ const Mainheader = styled.div`
 
 
 const Menuitem = styled.div`
-    flex: ${props => (props.flex > 0 ? props.flex : '')};
+    flex: ${(props:any) => (props.flex != null && props.flex > 0 ? props.flex : '')};
     text-align: center;
 `;
 

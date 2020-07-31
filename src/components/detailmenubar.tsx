@@ -1,4 +1,4 @@
-import React, {createRef, useEffect, useState} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import styled from "styled-components";
 import { useHistory } from 'react-router-dom';
 
@@ -7,7 +7,7 @@ import {Hambutton, Sendmsg} from './index'
 const Detailmenubar = (props) => {
   const history = useHistory();
   const [isShowMsgModal, setIsShowMsgModal] = useState(false);
-  const [detailmenubarRef, setDetailmenubarRef] = useState(()=>createRef());
+  const detailmenubarRef = useRef(null);
 
   const _sentMsg = function(){
     console.log("SEND MSG");

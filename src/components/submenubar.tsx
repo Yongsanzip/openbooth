@@ -1,11 +1,11 @@
-import React, {createRef, useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styled from "styled-components";
 
 function Submenubar(props) {
   // const isLanguageChange = useSelector((state: RootState) => state.tokenReducer.isLanguageChange);
   // console.log("isLanguageChange::", isLanguageChange);
   const [activePosition, setActivePosition] = useState({width:0, left: 0});
-  const [submenubarRef, setSubmenubarRef] = useState(()=>createRef());
+  const submenubarRef = useRef(null);
 
   useEffect(() => {
     _setActive(new Object(), props.activeIdx);
@@ -72,7 +72,7 @@ function Submenubar(props) {
   }
 
   return (
-      <SubmenuComp className='submenubar' activePosition={activePosition} customStyle={props.style} ref={submenubarRef}>
+      <SubmenuComp activePosition={activePosition} customStyle={props.style} ref={submenubarRef}>
         <ul>
           {props.menuList && props.menuList.length > 0 ?
               props.menuList.map((el, key) => {
@@ -92,12 +92,16 @@ function Submenubar(props) {
   )
 }
 
+interface SubmenuCompProps {
+  activePosition: any;
+  customStyle: any;
+}
 const SubmenuComp = styled.div`
 width: 100%;
 background: #ffffff;
 border-bottom: 1px solid #E9E9E9;
 box-sizing: border-box;
-${(props: any) => (props.customStyle != null ? props.customStyle : '')}
+${(props: SubmenuCompProps) => (props.customStyle != null ? props.customStyle : '')}
 ul {
   position: relative;
   display: flex;
@@ -111,8 +115,8 @@ ul {
     content: '';
     position: absolute;
     bottom: -1px;
-    left: ${(props: any) => (props.activePosition != null ? props.activePosition.left+'px' : '0')};
-    width: ${(props: any) => (props.activePosition != null ? props.activePosition.width+'px' : '100px')};
+    left: ${(props: SubmenuCompProps) => (props.activePosition != null ? props.activePosition.left+'px' : '0')};
+    width: ${(props: SubmenuCompProps) => (props.activePosition != null ? props.activePosition.width+'px' : '100px')};
     height: 4px;
     background: #006CB9;
     border-radius: 2px;

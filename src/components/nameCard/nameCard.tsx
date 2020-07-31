@@ -94,13 +94,16 @@ function Namecard(props) {
     )
 }
 
+interface UserinfocompProps {
+    imgMarginRight: any
+}
 const Userinfocomp = styled.div`
     display: flex;
     // margin-bottom: 16px;
     > *:first-child {
         width: 80px;
         height: 80px;
-        margin-right: ${props => (props.imgMarginRight != null ?  props.imgMarginRight : '16px')};
+        margin-right: ${(props: UserinfocompProps) => (props.imgMarginRight != null ?  props.imgMarginRight : '16px')};
         border-radius: 50%;
     }
     .profileInfo {

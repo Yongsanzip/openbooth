@@ -46,8 +46,12 @@ function Mentorinfo(props){
     )
 }
 
+interface MentorinfoCompProps {
+    padding: any
+}
+
 const MentorinfoComp = styled.div`
-padding: ${(props: any) => (props.padding != null ? props.padding : '32px')};
+padding: ${(props: MentorinfoCompProps) => (props.padding != null ? props.padding : '32px')};
 font-weight: bold;
 font-size: 14px;
 line-height: 22px;

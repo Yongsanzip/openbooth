@@ -1,16 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import './App.css';
 import { useHistory, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './modules';
-import {getRefreshTokenReducer, logoutReducer, setLanguageDataReducer, isLanguageChangeTrueReducer} from "./modules/token/token";
+import {logoutReducer, setLanguageDataReducer, isLanguageChangeTrueReducer} from "./modules/token/token";
 
 import base64 from 'base-64';
 
 import Main from "./pages/main"
 import Login from "./pages/login"
-import FindPwd from "./pages/findPwd"
-import Introduction from "./pages/main/submain/introduction";
 
 function App(props) {
   const history = useHistory();

@@ -84,7 +84,7 @@ function Exhibit(props) {
                     <div className='titleBox'>
                         <div className='title'>{ selectedCategory == null? languageData == null? '' : languageData.viewAll : selectedCategory.category }</div>
                     </div>
-                    <CategoryListComp>
+                    <CategoryListComp categoryPage={null}>
                         <div>
                             {selectedCategory != null && typeof selectedCategory.booth.length == "undefined"?
                                 <Link to='/company' ><Booth data={selectedCategory.booth} /></Link> :
@@ -142,6 +142,9 @@ a {
 `;
 export default Exhibit;
 
+interface CategoryListCompProps {
+    categoryPage: any
+}
 const CategoryListComp = styled.div`
 margin-top: 40px;
 width: 100%;
@@ -150,7 +153,7 @@ overflow: hidden;
 > * {
     width: 100%;
     height: 100%;
-    transform: ${(props:any) => (props.categoryPage > 1 ? 'translatex(-'+(100 * (props.categoryPage - 1))+'%)' : '')};
+    transform: ${(props: CategoryListCompProps) => (props.categoryPage != null && props.categoryPage > 1 ? 'translatex(-'+(100 * (props.categoryPage - 1))+'%)' : '')};
     transition: transform 0.5s 0s ease, box-shadow 0.3s 0s ease-in-out;
     display: flex;
      > * {

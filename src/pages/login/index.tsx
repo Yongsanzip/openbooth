@@ -30,6 +30,8 @@ const Login = props => {
     const [rememberAccount, setRememberAccount] = useState<boolean>(false);
     const [showRegistAlert, setShowRegistAlert] = useState<boolean>(false);
 
+    console.log("pageType:::::::::::::", pageType);
+
     useEffect(()=>{
         const localstorageEmail = localStorage.getItem('email');
         if(localstorageEmail != null){
@@ -185,7 +187,6 @@ const Login = props => {
             result: true
         };
     }
-
 
     const _checkEmailFormat = () => {
         let loginFormEl: any;
@@ -431,6 +432,17 @@ const Login = props => {
                         </div>
                     }
                 </div>
+                <div className='mobileTitleText'>
+                    <div className='logo'>
+                        <svg width="68" height="24" viewBox="0 0 68 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.9 24C18.4722 24 23.8 18.6274 23.8 12C23.8 5.37258 18.4722 0 11.9 0C5.32782 0 0 5.37258 0 12C0 18.6274 5.32782 24 11.9 24Z" fill="#00416B"/>
+                            <path d="M57.5732 0.114286C57.0632 0.0571429 56.6099 0 56.0999 0C53.9466 0 51.9066 0.571429 50.1499 1.6C50.0932 1.65714 50.0366 1.65714 49.9799 1.71429C49.1299 2.17143 48.1666 2.4 47.1466 2.4C46.1266 2.4 45.1632 2.11429 44.3132 1.71429C44.2566 1.71429 44.1999 1.65714 44.1432 1.6C42.4999 0.628571 40.6299 0.0571429 38.5899 0C38.4766 0 38.3066 0 38.1932 0C31.6199 0 26.2932 5.37143 26.2932 12C26.2932 18.6286 31.6199 24 38.1932 24C40.4599 24 42.5566 23.3714 44.3132 22.2857C45.1632 21.8286 46.1266 21.6 47.1466 21.6C48.1666 21.6 49.1299 21.8857 49.9799 22.2857C51.7932 23.3714 53.8899 24 56.0999 24C62.6732 24 67.9999 18.6286 67.9999 12C67.9999 5.88571 63.4666 0.857143 57.5732 0.114286Z" fill="#005CB9"/>
+                        </svg>
+                    </div>
+                    <div>
+                        “Built on Hope”
+                    </div>
+                </div>
                 <div className='loginForm'>
                     <form ref={loginForm}  onSubmit={()=> function(){ return false; } }>
                         <div className={pageType == 'findPwd' || pageType == 'resetPwd'? 'show findPwdDescript' : 'hide findPwdDescript'} >
@@ -438,64 +450,67 @@ const Login = props => {
                             {pageType == 'findPwd'? <div>Enter your email address and we'll send you a link to reset your password.</div> : null}
                             {pageType == 'resetPwd'? <div className={'weightNormal'}><b>openbooth@openbooth.net</b><br/>You can create your new password here.</div> : null}
                         </div>
-                        <InputFieldComp marginTop={0} className={pageType != 'regist2' && pageType != 'resetPwd'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType != 'regist2' && pageType != 'resetPwd'? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>ID <span ref={warnningEmailRef} className={'warn'}>{languageData.incorrectEmailFormat}</span></div>
                             <Inputfield name={'email'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Email'} noEmpty={true} validator={_checkEmailFormat} _onKeyUp={_onKeyUp} />
                         </InputFieldComp>
-                        <InputFieldComp marginTop={0} className={pageType == 'login' || pageType == 'regist' || pageType == 'resetPwd'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType == 'login' || pageType == 'regist' || pageType == 'resetPwd'? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Password <span ref={warnningPwdRef} className={'warn'}>Password format is incorrect</span></div>
                             <Inputfield type={'password'} name={'password'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={languageData.passwordRule} noEmpty={true} validator={pageType == 'login'? null : _checkPwdFormat} _onKeyUp={_onKeyUp}/>
                         </InputFieldComp>
-                        <InputFieldComp marginTop={8} className={pageType == 'regist' || pageType == 'resetPwd'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType == 'regist' || pageType == 'resetPwd'? 'show passwordConfirm' : 'hide passwordConfirm'} >
                             <Inputfield type={'password'} name={'passwordConfirm'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={languageData.repeatPwd} noEmpty={true} validator={_checkPwdFormat} _onKeyUp={_onKeyUp} />
                         </InputFieldComp>
-                        <InputFieldComp marginTop={0} className={pageType == 'regist'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType == 'regist'? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Name <span className={'warn'}>{languageData.emptyValueMsg}</span></div>
                             <Inputfield name={'name'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Name'} noEmpty={true} />
                         </InputFieldComp>
-                        <InputFieldComp marginTop={0} className={pageType == 'regist'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType == 'regist'? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Phone <span className={'warn'}>{languageData.emptyValueMsg}</span></div>
                             <Inputfield name={'phone'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Phone'} noEmpty={true} />
                         </InputFieldComp>
-                        <InputFieldComp marginTop={13} className={pageType == 'login'? 'show inlineBox' : 'hide inlineBox'} >
+                        <InputFieldComp className={pageType == 'login'? 'show inlineBox rememberEmail' : 'hide inlineBox rememberEmail'} >
                             <Checkboxfield name={'rememberEmail'} onChange={(val: any)=>setRememberAccount(val)} checked={rememberAccount} width={'100%'} style={inputFieldStyle} text={languageData.rememberEmail} type={'login'} textColor={'#ffffff'} />
                             <div className={'warn alignRight'} ref={warnningAccountRef} >{languageData.incorrectAccount}</div>
                         </InputFieldComp>
-                        <InputFieldComp marginTop={0} className={pageType == 'regist2'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType == 'regist2'? 'show' : 'hide'} >
                             <Inputfield type={'file'} name={'profileImg'} width={'100%'} style={inputFieldStyle}/>
                         </InputFieldComp>
-                        <InputFieldComp marginTop={0} className={pageType == 'regist2'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType == 'regist2'? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Country <span className={'warn'}>Select this value</span></div>
                             <Inputfield name={'country'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Country'} noEmpty={true} />
                         </InputFieldComp>
-                        <InputFieldComp marginTop={0} className={pageType == 'regist2'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType == 'regist2'? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Company / affiliation <span className={'warn'}>{languageData.emptyValueMsg}</span></div>
                             <Inputfield name={'company'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Company or affiliation'} noEmpty={true} />
                         </InputFieldComp>
-                        <InputFieldComp marginTop={0} className={pageType == 'regist2'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType == 'regist2'? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Department <span className={'warn'}>Select this value</span></div>
                             <Inputfield name={'department'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Department'} noEmpty={true} />
                         </InputFieldComp>
-                        <InputFieldComp marginTop={0} className={pageType == 'regist2'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType == 'regist2'? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Position <span className={'warn'}>Select this value</span></div>
                             <Inputfield name={'position'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Position'} noEmpty={true} />
                         </InputFieldComp>
-                        <InputFieldComp marginTop={14} className={pageType == 'login'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType == 'login'? 'show loginBtn' : 'hide loginBtn'} >
                             <Button fill={true} width={'100%'} style={LoginBtnStyle} _clickBtn={_login}>Login</Button>
+                            <div className={'forgotPwdBtn_mobile'} onClick={()=>_setPageType('findPwd')}>
+                                {languageData.forgotPwdTitle}
+                            </div>
                         </InputFieldComp>
-                        <InputFieldComp marginTop={8} className={pageType == 'findPwd'? 'show alignRight' : 'hide alignRight'} >
+                        <InputFieldComp className={pageType == 'findPwd'? 'show alignRight sendBtn' : 'hide alignRight sendBtn'} >
                             <Button fill={true} width={104} style={{height: '36px', padding: '7px 35px', 'font-weight': 'bold'}} _clickBtn={_SendResetPwdLink}>Send</Button>
                         </InputFieldComp>
-                        <InputFieldComp marginTop={30} className={pageType == 'resetPwd'? 'show alignRight' : 'hide alignRight'} >
+                        <InputFieldComp className={pageType == 'resetPwd'? 'show alignRight saveBtn' : 'hide alignRight saveBtn'} >
                             <Button fill={true} width={104} style={{height: '36px', padding: '7px 35px', 'font-weight': 'bold'}} _clickBtn={_setNewPwd}>Save</Button>
                         </InputFieldComp>
-                        <InputFieldComp  marginTop={16} className={pageType == 'regist'? 'show' : 'hide'} >
+                        <InputFieldComp  className={pageType == 'regist'? 'show registBtn' : 'hide registBtn'} >
                             <Button width={'100%'} style={registBtnStyle} _clickBtn={()=>_setPageType('regist2')}>Next step</Button>
                         </InputFieldComp>
-                        <InputFieldComp marginTop={16} className={pageType == 'regist2'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType == 'regist2'? 'show registBtn' : 'hide registBtn'} >
                             <Button fill={true} width={'100%'} _clickBtn={_regist}>Register</Button>
                         </InputFieldComp>
-                        <InputFieldComp marginTop={10} className={pageType == 'login'? 'show inlineBox btns' : 'hide inlineBox btns'} >
+                        <InputFieldComp className={pageType == 'login'? 'show inlineBox btns loginBtmBtns_desktop' : 'hide inlineBox btns loginBtmBtns_desktop'} >
                             <div>
                                 <div className={'fieldTitle'}>{languageData.forgotPwdTitle}</div>
                                 <Button width={'210'} style={btnStyle} _clickBtn={()=>_setPageType('findPwd')}>Find your password</Button>
@@ -505,7 +520,13 @@ const Login = props => {
                                 <Button width={'210'} style={btnStyle} _clickBtn={()=>_setPageType('regist')}>Register</Button>
                             </div>
                         </InputFieldComp>
-                        <InputFieldComp marginTop={11} className={pageType == 'regist' || pageType == 'regist2'? 'show inlineBox btns' : 'hide inlineBox btns'} >
+                        <InputFieldComp className={pageType == 'login'? 'show btns loginBtmBtns_mobile' : 'hide btns loginBtmBtns_mobile'} >
+                            <div>
+                                <div className={'fieldTitle'}>{languageData.registerTitle}</div>
+                                <Button width={'100%'} style={btnStyle} _clickBtn={()=>_setPageType('regist')}>Register</Button>
+                            </div>
+                        </InputFieldComp>
+                        <InputFieldComp className={pageType == 'regist' || pageType == 'regist2'? 'show inlineBox btns registBtmBtns_desktop' : 'hide inlineBox btns registBtmBtns_desktop'} >
                             <div>
                                 <div className={'fieldTitle'}>{languageData.forgotPwdTitle}</div>
                                 <Button width={'210'} style={btnStyle} _clickBtn={()=>_setPageType('findPwd')}>Find your password</Button>
@@ -515,7 +536,7 @@ const Login = props => {
                                 <Button width={'210'} style={btnStyle} _clickBtn={()=>_setPageType('login')}>Login</Button>
                             </div>
                         </InputFieldComp>
-                        <InputFieldComp marginTop={0} className={pageType == 'findPwd'? 'show findPwdDescript' : 'hide findPwdDescript'} >
+                        <InputFieldComp className={pageType == 'findPwd'? 'show findPwdDescript' : 'hide findPwdDescript'} >
                             <b>openbooth@openbooth.net</b><br/>
                             <div className={'description'}>{languageData.sendPwdResetMailDescript}</div>
                         </InputFieldComp>
@@ -534,11 +555,63 @@ interface InputFieldCompProps {
 
 const InputFieldComp = styled.div`
     position: relative;
-    padding-top: ${(props: InputFieldCompProps) => (props.marginTop != null && props.marginTop > 0 ? props.marginTop+'px' : '0')};
     margin-bottom: 8px;
     font-weight: normal;
     font-size: 12px;
     line-height: 20px;
+    ${({theme}) => theme.media.mobile`
+    padding: 0 20px;
+    `}
+    &.passwordConfirm, &.sendBtn {
+        padding-top: 8px;
+    }
+    &.rememberEmail {
+        padding-top: 13px;
+        ${({theme}) => theme.media.mobile`
+        padding-top: 8px;
+        `}
+    }
+    &.loginBtn {
+        position: relative;
+        padding-top: 14px;
+        ${({theme}) => theme.media.mobile`
+        margin-bottom: 100px;
+        `}
+        .forgotPwdBtn_mobile {
+            ${({theme}) => theme.media.desktop`
+            display: none;
+            `}
+            position: absolute;
+            bottom: -28px;
+            right: 20px;
+        }
+    }
+    &.saveBtn {
+        padding-top: 30px;
+    }
+    &.registBtn {
+        padding-top: 16px;
+    }
+    &.loginBtmBtns_desktop {
+        padding-top: 10px;
+        ${({theme}) => theme.media.mobile`
+        display: none;
+        `}
+    }
+    &.loginBtmBtns_mobile {
+        border-top: 1px solid #E9E9E9;
+        padding-top: 23px;
+    
+        ${({theme}) => theme.media.desktop`
+        display: none;
+        `}
+    }
+    &.registBtmBtns_desktop {
+        padding-top: 11px;
+        ${({theme}) => theme.media.mobile`
+        display: none;
+        `}
+    }
 
     .warn { color: #F58181; opacity: 0; }
     .fieldTitle {
@@ -555,34 +628,49 @@ const InputFieldComp = styled.div`
 `;
 
 interface LoginCompProps {
-	src: string;
-   loginFormWidth: number;
-    pageType: any;
+    pageType: string,
+    src: string,
+    loginFormWidth: number
 }
 
 const LoginComp = styled.div`
 font-family: 'NanumSquare';
 width: 100%;
-max-width: 1920px;
-min-width: 1170px;
-height: 100vh;
-max-height: 1080px;
+height: 100%;
 color: #FFFFFF;
 background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))${(props: LoginCompProps) => (props.src != null ? ', url('+props.src+')' : '')};
+background-position: center;
+background-size: auto 100%;
+${({theme}) => theme.media.desktop`
+    max-width: 1920px;
+    min-width: 1170px;
+    min-height: 100vh;
+    max-height: 1080px;
+    overflow: hidden;
+`}
 > div {
     width: fit-content;
-    min-width: 1170px;
-    // margin-left: 320px;
+    ${({theme}) => theme.media.desktop`
+        ${(props: LoginCompProps) => props.pageType != null && props.pageType == 'regist' ? 'padding-top: 240px' : 'padding-top: 320px'};
+        min-width: 1170px;
+    `}
+    ${({theme}) => theme.media.mobile`
+        padding-top: 40px;
+    `}
     margin: 0 auto;
-    padding-top: ${(props: LoginCompProps) => props.pageType == 'regist' ? '240px' : '320px'};
     > div {
         display: inline-block;
         vertical-align: top;
-        margin-right: ${(props: LoginCompProps) => props.pageType == 'regist' ? '235px' : '218px'};
+        ${({theme}) => theme.media.desktop`
+            ${(props: LoginCompProps) => props.pageType != null && props.pageType == 'regist' ? 'margin-right: 235px' : 'margin-right: 218px'};
+        `}
         :last-child { margin-right: 0; vertical-align: middle; }
     }
     .titleText {
-        width: ${(props: LoginCompProps) => props.pageType == 'regist' ? '503px' : '520px'};
+        ${({theme}) => theme.media.mobile`
+            display: none;
+        `}
+        width: ${(props: LoginCompProps) => props.pageType != null && props.pageType == 'regist' ? '503px' : '520px'};
         font-size: 32px;
         line-height: 40px;
         font-weight: bold;
@@ -591,7 +679,7 @@ background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))${(prop
         color: #FFFFFF;
 
         & > .info {
-            padding-top: ${(props: any) => (props.pageType == 'regist' ? '50px' : '38px')};
+            padding-top: ${(props: LoginCompProps) => (props.pageType != null && props.pageType == 'regist' ? '50px' : '38px')};
             font-weight: normal;  
             font-size: 20px;
             line-height: 28px;
@@ -604,16 +692,34 @@ background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))${(prop
             }
         }
         > h1 {
-            margin-top: ${(props: any) => (props.pageType == 'regist' ? '0' : '38px')};
-            margin-bottom: ${(props: any) => (props.pageType == 'regist' ? '13px' : '41px')};
+            margin-top: ${(props: LoginCompProps) => (props.pageType != null && props.pageType == 'regist' ? '0' : '38px')};
+            margin-bottom: ${(props: LoginCompProps) => (props.pageType != null && props.pageType == 'regist' ? '13px' : '41px')};
             padding: 0 0;
             font-weight: 800;
             font-size: 64px;
             line-height: 72px;
         }
     }
+    .mobileTitleText {
+        ${({theme}) => theme.media.desktop`
+            display: none;
+        `}
+        padding: 0 20px;
+        font-style: normal;
+        font-weight: 800;
+        font-size: 20px;
+        line-height: 28px;
+        color: #FFFFFF;
+        margin-bottom: 40px;
+        :first-child { margin-bottom: 16px; }
+    }
     .loginForm {
-        width: ${(props: any) => (props.loginFormWidth != null ? props.loginFormWidth+'px' : '430px')};
+        ${({theme}) => theme.media.desktop`
+            width: ${(props: LoginCompProps) => (props.loginFormWidth != null ? props.loginFormWidth+'px' : '430px')};
+        `}
+        ${({theme}) => theme.media.mobile`
+            width: 100%;
+        `}
         > form {
             & .findPwdDescript {
                 font-weight: bold;
@@ -639,6 +745,16 @@ background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))${(prop
                 display: inline-block;
                 width: 50%;
              }
+                ${({theme}) => theme.media.mobile`
+                &.rememberEmail {
+                    display: flex;
+                    > * {
+                        display: block;
+                        width: auto;
+                        :last-child { flex: 1; }
+                    }
+                }
+                `}
              &.btns {
                 & .fieldTitle {
                     margin-top: 4px;
@@ -647,7 +763,7 @@ background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))${(prop
                     line-height: 20px;
                     height: 16px;
                     padding-left: 12px;
-                    padding-bottom: ${(props: any) => props.pageType == 'regist' ? '6px' : '7px'};
+                    padding-bottom: ${(props: LoginCompProps) => props.pageType != null && props.pageType == 'regist' ? '6px' : '7px'};
                 }
                 > * {
                     width: 210px;

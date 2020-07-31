@@ -73,7 +73,7 @@ function Introduction(props) {
                                 </div>
                                 {item.list != null && item.list.length > 0?
                                     item.list.map((qItem, key) => {
-                                        return <div className="answers">
+                                        return <div className="answers" key={key}>
                                             <div className="answer">{qItem.question}</div>
                                             {textLineBreak(qItem.answer)}
                                         </div>

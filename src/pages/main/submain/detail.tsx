@@ -162,11 +162,15 @@ function Detail(props){
         </div>
     )
 }
+
+interface TabpanelCompProps {
+    width: any
+}
 const TabpanelComp = styled.div`
 .tabContent {
     background: #f7f7f9;
     > * {
-        width: ${props => (props.width != null ? props.width+'px;' : '100%')};
+        width: ${(props: TabpanelCompProps) => (props.width != null ? props.width+'px;' : '100%')};
         margin: 0 auto;
     }
     & .border {
@@ -203,12 +207,16 @@ const TabpanelComp = styled.div`
     }
 }
 `;
+
+interface DescriptionCompProps {
+    width: any
+}
 const DescriptionComp = styled.div`
 width: 100%;
 background: #ffffff;
 > div {
     position: relative;
-    max-width: ${props => (props.width != null ? props.width+'px;' : '100%')};
+    max-width: ${(props: DescriptionCompProps) => (props.width != null ? props.width+'px;' : '100%')};
     margin: 0 auto;
     padding: 40px 0 80px 0;
     text-align: center;
