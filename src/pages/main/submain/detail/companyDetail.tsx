@@ -156,7 +156,7 @@ function Companydetail(props) {
                         <CompanyNamePannel>
                             <div style={{background: '#000'}}>
                                 {companyDetailData != null && companyDetailData.thumbnails.length > 0 ?
-                                    <Imgslide list={companyDetailData != null ? companyDetailData.thumbnails : null}/>
+                                    <Imgslide list={companyDetailData != null ? companyDetailData.thumbnails : null} companyData={companyDetailData} />
                                     : null
                                 }
                             </div>
@@ -172,7 +172,7 @@ function Companydetail(props) {
                                             case "video":
                                                 return <Video key={key} height={'480px'} src={component.value}/>;
                                             case "thumbnails":
-                                                return <Thumblist key={key} list={component.value} /> ;
+                                                return <Thumblist key={key} list={component.value} companyData={companyDetailData} /> ;
                                         }
                                     }): null
                                 }
@@ -183,7 +183,7 @@ function Companydetail(props) {
                                 {tabItem != null && tabItem.length > 0?
                                     tabItem.map((tab: any, key)=> {
                                         return <div key={key} className={key+' hide'}>
-                                            <TabContent component={tab.component} />
+                                            <TabContent component={tab.component} companyData={companyDetailData} />
                                         </div>
                                     })
                                     : null

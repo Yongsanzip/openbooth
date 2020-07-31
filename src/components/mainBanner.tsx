@@ -24,7 +24,7 @@ function Mainbanner(props){
         }
         else {
             idx = idx+1;
-            if(idx > props.data.length) idx = 0;
+            if(idx > props.data.length-1) idx = 0;
         }
         onActiveChange(idx);
     }

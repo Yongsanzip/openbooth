@@ -13,7 +13,7 @@ function TabContent(props) {
                         case "video":
                             return <Video key={key} height={'480px'} src={component.value}/>;
                         case "thumbnails":
-                            return <Thumblist key={key} list={component.value}/>;
+                            return <Thumblist key={key} list={component.value} companyData={props.companyData} />;
                     }
                 }) : null
             }

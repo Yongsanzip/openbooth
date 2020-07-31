@@ -14,6 +14,7 @@ interface ImgCompProps {
 const ImgComp = styled.div`
 width: ${(props: ImgCompProps) => (props.width != null ? props.width : 'auto')};
 height: ${(props: ImgCompProps) => (props.height != null ? props.height : 'auto')};
+min-width: ${(props: ImgCompProps) => (props.width != null ? props.width : '')};
 background: ${(props: ImgCompProps) => (props.src != null ? 'url('+props.src+')' : '#DBDBDB')};
 background-position: center;
 background-size: ${(props: ImgCompProps) => (props.full != null? '100%' : props.widthFull != null ? '100% auto' : 'auto 100%')};

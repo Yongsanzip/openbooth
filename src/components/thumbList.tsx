@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
 import Carousel from '@brainhubeu/react-carousel';
+import {ImgViewer} from "./index"
 
 function Thumblist(props){
     const [activeItemIndex, setActiveItemIndex] = useState(0);
+    const [activeViewerIdx, setActiveViewerIdx] = useState(0);
+    const [isShowViewer, setIsShowViewer] = useState(false);
     const changeActiveItem = (idx) => {
         if(props.list != null && props.list.length > 0){
             if(idx > props.list.length - 5){
@@ -11,6 +14,11 @@ function Thumblist(props){
             }
             setActiveItemIndex(idx);
         }
+    }
+
+    const ShowViewer = (idx) => {
+        setActiveViewerIdx(idx);
+        setIsShowViewer(true)
     }
     const margin = props.marginRight != null ? props.marginRight : 25;
     const width = props.size != null ? props.size.width : 160;
@@ -21,7 +29,7 @@ function Thumblist(props){
         //             <Img key={key} src={el} />
         //         )} ) : null
         // }
-        <ThumblistComp size={props.size} marginRight={props.marginRight} columns={props.columns} itemWidth={width + margin} cnt={props.list && props.list.length > 0 ? props.list.length : null}>
+        <ThumblistComp size={props.size} marginRight={props.marginRight} columns={props.columns}>
             <Carousel
                 value={activeItemIndex}
                 onChange={changeActiveItem}
@@ -33,13 +41,15 @@ function Thumblist(props){
                 {props.list && props.list.length > 0 ?
                     props.list.map((el, key) => {
                         return (
-                            <div key={key} className={'imgBox'}>
+                            <div key={key} className={'imgBox'} onClick={()=>ShowViewer(key)}>
                                 <img src={el}/>
                             </div>
                         )
                     }) : null
                 }
             </Carousel>
+
+            {isShowViewer? <ImgViewer closeViewer={()=>setIsShowViewer(false)} list={props.list} activeIdx={activeViewerIdx} setActiveIdx={setActiveViewerIdx} companyData={props.companyData}/> : null }
         </ThumblistComp>
     )
 }
@@ -48,7 +58,6 @@ const ThumblistComp = styled.div`
     width: 100%;
     overflow: hidden;
     .imgBox { line-height: 0; }
-    & ul { width: ${props => (props.cnt != null && props.cnt > 5 && props.itemWidth != null? props.itemWidth * props.cnt + "px !important" : '')}; }
     & img {
             border: 1px solid #E9E9E9;
             box-sizing: border-box;

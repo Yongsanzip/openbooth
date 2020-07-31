@@ -40,6 +40,7 @@ export { default as Category } from './category/category';
 export { default as LiveCompanyBox } from './liveCompanyBox'
 export { default as Video } from './video';
 export { default as Imgslide } from './imgSlide'
+export { default as ImgViewer } from './imgViewer'
 
 export { default as CalendarField } from './calendar'
 

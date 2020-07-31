@@ -462,7 +462,7 @@ export function getCompanyDetailData (params) {
                 "profile_image":"http://localhost:3000/static/media/2.aed4d85f.jpg"
             },
             "main_banner": "http:",
-            "company_description": "",
+            "company_description": "In faucibus sapien sed accumsan porttitor. Suspen aliquet varius ligula, non venenatis augue. Utdigss In faucibus sapien sed accumsan porttitor. Suspen aliquet varius ligula, non venenatis augue. Utdigss.",
             "company_name": "company name sample",
             "company_thumbnail": "http://localhost:3000/static/media/2.aed4d85f.jpg",
             "company_field": ["category","category","category"],
@@ -502,7 +502,7 @@ export function getCompanyDetailData (params) {
                     },
                     {
                         "type": "thumbnails",
-                        "value": ["http://localhost:3000/static/media/bg-dummy.ace82135.png","http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/bg-dummy.ace82135.png","http://localhost:3000/static/media/bg-dummy.ace82135.png"]
+                        "value": ["http://localhost:3000/static/media/bg-dummy.ace82135.png","http://localhost:3000/static/media/1.8d23c66c.jpg", "http://localhost:3000/static/media/bg-dummy.ace82135.png","http://localhost:3000/static/media/1.8d23c66c.jpg", "http://localhost:3000/static/media/bg-dummy.ace82135.png","http://localhost:3000/static/media/1.8d23c66c.jpg"]
                     }]
             },{
                 "item_name": "제품/서비스",

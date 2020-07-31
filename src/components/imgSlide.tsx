@@ -2,9 +2,12 @@ import React, {Component, useState} from 'react';
 import styled from "styled-components";
 import Carousel, { Dots } from '@brainhubeu/react-carousel';
 import '@brainhubeu/react-carousel/lib/style.css';
+import {ImgViewer} from "./index";
 
 function Imgslide(props){
     const [activeIdx, setActiveIdx] = useState(0);
+    const [activeViewerIdx, setActiveViewerIdx] = useState(0);
+    const [isShowViewer, setIsShowViewer] = useState(false);
 
     const onActiveChange = (v) => {
         if(v >= props.list.length) v = 0;
@@ -19,9 +22,14 @@ function Imgslide(props){
         }
         else {
             idx = idx+1;
-            if(idx > props.list.length) idx = 0;
+            if(idx > props.list.length-1) idx = 0;
         }
         onActiveChange(idx);
+    }
+
+    const ShowViewer = (idx) => {
+        setActiveViewerIdx(idx);
+        setIsShowViewer(true)
     }
 
     return (
@@ -37,7 +45,7 @@ function Imgslide(props){
                 {props.list && props.list.length > 0 ?
                     props.list.map((el, key) => {
                         return (
-                            <div key={key} className={'imgBox'}>
+                            <div key={key} className={'imgBox'} onClick={()=>ShowViewer(key)}>
                                 <img src={el}/>
                             </div>
                         )
@@ -61,6 +69,7 @@ function Imgslide(props){
                 </div>
                 : null
             }
+            {isShowViewer? <ImgViewer closeViewer={()=>setIsShowViewer(false)} list={props.list} activeIdx={activeViewerIdx} setActiveIdx={setActiveViewerIdx} companyData={props.companyData} /> : null }
         </ImgSlideComp>
     )
 }
