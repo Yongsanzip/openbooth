@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './../../modules';
 import base64 from 'base-64';
 import { Hash } from "./../index"
 
-import {Img, Namecard} from "./../index";
+import {Img, Namecard, UserinfoModal} from "./../index";
 
 function Profile(props) {
     const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
+    const [isShowModal, setIsShowModal] = useState(false);
     const companyFields = [{
         name: languageData.name,
         fieldname: 'company_name'
@@ -70,6 +71,13 @@ function Profile(props) {
         data = props.data;
     }
 
+    const _showModal = ()=> {
+        setIsShowModal(true)
+    }
+    const _closeModal = ()=> {
+        setIsShowModal(false)
+    }
+
     return (
         <Profilecomp type={props.type}>
             <Namecard type={props.type} data={data} showMailBtn={props.showMailBtn} showMoreinfoBtn={props.showMoreinfoBtn} showLogoutBtn={props.showLogoutBtn} />
@@ -108,7 +116,7 @@ function Profile(props) {
                         }
                         else if(item.fieldname == 'manager') {
                             return (
-                                <div key={key} className={'manager'}>
+                                <div key={key} className={'manager'} onClick={_showModal}>
                                     <div className="fieldname">{item.name}</div>
                                     <Img src={data['manager_info'].profile_image} full={true} width={'32px'} height={'32px'} />
                                     <div>{data['manager_info'].name != null? data['manager_info'].name : ''}</div>
@@ -138,6 +146,7 @@ function Profile(props) {
                         }
                     }) : null }
             </div>
+            {props.type == 'company'? <UserinfoModal showModal={isShowModal} handleCloseModal={_closeModal} data={props.data.manager_info} /> : null }
         </Profilecomp>
     )
 }

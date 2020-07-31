@@ -52,7 +52,7 @@ function Introduction(props) {
                 <div className="parallel">
                     {languageData==null || languageData.introduction == null? '' :
                         languageData.introduction.mentors.map((item, key)=>{
-                            return <div className="mentor">
+                            return <div className="mentor" key={key}>
                                 <Img src={dummyImg} />
                                 <div className='title-small'>{item.name}</div>
                                 {textLineBreak(item.content)}
@@ -67,7 +67,7 @@ function Introduction(props) {
                     </div>
                     {languageData==null || languageData.introduction == null? '' :
                         languageData.introduction.faqList.map((item, key)=>{
-                            return <div className="faqComp">
+                            return <div className="faqComp" key={key}>
                                 <div className="title-small">
                                     {item.title}
                                 </div>

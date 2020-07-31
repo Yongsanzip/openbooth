@@ -30,8 +30,10 @@ function Selectfield(props){
             typeof selectRef.current !== 'undefined') {
             selectEl = selectRef.current;
         }
-        selectEl.value = props.list[idx].value;
-        setSelected(props.list[idx]);
+        if(selectEl != null){
+            selectEl.value = props.list[idx].value;
+            setSelected(props.list[idx]);
+        }
         _setIsFocus();
 
     }

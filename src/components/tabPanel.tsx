@@ -46,7 +46,7 @@ function Tabpannel(props) {
     }, []);
 
     return (
-        <TabPannelComp activePosition={activePosition} width={props.width} noMargin={props.noMargin}>
+        <TabPannelComp activePosition={activePosition} width={props.width} noMargin={props.noMargin} type={props.type}>
             <div className='tabTitle'>
                 <ul ref={tabTitle}>
                     {props.tabs && props.tabs.length > 0 ?
@@ -68,13 +68,10 @@ interface TabPannelCompProps {
     activePosition: any
     width: any
     noMargin: any
+    type: any
 }
 const TabPannelComp = styled.div`
 background: #FFFFFF;
-font-weight: normal;
-font-size: 16px;
-line-height: 26px;
-color: #999999;
 border-radius: 8px;
 > * {
     padding: ${(props: TabPannelCompProps) => (props.noMargin != null ? '0': '0 24px')};
@@ -105,7 +102,7 @@ border-radius: 8px;
     li {
         display: inline-block;
         font-weight: bold;
-        font-size: 16px;
+        font-size: ${(props: TabPannelCompProps) => (props.type != null && props.type == 'contactBox'? '14px' : '16px')};
         line-height: 24px;
         color: #999999;
         margin-right: 24px;

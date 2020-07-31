@@ -7,7 +7,7 @@ function Checkboxfield(props) {
   }
 
 return (
-    <CheckBoxComp className='checkboxField' textColor={props.textColor} type={props.type}>
+    <CheckBoxComp className='checkboxField' textColor={props.textColor} textStyle={props.textStyle} type={props.type}>
       <input type="checkbox" name={props.name} checked={props.checked} readOnly />
       <div onClick={()=> _setCheckVal()}>
           <div className={props.checked? 'box checked' : 'box'}>
@@ -24,6 +24,7 @@ return (
 
 interface CheckBoxCompProps {
     type: string,
+    textStyle: any,
     textColor: string
 }
 const CheckBoxComp = styled.div`
@@ -67,6 +68,7 @@ const CheckBoxComp = styled.div`
         vertical-align: middle;
         color: ${(props: CheckBoxCompProps) => (props.textColor != null ? props.textColor : '#999999')};
         padding-left: 8px;
+        ${(props: CheckBoxCompProps) => (props.textStyle != null ? props.textStyle : null)};
     }
 `;
 export default Checkboxfield;

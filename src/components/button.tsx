@@ -28,7 +28,7 @@ const Buttoncomp = styled.div`
     border: 0.8px solid ${(props: ButtoncompProps) => (props.type != null && props.type == 'whiteLine' ? '#ffffff' : '#005CB9')};
     box-sizing: border-box;
     border-radius: 24px;
-    font-weight: normal;
+    font-weight: bold;
     font-size: 14px;
     line-height: 20px;
     vertical-align: center;

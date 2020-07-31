@@ -22,8 +22,8 @@ function Inputfield(props){
         if (typeof inputRef !== 'undefined' &&
             typeof inputRef.current !== 'undefined') {
             inputEl = inputRef.current;
+            props.validator(inputEl.value);
         }
-      props.validator(inputEl.value);
     }
   }
   
@@ -32,8 +32,8 @@ function Inputfield(props){
       if (typeof inputRef !== 'undefined' &&
           typeof inputRef.current !== 'undefined') {
           inputEl = inputRef.current;
+          inputEl.click();
       }
-      inputEl.click();
   }
   
   const _onChangeFile = () => {
@@ -42,25 +42,27 @@ function Inputfield(props){
           typeof inputRef.current !== 'undefined') {
           inputEl = inputRef.current;
       }
-      const file = inputEl.files[0];
-      if(file == null){
-          setImgSrc('');
-          return;
-      }
-      let reader = new FileReader();
-      reader.onload = function(e) {
-          let target:any = '';
-          if (typeof e !== 'undefined' &&
-              typeof e.target !== 'undefined'&&
-              e != null) {
-              target = e.target == null? '' : e.target;
+      if(inputEl != null) {
+          const file = inputEl.files[0];
+          if(file == null){
+              setImgSrc('');
+              return;
           }
+          let reader = new FileReader();
+          reader.onload = function(e) {
+              let target:any = '';
+              if (typeof e !== 'undefined' &&
+                  typeof e.target !== 'undefined'&&
+                  e != null) {
+                  target = e.target == null? '' : e.target;
+              }
 
-          setImgSrc(target.result);
+              setImgSrc(target.result);
 
 
-      };
-      reader.readAsDataURL(file); // convert to base64 string
+          };
+          reader.readAsDataURL(file); // convert to base64 string
+      }
   }
 
     useEffect(() => {

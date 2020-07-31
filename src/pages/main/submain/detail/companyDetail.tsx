@@ -267,6 +267,7 @@ height: 455px;
 
 const CompanyDetailComp = styled.div`
 width: 100%;
+background: #f7f7f9;
 > div.content {
     width: 100%;
     max-width: 1280px;
@@ -296,7 +297,7 @@ width: 100%;
     }
     & .bottomContent {
         padding-top: 80px;
-        margin-bottom: 100px;
+        padding-bottom: 100px;
         & .panelTitle {
             font-weight: bold;
             font-size: 24px;

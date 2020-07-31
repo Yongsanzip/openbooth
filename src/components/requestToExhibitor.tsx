@@ -43,7 +43,7 @@ function RequestToExhibitor(props){
     }
 
     const tabList  = [{
-        title: languageData.inqueryRequest,
+        title: languageData.inquiryRequest,
         name: 'inquiry'
     }, {
         title: languageData.onlineMeetUp,
@@ -244,9 +244,14 @@ function RequestToExhibitor(props){
         return inputValue;
     };
 
+    const checkBoxTextStyle = {
+        'font-size': '14px',
+        'font-weight': 'bold'
+    }
+
     return (
         <RequestToExhibitorComp>
-            <Tabpannel tabs={tabList} noMargin={true} _onChangeTab={onChangeTab}>
+            <Tabpannel tabs={tabList} noMargin={true} _onChangeTab={onChangeTab} type={'contactBox'}>
                 <div className='tabContent inquiry hide'>
                     <div className='formpanel'>
                         <form ref={requestForm} onSubmit={()=> function(){ return false; } }>
@@ -262,11 +267,11 @@ function RequestToExhibitor(props){
                                 <Inputfield name='company' placeholder={languageData.company} padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.company} />
                             </div>
                             <div className='border-bottom'>
-                                <div className='title'>{languageData.inqueryRequest}</div>
-                                <Checkboxfield name='intro' text={languageData.introductionMaterials} onChange={_setIntroduction} checked={introduction} />
-                                <Checkboxfield name='cost' text={languageData.costInformation} onChange={_setConstInfo} checked={constInfo} />
-                                <Checkboxfield name='meeting' text={languageData.offlineMeetingReq} onChange={_setOffMeetReq} checked={offMeetReq} />
-                                <Checkboxfield name='collaboration' text={languageData.collaborationProposal} onChange={_setCollab} checked={collab} />
+                                <div className='title'>{languageData.inquiryRequest}</div>
+                                <Checkboxfield name='intro' text={languageData.introductionMaterials} onChange={_setIntroduction} checked={introduction} textStyle={checkBoxTextStyle} />
+                                <Checkboxfield name='cost' text={languageData.costInformation} onChange={_setConstInfo} checked={constInfo} textStyle={checkBoxTextStyle} />
+                                <Checkboxfield name='meeting' text={languageData.offlineMeetingReq} onChange={_setOffMeetReq} checked={offMeetReq} textStyle={checkBoxTextStyle} />
+                                <Checkboxfield name='collaboration' text={languageData.collaborationProposal} onChange={_setCollab} checked={collab} textStyle={checkBoxTextStyle} />
                             </div>
                             <div className='border-bottom'>
                                 <textarea name='detail' placeholder={languageData.details} />
@@ -292,7 +297,7 @@ function RequestToExhibitor(props){
                                 <Inputfield name='company' placeholder={languageData.company} padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.company} />
                             </div>
                             <div className='border-bottom'>
-                                <div className='title'>{languageData.inqueryRequest}</div>
+                                <div className='title'>{languageData.inquiryRequest}</div>
                                 <Inputfield name='phone' placeholder={languageData.yourPhone} padding={'9px 12px'} width='inherit' style={inputFieldStyle} value={userInfo.phone} />
                                 <Selectfield name='country' text={languageData.yourContry} list={selectList} width={'100%'} type={'white'} value={userInfo.country} rows={2} reset={countryReset} afterReset={()=>setCountryReset(false)}/>
                                 <CalendarField name='date' placeholder={languageData.reqDate} dayRange={dayRange} setDayRange={setDayRange} reset={reqDateReset} afterReset={()=>setReqDateReset(false)} />
@@ -355,13 +360,14 @@ border-radius: 8px;
             color: #000000;
         }
         & textarea {
+            resize: none;
             width: 100%;
             height: 185px;
-            background: #F7F7F9;
+            background: #ffffff;
             border: 1px solid #E9E9E9;
             box-sizing: border-box;
             border-radius: 8px;
-            font-weight: normal;
+            font-weight: bold;
             font-size: 14px;
             line-height: 22px;
             color: #999999;
@@ -369,7 +375,7 @@ border-radius: 8px;
             margin-bottom: 0;
             :focus { outline: none; }
             ::placeholder {
-                font-weight: normal;
+                font-weight: bold;
                 font-size: 14px;
                 color: #999999;
             }

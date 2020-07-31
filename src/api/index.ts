@@ -479,7 +479,7 @@ export function getCompanyDetailData (params) {
                 "value": "http://"
             }],
             "profile_image": "http://",
-            "thumbnails": ["http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/1.8d23c66c.jpg", "http://localhost:3000/static/media/1.8d23c66c.jpg"],
+            "thumbnails": ["http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/1.8d23c66c.jpg", "http://localhost:3000/static/media/1.8d23c66c.jpg"],
             "exhibitor_description": [{
                 "type": "text",
                 "value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vehicula lobortis augue eget faucibus. Donec dsfds malesuada mollis ipsum, a ornare tellus venenatis et. In faucibus est ipsum, a cursus mi commodo sit amet. Nullam ddf vitae auctor lacus, sit Maecenas accumsan sem consectetur, placerat nisi in, feugiat nisi. Nunc vel diam ac tortor ultrices vehicula. Etiam vulputate laoreet dui, eu imperdiet leo blandit non. Phasellus porttitor tortor nec felis placerat lacinia. Sed sit amet pharetra odio, et commodo mauris. Maecenas vestibulum risus in metus elementum fringilla. Etiam neque purus, semper eu molestie id, laoreet non mauris. Donec ac ullamcorper urna. Vivamus sed massa congue, interdum diam et, accumsan arcu."
@@ -502,7 +502,7 @@ export function getCompanyDetailData (params) {
                     },
                     {
                         "type": "thumbnails",
-                        "value": ["http://localhost:3000/static/media/bg-dummy.ace82135.png","http://localhost:3000/static/media/bg-dummy.ace82135.png","http://localhost:3000/static/media/bg-dummy.ace82135.png"]
+                        "value": ["http://localhost:3000/static/media/bg-dummy.ace82135.png","http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/1.8d23c66c.jpg","http://localhost:3000/static/media/bg-dummy.ace82135.png","http://localhost:3000/static/media/bg-dummy.ace82135.png"]
                     }]
             },{
                 "item_name": "제품/서비스",

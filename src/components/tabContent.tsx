@@ -9,7 +9,7 @@ function TabContent(props) {
                 props.component.map((component: any, key) => {
                     switch (component.type) {
                         case "text":
-                            return <div key={key} className='text'>{component.value}</div>;
+                            return <TabContentText key={key} className='text'>{component.value}</TabContentText>;
                         case "video":
                             return <Video key={key} height={'480px'} src={component.value}/>;
                         case "thumbnails":
@@ -20,5 +20,12 @@ function TabContent(props) {
         </Pannel>
     )
 }
+
+const TabContentText = styled.div`
+line-height: 26px;
+font-weight: normal;
+font-size: 16px;
+color: #999999;
+`;
 
 export default TabContent;

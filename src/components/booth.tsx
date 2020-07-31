@@ -74,8 +74,8 @@ transform: translatey(0);
     }
 }
 > .company {
-    height: ${(props: BoothCompProps) => (props.type != null && props.type == 'sub' ? '48px' : '56px')};
-    line-height: 56px;
+    height: ${(props: BoothCompProps) => (props.type != null && props.type == 'sub' ? '' : '56px')};
+    padding: 12px 0;
     vertical-align: middle;
     margin-left: 16px;
     
@@ -85,8 +85,8 @@ transform: translatey(0);
     > * {
         display: inline-block;
         vertical-align: top;
+        line-height: 24px;
         :first-child {
-            vertical-align: middle;
             border: 1px solid #E9E9E9;
             box-sizing: border-box;
             border-radius: 8px;

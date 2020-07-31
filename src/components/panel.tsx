@@ -17,9 +17,6 @@ interface PannelCompPrps {
 }
 const PannelComp = styled.div`
 background: #FFFFFF;
-font-weight: normal;
-font-size: 16px;
-line-height: 26px;
 color: #999999;
 .title {
     height: 56px;
