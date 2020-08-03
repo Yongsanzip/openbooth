@@ -11,7 +11,7 @@ import {
 } from "../../modules/token/token";
 
 import {Img, Checkboxfield, Inputfield, Button, Alertmodal} from "../../components";
-import {textLineBreak} from "../../common/common";
+import {isMobileSize, textLineBreak} from "../../common/common";
 
 import dummyImg from "../../assets/img/bg-dummy.png";
 
@@ -30,9 +30,31 @@ const Login = props => {
     const [rememberAccount, setRememberAccount] = useState<boolean>(false);
     const [showRegistAlert, setShowRegistAlert] = useState<boolean>(false);
 
-    console.log("pageType:::::::::::::", pageType);
+    // console.log("pageType:::::::::::::", pageType);
+
+    const [deviceType, setDeviceType] = useState('deskTop');
+    const _setDeviceType = (page:any) => {
+        console.log("_setDeviceType")
+        if(page == null) page = pageType;
+        let appEl:any;
+        if(document.getElementById("app") != null) appEl = document.getElementById("app");
+        if(isMobileSize()){
+            setDeviceType('mobile');
+            if(appEl != null){
+                let height = '100%';
+                if(page == 'regist') height = 'auto';
+                appEl.style.height = height;
+            }
+        }
+        else{
+            setDeviceType('deskTop');
+            if(appEl != null) appEl.style.height = '100%';
+        }
+    }
 
     useEffect(()=>{
+        _setDeviceType(null);
+        window.addEventListener('resize', _setDeviceType);
         const localstorageEmail = localStorage.getItem('email');
         if(localstorageEmail != null){
             setRememberAccount(true);
@@ -43,8 +65,11 @@ const Login = props => {
             }
             loginFormEl.querySelector('[name=email]').value = localstorageEmail;
         }
+        return () => {
+            window.removeEventListener('resize', _setDeviceType);
+        };
     }, [])
-    
+
     const registAlertData = {
         title: 'Lorem ipsum dolor',
         contents: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed laoreet metus ac libero cursus maximus. Nulla hendrerit porta facilisis.'
@@ -112,6 +137,7 @@ const Login = props => {
     }
 
     const _setPageType = function(type:string) {
+        console.log("_setPageType::::", type);
         if(type == 'regist2'){
             if(!_checkFormEmpty()) return false;
         }
@@ -119,6 +145,7 @@ const Login = props => {
             _resetForm();
         }
         setPageType(type);
+        _setDeviceType(type);
     };
 
     const emailValidator = (inputValue:string) => {
@@ -395,7 +422,7 @@ const Login = props => {
     const _closeRegistAlert=()=>{
         _resetForm();
         setShowRegistAlert(false);
-        setPageType('login');
+        _setPageType('login');
     };
     const _onKeyUp = (e) => {
         if(e.keyCode == 13){//enter
@@ -440,7 +467,11 @@ const Login = props => {
                         </svg>
                     </div>
                     <div>
-                        “Built on Hope”
+                        {pageType == 'login' ? '“Built on Hope”' :
+                            pageType == 'regist' ? 'Register' :
+                                pageType == 'findPwd' || pageType == 'resetPwd' ? 'Reset your password' :
+                                    null
+                        }
                     </div>
                 </div>
                 <div className='loginForm'>
@@ -448,7 +479,7 @@ const Login = props => {
                         <div className={pageType == 'findPwd' || pageType == 'resetPwd'? 'show findPwdDescript' : 'hide findPwdDescript'} >
                             <h2>Reset your password</h2>
                             {pageType == 'findPwd'? <div>Enter your email address and we'll send you a link to reset your password.</div> : null}
-                            {pageType == 'resetPwd'? <div className={'weightNormal'}><b>openbooth@openbooth.net</b><br/>You can create your new password here.</div> : null}
+                            {pageType == 'resetPwd'? <div className={'weightNormal'}><div className={'weightBold'}>openbooth@openbooth.net</div>You can create your new password here.</div> : null}
                         </div>
                         <InputFieldComp className={pageType != 'regist2' && pageType != 'resetPwd'? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>ID <span ref={warnningEmailRef} className={'warn'}>{languageData.incorrectEmailFormat}</span></div>
@@ -456,10 +487,10 @@ const Login = props => {
                         </InputFieldComp>
                         <InputFieldComp className={pageType == 'login' || pageType == 'regist' || pageType == 'resetPwd'? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Password <span ref={warnningPwdRef} className={'warn'}>Password format is incorrect</span></div>
-                            <Inputfield type={'password'} name={'password'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={languageData.passwordRule} noEmpty={true} validator={pageType == 'login'? null : _checkPwdFormat} _onKeyUp={_onKeyUp}/>
+                            <Inputfield type={'password'} name={'password'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={deviceType != 'mobile'? languageData.passwordRule : 'Password'} noEmpty={true} validator={pageType == 'login'? null : _checkPwdFormat} _onKeyUp={_onKeyUp}/>
                         </InputFieldComp>
                         <InputFieldComp className={pageType == 'regist' || pageType == 'resetPwd'? 'show passwordConfirm' : 'hide passwordConfirm'} >
-                            <Inputfield type={'password'} name={'passwordConfirm'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={languageData.repeatPwd} noEmpty={true} validator={_checkPwdFormat} _onKeyUp={_onKeyUp} />
+                            <Inputfield type={'password'} name={'passwordConfirm'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={deviceType != 'mobile'? languageData.repeatPwd : 'Repeat password'} noEmpty={true} validator={_checkPwdFormat} _onKeyUp={_onKeyUp} />
                         </InputFieldComp>
                         <InputFieldComp className={pageType == 'regist'? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Name <span className={'warn'}>{languageData.emptyValueMsg}</span></div>
@@ -476,19 +507,22 @@ const Login = props => {
                         <InputFieldComp className={pageType == 'regist2'? 'show' : 'hide'} >
                             <Inputfield type={'file'} name={'profileImg'} width={'100%'} style={inputFieldStyle}/>
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist2'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType == 'regist' && deviceType=='mobile'? 'show visitorInfo' : 'hide visitorInfo'} >
+                            Visitor information
+                        </InputFieldComp>
+                        <InputFieldComp className={pageType == 'regist2' || (pageType == 'regist' && deviceType=='mobile')? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Country <span className={'warn'}>Select this value</span></div>
                             <Inputfield name={'country'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Country'} noEmpty={true} />
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist2'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType == 'regist2' || (pageType == 'regist' && deviceType=='mobile')? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Company / affiliation <span className={'warn'}>{languageData.emptyValueMsg}</span></div>
                             <Inputfield name={'company'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Company or affiliation'} noEmpty={true} />
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist2'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType == 'regist2' || (pageType == 'regist' && deviceType=='mobile')? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Department <span className={'warn'}>Select this value</span></div>
                             <Inputfield name={'department'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Department'} noEmpty={true} />
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist2'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType == 'regist2' || (pageType == 'regist' && deviceType=='mobile')? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Position <span className={'warn'}>Select this value</span></div>
                             <Inputfield name={'position'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Position'} noEmpty={true} />
                         </InputFieldComp>
@@ -504,10 +538,10 @@ const Login = props => {
                         <InputFieldComp className={pageType == 'resetPwd'? 'show alignRight saveBtn' : 'hide alignRight saveBtn'} >
                             <Button fill={true} width={104} style={{height: '36px', padding: '7px 35px', 'font-weight': 'bold'}} _clickBtn={_setNewPwd}>Save</Button>
                         </InputFieldComp>
-                        <InputFieldComp  className={pageType == 'regist'? 'show registBtn' : 'hide registBtn'} >
+                        <InputFieldComp  className={pageType == 'regist' && deviceType !='mobile' ? 'show registBtn' : 'hide registBtn'} >
                             <Button width={'100%'} style={registBtnStyle} _clickBtn={()=>_setPageType('regist2')}>Next step</Button>
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist2'? 'show registBtn' : 'hide registBtn'} >
+                        <InputFieldComp className={pageType == 'regist2' || (pageType == 'regist' && deviceType=='mobile')? 'show registBtn' : 'hide registBtn'} >
                             <Button fill={true} width={'100%'} _clickBtn={_regist}>Register</Button>
                         </InputFieldComp>
                         <InputFieldComp className={pageType == 'login'? 'show inlineBox btns loginBtmBtns_desktop' : 'hide inlineBox btns loginBtmBtns_desktop'} >
@@ -562,14 +596,46 @@ const InputFieldComp = styled.div`
     ${({theme}) => theme.media.mobile`
     padding: 0 20px;
     `}
+    
+    ${({theme}) => theme.media.mobile`
+    // &.regist2 {
+    //     display: block;
+    //     opacity: 1;
+    // }
+    `}
     &.passwordConfirm, &.sendBtn {
         padding-top: 8px;
+        ${({theme}) => theme.media.mobile`
+        padding-top: 16px;
+            button {
+                width: 100%;
+                padding: 13px 0;
+                font-weight: bold;
+                font-size: 16px;
+                line-height: 24px;
+                height: auto;
+            }
+        &.sendBtn {
+            margin-bottom: 116px;
+        }
+        &.passwordConfirm {
+            padding-top: 8px;
+        }
+        `}
     }
     &.rememberEmail {
         padding-top: 13px;
         ${({theme}) => theme.media.mobile`
         padding-top: 8px;
         `}
+    }
+    &.visitorInfo {
+        border-top: 1px solid #E9E9E9;
+        margin-top: 40px;
+        padding-top: 39px;
+        font-weight: 800;
+        font-size: 20px;
+        line-height: 28px;
     }
     &.loginBtn {
         position: relative;
@@ -578,8 +644,9 @@ const InputFieldComp = styled.div`
         margin-bottom: 100px;
         `}
         .forgotPwdBtn_mobile {
-            ${({theme}) => theme.media.desktop`
             display: none;
+            ${({theme}) => theme.media.mobile`
+                display: block;
             `}
             position: absolute;
             bottom: -28px;
@@ -587,10 +654,28 @@ const InputFieldComp = styled.div`
         }
     }
     &.saveBtn {
+        ${({theme}) => theme.media.desktop`
         padding-top: 30px;
+        `}
+        ${({theme}) => theme.media.mobile`
+        padding-top: 16px;
+        button {
+            width: 100%;
+            padding: 13px 0;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 24px;
+            height: auto;
+        }
+        `}
     }
     &.registBtn {
+        ${({theme}) => theme.media.desktop`
         padding-top: 16px;
+        `}
+        ${({theme}) => theme.media.mobile`
+        padding: 40px 20px;
+        `}
     }
     &.loginBtmBtns_desktop {
         padding-top: 10px;
@@ -600,7 +685,7 @@ const InputFieldComp = styled.div`
     }
     &.loginBtmBtns_mobile {
         border-top: 1px solid #E9E9E9;
-        padding-top: 23px;
+        padding: 23px 20px;
     
         ${({theme}) => theme.media.desktop`
         display: none;
@@ -635,16 +720,17 @@ interface LoginCompProps {
 
 const LoginComp = styled.div`
 font-family: 'NanumSquare';
-width: 100%;
-height: 100%;
+width: auto;
+height: auto;
 color: #FFFFFF;
-background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))${(props: LoginCompProps) => (props.src != null ? ', url('+props.src+')' : '')};
+background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))${(props: LoginCompProps) => (props.src != null ? ', url('+props.src+')' : '')}, #000000;
 background-position: center;
-background-size: auto 100%;
+background-repeat: no-repeat;
+background-size: cover;
+min-height: 100vh;
 ${({theme}) => theme.media.desktop`
     max-width: 1920px;
     min-width: 1170px;
-    min-height: 100vh;
     max-height: 1080px;
     overflow: hidden;
 `}
@@ -653,11 +739,12 @@ ${({theme}) => theme.media.desktop`
     ${({theme}) => theme.media.desktop`
         ${(props: LoginCompProps) => props.pageType != null && props.pageType == 'regist' ? 'padding-top: 240px' : 'padding-top: 320px'};
         min-width: 1170px;
+        margin: 0 auto;
     `}
     ${({theme}) => theme.media.mobile`
+        width: 100%;
         padding-top: 40px;
     `}
-    margin: 0 auto;
     > div {
         display: inline-block;
         vertical-align: top;
@@ -670,7 +757,7 @@ ${({theme}) => theme.media.desktop`
         ${({theme}) => theme.media.mobile`
             display: none;
         `}
-        width: ${(props: LoginCompProps) => props.pageType != null && props.pageType == 'regist' ? '503px' : '520px'};
+        max-width: ${(props: LoginCompProps) => props.pageType != null && props.pageType == 'regist' ? '503px' : '520px'};
         font-size: 32px;
         line-height: 40px;
         font-weight: bold;
@@ -680,6 +767,7 @@ ${({theme}) => theme.media.desktop`
 
         & > .info {
             padding-top: ${(props: LoginCompProps) => (props.pageType != null && props.pageType == 'regist' ? '50px' : '38px')};
+            padding-bottom: 40px;
             font-weight: normal;  
             font-size: 20px;
             line-height: 28px;
@@ -701,8 +789,9 @@ ${({theme}) => theme.media.desktop`
         }
     }
     .mobileTitleText {
-        ${({theme}) => theme.media.desktop`
-            display: none;
+        display: none;
+        ${({theme}) => theme.media.mobile`
+            display: block;
         `}
         padding: 0 20px;
         font-style: normal;
@@ -714,11 +803,11 @@ ${({theme}) => theme.media.desktop`
         :first-child { margin-bottom: 16px; }
     }
     .loginForm {
-        ${({theme}) => theme.media.desktop`
-            width: ${(props: LoginCompProps) => (props.loginFormWidth != null ? props.loginFormWidth+'px' : '430px')};
-        `}
         ${({theme}) => theme.media.mobile`
             width: 100%;
+        `};
+        ${({theme}) => theme.media.desktop`
+            ${(props: LoginCompProps) => (props.loginFormWidth != null ? 'width: ' + props.loginFormWidth+'px' : 'width: 430px')};
         `}
         > form {
             & .findPwdDescript {
@@ -726,9 +815,19 @@ ${({theme}) => theme.media.desktop`
                 font-size: 16px;
                 line-height: 24px;
                 margin: 40px 0; 
-                :first-child { margin-top: 0; margin-bottom: 16px; }
-                :last-child { margin-bottom: 0; }
+                ${({theme}) => theme.media.mobile`
+                    :first-child { margin-top: 0; }
+                    padding: 0 20px;
+                    :last-child { margin-bottom: 0; border-top: 1px solid #E9E9E9; padding-top: 41px; }
+                `}
+                ${({theme}) => theme.media.desktop`
+                    :first-child { margin-top: 0; margin-bottom: 16px; }
+                    :last-child { margin-bottom: 0; }
+                `}
                 & h2 {
+                    ${({theme}) => theme.media.mobile`
+                        display: none;
+                    `}
                     font-weight: bold;
                     font-size: 32px;
                     line-height: 40px;
@@ -737,6 +836,10 @@ ${({theme}) => theme.media.desktop`
                 }
                 & .description {
                     font-weight: normal;
+                    ${({theme}) => theme.media.mobile`
+                        font-size: 14px;
+                        line-height: 22px;
+                    `}
                 }
             }
             & .inlineBox {
@@ -748,6 +851,7 @@ ${({theme}) => theme.media.desktop`
                 ${({theme}) => theme.media.mobile`
                 &.rememberEmail {
                     display: flex;
+                    &.hide { display: none; }
                     > * {
                         display: block;
                         width: auto;
@@ -778,5 +882,8 @@ ${({theme}) => theme.media.desktop`
 }
 .weightNormal {
     font-weight: normal;
+}
+.weightBold {
+    font-weight: bold;
 }
 `;

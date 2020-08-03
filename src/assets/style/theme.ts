@@ -20,7 +20,7 @@ const media: Media = {
 Object.keys(sizes).reduce((acc: Media, label: string) => {
     switch (label) {
         case 'desktop':
-            acc.desktop = (...args: BackQuoteArgs) => css`@media only screen and (min-width: ${sizes.desktop}px) {${args}}`;
+            acc.desktop = (...args: BackQuoteArgs) => css`@media only screen and (min-width: ${sizes.mobile}px) {${args}}`;
             break;
         case 'mobile':
             acc.mobile = (...args: BackQuoteArgs) => css`@media only screen and (max-width: ${sizes.mobile}px) {${args}}`;

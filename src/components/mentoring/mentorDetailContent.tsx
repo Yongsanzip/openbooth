@@ -30,7 +30,9 @@ border-radius: 8px;
 background: #fff;
 overflow: hidden;
 img {
-    width: 1280px;
+    ${({theme}) => theme.media.desktop`
+    width: 900px;
+    `}
     height: auto;
 }
 > div:first-child {

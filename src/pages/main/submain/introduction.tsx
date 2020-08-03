@@ -97,7 +97,7 @@ height: 920px;
 background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${(props: IntroduceTitleProps) => (props.src != null ? props.src : '')});
 > div {
     padding-top: 200px;
-    width: 840px;
+    max-width: 840px;
     margin: 0 auto;
     font-weight: bold;
     font-size: 20px;
@@ -161,24 +161,29 @@ background: #f7f7f9;
         margin-bottom: 48px;
     }
     & .parallel {
-        display: flex;
+        > * {
+            display: inline-block;
+            vertical-align: middle;
+        }
         &.verticalMiddle {
             align-items: center;
         }
         & > *:first-child {
-            width: 510px;
+            width: 100%;
+            max-width: 550px;
             // height: 364px;
-            margin-right: 40px;
+            padding-right: 40px;
         }
         & .description {
-            width: 550px;
+            max-width: 550px;
         }
         & .mentor {
-            flex: 1;
+            vertical-align: top;
+            max-width: 400px;
             margin-right: 40px;
             :last-child { margin-right: 0 }
             > *:first-child {
-                width: 400px;
+                max-width: 400px;
                 height: 560px;
             }
         }

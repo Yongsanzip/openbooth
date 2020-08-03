@@ -7,3 +7,12 @@ export const textLineBreak = (lines) => {
         )
         : lines;
 }
+
+export const isMobileSize = () => {
+    if(window.outerWidth > 360){
+        return false;
+    }
+    else {
+        return true;
+    }
+}

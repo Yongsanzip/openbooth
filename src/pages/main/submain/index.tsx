@@ -54,4 +54,5 @@ overflow: hidden;
 
 const SubmainComp = styled.div`
 background: #f7f7f9;
+overflow: hidden;
 `;
