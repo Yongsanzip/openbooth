@@ -109,8 +109,16 @@ function Mentoring(props){
 const MentoringComp = styled.div`
 max-width: 1280px;
 margin: 0 auto;
+${({theme}) => theme.media.desktop`
 padding: 80px 0;
+`}
+${({theme}) => theme.media.mobile`
+padding: 0;
+`}
 .compTitle {
+    ${({theme}) => theme.media.mobile`
+        display: none;
+    `}
     font-style: normal;
     font-weight: bold;
     font-size: 24px;
@@ -120,6 +128,9 @@ padding: 80px 0;
     color: #000000;
 }
 .mentoringList {
+    ${({theme}) => theme.media.mobile`
+    padding: 0 20px;
+    `}
     > * {
         transition: transform 0.5s 0s ease, box-shadow 0.3s 0s ease-in-out;
         transform: translatey(0);
@@ -127,6 +138,7 @@ padding: 80px 0;
             box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.08);
             transform: translatey(-4px);
         }
+        :last-child { margin-bottom: 40px; }
     }
 }
 `;

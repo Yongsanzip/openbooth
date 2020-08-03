@@ -110,6 +110,9 @@
     "accessCodeModalTitle": "Please enter the access code",
     "accessCodeModalContent": "An access code is required to enter the mentoring room.",
 
+    "close": "Close",
+    "enter": "Enter",
+
     "ExhibitionCategoryTitle": "Exhibition Category",
     "viewAll": "View all",
 

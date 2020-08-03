@@ -1,12 +1,13 @@
-import React, {Component, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
 import {RootState} from "../../modules";
 
-import {Hash, Accesscode, Custommodal, Img, Ellipsis} from "./../index"
+import {Hash, Accesscode, Custommodal, Img, Ellipsis, Button} from "./../index"
 import Mentorinfo from "./mentorInfo"
 
 import dummyImg from "../../assets/img/bg-dummy.png";
+import {isMobileSize} from "../../common/common";
 
 function MenteeItem(props) {
     return (
@@ -42,19 +43,31 @@ function Mentoringcard(props){
     const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
     const cardRef = useRef(null);
     const [isShowModal, SetIsShowModal] = useState(false);
+    const [deviceType, setDeviceType] = useState('deskTop');
+    const _setDeviceType = () => {
+        if(isMobileSize()){
+            setDeviceType('mobile');
+        }
+        else{
+            setDeviceType('deskTop');
+        }
+    }
 
     useEffect(()=>{
+        _setDeviceType();
         let cardEl:any;
         if (typeof cardRef !== 'undefined' &&
             typeof cardRef.current !== 'undefined') {
             cardEl = cardRef.current;
         }
-        cardEl.addEventListener('click', _showModal);
+        cardEl.addEventListener('click', _showModal);;
+        window.addEventListener('resize', _setDeviceType);
 
         return function cleanup() {
             cardEl.removeEventListener('click', _showModal);
+            window.removeEventListener('resize', _setDeviceType);
         };
-    })
+    }, [])
 
     const _showModal = (e) => {
         if(e != null) e.stopPropagation();
@@ -69,11 +82,6 @@ function Mentoringcard(props){
         _closeModal();
     }
 
-    const accessModalData = {
-        title: languageData.accessCodeModalTitle,
-        content: languageData.accessCodeModalContent
-    }
-
     const hashStyle = {
         'padding': '2px 9px  !important',
         'font-weight': 'bold',
@@ -84,7 +92,7 @@ function Mentoringcard(props){
 
     return (
         <Card ref={cardRef}>
-            <Img src={dummyImg} />
+            <Img src={dummyImg} widthFull={true}/>
             <div className="mentoringInfo">
                 <div className="status">
                     <div className={props.data.isLive? 'isOpen live' : 'isOpen off'}>{props.data.isLive? languageData.live : languageData.off}</div>
@@ -108,9 +116,12 @@ function Mentoringcard(props){
                         }) : null }
                 </div>
             </div>
-            <Mentorinfo data={props.data.mentorInfo} className="mentorInfo" padding={"32px 24px 24px 40px"} />
-            <Custommodal showModal={isShowModal} closeModal={_closeModal} width={480} height={240}>
-                <Accesscode data={accessModalData} btn={'Enter'}  _access={()=>_onClickAccessBtn(props.data)} />
+            <Mentorinfo data={props.data.mentorInfo} className="mentorInfo" padding={deviceType != "mobile"? "32px 24px 24px 40px" : "16px"} />
+            <Custommodal showModal={isShowModal} closeModal={_closeModal} width={deviceType != "mobile"? 480 : 320} height={deviceType != "mobile"? 240 : 170}>
+                <Accesscode data={{
+                    title: languageData.accessCodeModalTitle,
+                    content: deviceType != "mobile"? languageData.accessCodeModalContent : null
+                }} btn={languageData.enter} closeModal={deviceType != 'mobile'? null : _closeModal}  _access={()=>_onClickAccessBtn(props.data)} />
             </Custommodal>
         </Card>
     )
@@ -118,9 +129,16 @@ function Mentoringcard(props){
 
 const Card = styled.div`
 width: 100%;
-height: 280px;
 display: flex;
+${({theme}) => theme.media.desktop`
+height: 280px;
 margin-top: 40px;
+`}
+${({theme}) => theme.media.mobile`
+height: 418px;
+margin-top: 24px;
+flex-direction: column;
+`}
 border: 1px solid #E9E9E9;
 box-sizing: border-box;
 border-radius: 8px;
@@ -133,18 +151,32 @@ background: #ffffff;
     transform: translatey(-4px);
 }
 > *:first-child {
+    ${({theme}) => theme.media.desktop`
     width: 358px;
     height: 280px;
+    `}
+    ${({theme}) => theme.media.mobile`
+    width: 100%;
+    height: 160px;
+    `}
 }
 > .mentoringInfo {
     flex: 1;
-    padding-left: 40px;
     border-left: 1px solid #E9E9E9;
     border-right: 1px solid #E9E9E9;
     box-sizing: border-box;
+    ${({theme}) => theme.media.desktop`
+    padding: 0 0 0 40px;
+    `};
+    ${({theme}) => theme.media.mobile`
+    padding: 16px;  
+    `}
     & .status {
         position: relative;
         margin-top: 24px;  
+        ${({theme}) => theme.media.mobile`
+        margin-top: 0;
+        `}
         & .isOpen {
             position: relative;
             font-weight: bold;
@@ -180,7 +212,7 @@ background: #ffffff;
         }
     }
     & .title {
-        width: 400px;
+        max-width: 400px;
         font-weight: bold;
         font-size: 20px;
         line-height: 28px;
@@ -188,6 +220,9 @@ background: #ffffff;
         margin-top: 10px;
     }
     & .mentees {
+        ${({theme}) => theme.media.mobile`
+            display: none;
+        `}
         > .title {
             display: block;
             font-weight: bold;
@@ -204,7 +239,13 @@ background: #ffffff;
     }
 }
 > :last-child {
+    ${({theme}) => theme.media.desktop`
     width: calc(440px - 67px);
+    `}
+    ${({theme}) => theme.media.mobile`
+    width: 100%;
+    border-top: 1px solid #E9E9E9;    
+    `}
 }
 `;
 

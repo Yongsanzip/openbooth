@@ -53,8 +53,14 @@ interface MentorinfoCompProps {
 const MentorinfoComp = styled.div`
 padding: ${(props: MentorinfoCompProps) => (props.padding != null ? props.padding : '32px')};
 font-weight: bold;
+${({theme}) => theme.media.desktop`
 font-size: 14px;
 line-height: 22px;
+`}
+${({theme}) => theme.media.mobile`
+font-size: 10px;
+line-height: 18px;
+`}
 color: #999999;
 > *:first-child {
 margin-bottom: 16px;

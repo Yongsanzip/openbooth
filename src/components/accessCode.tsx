@@ -1,19 +1,48 @@
-import React, { Component } from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
 import {RootState} from "../modules";
 import {Button, Custommodal, Inputfield} from "./index";
+import {isMobileSize} from "../common/common";
 
 function Accesscode(props) {
     const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
+    const [deviceType, setDeviceType] = useState('deskTop');
+    const _setDeviceType = () => {
+        if(isMobileSize()){
+            setDeviceType('mobile');
+        }
+        else{
+            setDeviceType('deskTop');
+        }
+    }
+
+    useEffect(()=>{
+        _setDeviceType();
+        window.addEventListener('resize', _setDeviceType);
+
+        return function cleanup() {
+            window.removeEventListener('resize', _setDeviceType);
+        };
+    }, [])
+
     const _access = function(e){
         console.log("click btn on accesscode modal!", props._access);
         if(props._access != null) props._access();
     };
-    const btnStyle = {
-        padding: '7px 0',
-        width: '105px'
-    }
+    const closeBtnStyle = {
+        background: 'transparent',
+        color: '#818181',
+        'font-size': '12px',
+        'line-height': '20px',
+        padding: '0 12px',
+        width: 'auto',
+        border: '0',
+        hover: {
+            color: '#818181',
+            border: '0'
+        }
+    };
 
     return(
         <AccesscodeComp small={props.type == 'small'? true : false} noDec={props.data.content != null ? null : true}>
@@ -26,7 +55,11 @@ function Accesscode(props) {
                 </div>
             </div>
             <div className='btns'>
-                <Button _clickBtn={_access} width={105} style={btnStyle} fill={true} >{props.btn}</Button>
+                {props.closeModal != null? <Button _clickBtn={props.closeModal} style={closeBtnStyle} >{languageData.close}</Button> : null}
+                <Button _clickBtn={_access} width={105} style={{
+                    padding: deviceType != 'mobile'? '7px 0' : '6px 0',
+                    width: deviceType != 'mobile'? '105px': '88px'
+                }} fill={true} >{props.btn}</Button>
             </div>
         </AccesscodeComp>
     )
@@ -56,8 +89,14 @@ const AccesscodeComp = styled.div`
         }
         > *:last-child {
             position: relative;
-            margin-top: ${(props:AccesscodeCompProps) => (props.noDec != null ? '32px' : '22px')};
-            margin-bottom: ${(props:AccesscodeCompProps) => (props.noDec != null ? '33px' : '32px')};
+            ${({theme}) => theme.media.desktop`
+            ${(props:AccesscodeCompProps) => (props.noDec != null ? 'margin-top: 32px;' : 'margin-top: 22px;')};
+            ${(props:AccesscodeCompProps) => (props.noDec != null ? 'margin-bottom: 33px;' : 'margin-bottom: 32px;')};
+            `}
+            ${({theme}) => theme.media.mobile`
+            margin-top: 15px;
+            margin-bottom: 27px;
+            `}
         }
         .warning {
             position: absolute;
@@ -72,11 +111,20 @@ const AccesscodeComp = styled.div`
     }
     > .btns {
         padding: ${(props:AccesscodeCompProps) => (props.small ? '0 10px' : '0 10px')};
+        ${({theme}) => theme.media.desktop`
         height: 56px;
         line-height: 56px;
+        `}
+        ${({theme}) => theme.media.mobile`
+        height: 47px;
+        line-height: 47px;
+        `}
         text-align: right;
         border-top: 1px solid #E9E9E9;
         box-sizing: border-box;
+        > * {
+            display: inline-block;
+        }
     }
 `;
 

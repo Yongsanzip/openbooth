@@ -30,10 +30,10 @@ export default function Submain(props) {
             </MainBannerComp>
             <Submenubar menuList={props.submenus} activeIdx={props.activeMenu} onChangeTab={props._onMenuChange}/>
             <div>
-                <Route path={`${props.match.path}/intro`} component={()=><Introduction />} />
-                <Route path={`${props.match.path}/meeting`} component={()=><Mentoring _setSelectedMentor={props._selectMentor} />} />
-                <Route path={`${props.match.path}/exhibit`} component={()=><Exhibit />} />
-                <Route path={`${props.match.path}/detail`} component={()=><Detail />} />
+                <Route path={`${props.match.path}/intro`} component={Introduction} />
+                <Route path={`${props.match.path}/meeting`} render={()=><Mentoring _setSelectedMentor={props._selectMentor} />} />
+                <Route path={`${props.match.path}/exhibit`} component={Exhibit} />
+                <Route path={`${props.match.path}/detail`} component={Detail} />
             </div>
         </SubmainComp>
     )

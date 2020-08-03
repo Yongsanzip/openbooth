@@ -34,8 +34,8 @@ function Custommodal(props){
     width                 : props.width != null? props.width : '480px',
     height                : props.height != null? props.height : 'auto',
     padding               : 0,
-    borderRadius       : '8px',
-    boxSizing          : 'border-box',
+    borderRadius          : '8px',
+    boxSizing             : 'border-box',
     overflow              : 'hidden'
   };
   let overlayCustomStyles: CSS.Properties = {
@@ -70,6 +70,9 @@ function Custommodal(props){
 
 
 const CloseBtn = styled.div`
+  ${({theme}) => theme.media.mobile`
+  display: none;
+  `}
   position: absolute;
   right: 23px;
   top: 23px;

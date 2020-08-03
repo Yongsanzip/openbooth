@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import styled from "styled-components";
 import dummyImg from "../../assets/img/bg-dummy.png";
 import Mentorinfo from "./mentorInfo";
+import {Video} from "../index";
 
 function MentordetailContent(props){
     return (
         <MentordetailContentComp>
             <div>
-                <img src={dummyImg} />
+                <Video height={'720px'} src={null}/>
             </div>
             <div>
                 <div>
@@ -29,12 +30,6 @@ box-sizing: border-box;
 border-radius: 8px;
 background: #fff;
 overflow: hidden;
-img {
-    ${({theme}) => theme.media.desktop`
-    width: 900px;
-    `}
-    height: auto;
-}
 > div:first-child {
     height: 719px;
     overflow: hidden;

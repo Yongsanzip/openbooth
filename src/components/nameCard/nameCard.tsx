@@ -70,7 +70,7 @@ function Namecard(props) {
                     }
                 </div>
                 {props.type == null || props.type != 'company'?
-                    <div className="mentorInfo">{props.data.email}<br/>{props.data.department}</div>
+                    <div className="mentorInfo"><span className="mentorEmail">{props.data.email}<br/></span>{props.data.department}</div>
                     : <div className="mentorInfo">{props.data.content}</div>
                 }
             </div>
@@ -101,33 +101,62 @@ const Userinfocomp = styled.div`
     display: flex;
     // margin-bottom: 16px;
     > *:first-child {
+        ${({theme}) => theme.media.desktop`
         width: 80px;
         height: 80px;
+        `}
+        ${({theme}) => theme.media.mobile`
+        width: 40px;
+        height: 40px;
+        `}
         margin-right: ${(props: UserinfocompProps) => (props.imgMarginRight != null ?  props.imgMarginRight : '16px')};
         border-radius: 50%;
     }
     .profileInfo {
-        flex: 1;
         font-weight: normal;
+        flex: 1;
+        ${({theme}) => theme.media.desktop`
         font-size: 12px;
         line-height: 20px;
+        `}
+        ${({theme}) => theme.media.mobile`
+        font-size: 10px;
+        line-height: 18px;
+        `}
         color: #999999;
         > div.mentorName {
             font-weight: bold;
+            color: #000000;
+            ${({theme}) => theme.media.desktop`
             font-size: 16px;
             line-height: 24px;
-            color: #000000;
             margin: 6px 0;
+            `}
+            ${({theme}) => theme.media.mobile`
+            font-size: 12px;
+            line-height: 20px;
+            `}
             > * {
                 display: inline-block;
             }
         }
+        ${({theme}) => theme.media.mobile`
+        & .mentorEmail {
+            display: none;
+        }
+        `}
     }
 `;
 
 const MentorInfoBtn = styled.div`
+    ${({theme}) => theme.media.desktop`
     height: 80px;
     line-height: 80px;
+    `}
+    ${({theme}) => theme.media.mobile`
+    height: 40px;
+    line-height: 40px;
+    `}
     vertical-align: middle;
     button {
         width: 30px;

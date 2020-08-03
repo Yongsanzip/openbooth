@@ -17,7 +17,7 @@ function Main(){
     const history = useHistory();
     const lan = useSelector((state: RootState) => state.tokenReducer.language);
     const dispatch = useDispatch();
-    const [activeSubMenu, setActiveSubMenu] = useState(0);
+    const [activeSubMenu, setActiveSubMenu] = useState(1);
     const [selectedMentor, setSelectedMentor] = useState(null);
 
     useEffect(()=>{
