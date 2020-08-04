@@ -11,9 +11,9 @@ function TabContent(props) {
                         case "text":
                             return <TabContentText key={key} className='text'>{component.value}</TabContentText>;
                         case "video":
-                            return <Video key={key} height={'480px'} src={component.value}/>;
+                            return <Video key={key} height={props.isMobile? '160px' : '480px'} src={component.value}/>;
                         case "thumbnails":
-                            return <Thumblist key={key} list={component.value} companyData={props.companyData} />;
+                            return <Thumblist key={key} list={component.value} companyData={props.companyData} isMobile={props.isMobile} />;
                     }
                 }) : null
             }

@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import {logoutReducer} from "./../../modules/token/token";
 
 import styled from "styled-components";
-import {Button, Img} from "./../index";
+import {Button, Ellipsis, Img} from "./../index";
 
 function Namecard(props) {
     const dispatch = useDispatch();
@@ -69,7 +69,7 @@ function Namecard(props) {
                 </div>
                 {props.type == null || props.type != 'company'?
                     <div className="mentorInfo"><span className="mentorEmail">{props.data.email}<br/></span>{props.data.department}</div>
-                    : <div className="mentorInfo">{props.data.content}</div>
+                    : <div className="mentorInfo"><Ellipsis line={2}>{props.data.company_description}</Ellipsis></div>
                 }
             </div>
             {props.showLogoutBtn != null && props.isMobile == true? <Button style={logoutBtnStyle} _clickBtn={_logout}>Logout</Button> : null }

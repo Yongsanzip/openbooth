@@ -7,10 +7,14 @@ function Thumblist(props){
     const [activeItemIndex, setActiveItemIndex] = useState(0);
     const [activeViewerIdx, setActiveViewerIdx] = useState(0);
     const [isShowViewer, setIsShowViewer] = useState(false);
+    const numberOfPage = props.columns != null? props.columns : props.isMobile? 3 : 5;
+    const margin = props.marginRight != null ? props.marginRight : props.isMobile? 6 : 25;
+    const width = props.size != null ? props.size.width : props.isMobile? 92 : 160;
+
     const changeActiveItem = (idx) => {
         if(props.list != null && props.list.length > 0){
-            if(idx > props.list.length - 5){
-                idx = props.list.length - 5;
+            if(idx > props.list.length - numberOfPage){
+                idx = props.list.length - numberOfPage;
             }
             setActiveItemIndex(idx);
         }
@@ -20,18 +24,16 @@ function Thumblist(props){
         setActiveViewerIdx(idx);
         setIsShowViewer(true)
     }
-    const margin = props.marginRight != null ? props.marginRight : 25;
-    const width = props.size != null ? props.size.width : 160;
 
     return (
-        <ThumblistComp size={props.size} marginRight={props.marginRight} columns={props.columns}>
+        <ThumblistComp size={props.size} marginRight={props.marginRight} columns={numberOfPage}>
             <Carousel
                 value={activeItemIndex}
                 onChange={changeActiveItem}
 
-                numberOfCards={5}
+                numberOfCards={numberOfPage}
                 itemWidth={width}
-                offset={props.marginRight != null ? props.marginRight : 25}
+                offset={margin}
             >
                 {props.list && props.list.length > 0 ?
                     props.list.map((el, key) => {
@@ -58,16 +60,24 @@ const ThumblistComp = styled.div`
     overflow: hidden;
     .imgBox { line-height: 0; }
     & img {
-            border: 1px solid #E9E9E9;
-            box-sizing: border-box;
-            border-radius: 8px;
-            overflow: hidden;
-            
-            width: ${(props:ThumblistCompProps) => (props.size != null ? props.size.width+'px' : '160px;')};
-            height: ${(props:ThumblistCompProps) => (props.size != null ? props.size.height+'px' : '160px;')};
-            margin-right: ${(props:ThumblistCompProps) => (props.marginRight != null ? props.marginRight+'px' : '25px')};
-            margin-bottom: ${(props:ThumblistCompProps) => (props.marginRight != null ? props.marginRight+'px' : '25px')};
-            :nth-child(${(props:ThumblistCompProps) => (props.columns != null ? props.columns : '5')}n) { margin-right: 0; }
+        border: 1px solid #E9E9E9;
+        box-sizing: border-box;
+        border-radius: 8px;
+        overflow: hidden;
+        
+        ${({theme}) => theme.media.desktop`
+        ${(props:ThumblistCompProps) => (props.size != null ? 'width: ' + props.size.width+'px;' : 'width: 160px;')};
+        ${(props:ThumblistCompProps) => (props.size != null ? 'height: ' + props.size.height+'px;' : 'height: 160px;')};
+        ${(props:ThumblistCompProps) => (props.marginRight != null ? 'margin-right: ' + props.marginRight+'px;' : 'margin-right: 25px;')};
+        ${(props:ThumblistCompProps) => (props.marginRight != null ? 'margin-bottom: ' + props.marginRight+'px;' : 'margin-bottom: 25px')};
+        `}
+        ${({theme}) => theme.media.mobile`
+        ${(props:ThumblistCompProps) => (props.size != null ? 'width: ' + props.size.width+'px;' : 'width: 92px;')};
+        ${(props:ThumblistCompProps) => (props.size != null ? 'height: ' + props.size.height+'px;' : 'height: 92px;')};
+        ${(props:ThumblistCompProps) => (props.marginRight != null ? 'margin-right: ' + props.marginRight+'px;' : 'margin-right: 6px;')};
+        ${(props:ThumblistCompProps) => (props.marginRight != null ? 'margin-bottom: ' + props.marginRight+'px;' : 'margin-bottom: 16px')};
+        `}
+        :nth-child(${(props:ThumblistCompProps) => (props.columns != null ? props.columns : '5')}n) { margin-right: 0; }
     }
 `;
 

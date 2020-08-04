@@ -12,15 +12,27 @@ function Qna(props){
 
 const QnaComp = styled.div`
 font-weight: normal;
+${({theme}) => theme.media.desktop`
 font-size: 16px;
 line-height: 26px;
-color: #999999;
 padding-bottom: 24px;
+`}
+${({theme}) => theme.media.mobile`
+font-size: 12px;
+line-height: 20px;
+padding-bottom: 16px;
+`}
+color: #999999;
 .question {
     font-weight: bold;
     color: #000000;
-    margin: 24px 0 8px 0;
     border: 0 !important;
+    ${({theme}) => theme.media.desktop`
+    margin: 24px 0 8px 0;
+    `}
+    ${({theme}) => theme.media.mobile`
+    margin: 16px 0 0 0;
+    `}
 }
 `;
 

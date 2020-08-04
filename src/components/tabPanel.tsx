@@ -74,7 +74,13 @@ const TabPannelComp = styled.div`
 background: #FFFFFF;
 border-radius: 8px;
 > * {
-    padding: ${(props: TabPannelCompProps) => (props.noMargin != null ? '0': '0 24px')};
+    ${({theme}) => theme.media.desktop`
+    ${(props: TabPannelCompProps) => (props.noMargin != null ? null: 'padding: 0 24px;')};
+    `}
+    ${({theme}) => theme.media.mobile`
+    ${(props: TabPannelCompProps) => (props.noMargin != null ? null: 'padding: 0 16px;')};
+    `}
+        
 }
 .tabTitle {
     position: relative;

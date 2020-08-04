@@ -152,7 +152,7 @@ background: #ffffff;
 }
 > *:first-child {
     ${({theme}) => theme.media.desktop`
-    width: 358px;
+    min-width: 358px;
     height: 280px;
     `}
     ${({theme}) => theme.media.mobile`
@@ -167,6 +167,7 @@ background: #ffffff;
     padding: 0 0 0 40px;
     border-left: 1px solid #E9E9E9;
     border-right: 1px solid #E9E9E9;
+    min-width: 430px;
     `};
     ${({theme}) => theme.media.mobile`
     padding: 16px;

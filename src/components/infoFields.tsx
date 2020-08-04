@@ -47,18 +47,32 @@ interface InfoCompProps {
   fieldWidth:any
 }
 const InfoComp = styled.div`
-  margin-bottom: 24px;
-  :last-child { margin-bottom: 0; padding-bottom: 24px; }
-  > * {
+${({theme}) => theme.media.desktop`
+margin-bottom: 24px;
+`}
+${({theme}) => theme.media.mobile`
+margin-bottom: 16px;
+`}
+:last-child { margin-bottom: 0; padding-bottom: 24px; }
+> * {
     display: inline-block;
     font-weight: normal;
+    color: #999999;
+    ${({theme}) => theme.media.desktop`
     font-size: 16px;
     line-height: 24px;
-    color: #999999;
+    `}
+    ${({theme}) => theme.media.mobile`
+    font-size: 12px;
+    line-height: 20px;
+    `}
     :first-child {
-      width: ${(props: InfoCompProps) => (props.fieldWidth != null ? props.fieldWidth+'px' : '223px')};
-      margin-right: 5px;
-      font-weight: bold;
+        width: ${(props: InfoCompProps) => (props.fieldWidth != null ? props.fieldWidth+'px' : '223px')};
+        ${({theme}) => theme.media.mobile`
+        width: 100%;
+        `}
+        margin-right: 5px;
+        font-weight: bold;
     }
   }
   &.hashes {

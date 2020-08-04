@@ -111,9 +111,12 @@ max-width: 1280px;
 margin: 0 auto;
 ${({theme}) => theme.media.desktop`
 padding: 80px 0;
+min-width: 1090px;
+overflow: auto
 `}
 ${({theme}) => theme.media.mobile`
 padding: 0;
+min-width: auto;
 `}
 .compTitle {
     ${({theme}) => theme.media.mobile`

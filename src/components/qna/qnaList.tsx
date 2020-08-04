@@ -20,14 +20,26 @@ const QnaListComp = styled.div`
 width: 100%;
 background: #fff;
 .title {
+    font-weight: bold;
+    color: #000;
+    ${({theme}) => theme.media.desktop`
     height: 56px;
     line-height: 56px;
-    font-weight: bold;
     font-size: 16px;
-    color: #000;
+    `}
+    ${({theme}) => theme.media.mobile`
+    height: 40px;
+    line-height: 40px;
+    font-size: 12px;
+    `}
 }
 > * {
+    ${({theme}) => theme.media.desktop`
     padding: 0 24px;
+    `}
+    ${({theme}) => theme.media.mobile`
+    padding: 0 16px;
+    `}
     border-bottom: 1px solid #E9E9E9;
     box-sizing: border-box;
     :last-child { border-bottom: 0; }

@@ -7,7 +7,7 @@ function Checkboxfield(props) {
   }
 
 return (
-    <CheckBoxComp className='checkboxField' textColor={props.textColor} textStyle={props.textStyle} type={props.type}>
+    <CheckBoxComp className='checkboxField' textColor={props.textColor} textStyle={props.textStyle} type={props.type} customStyle={props.style}>
       <input type="checkbox" name={props.name} checked={props.checked} readOnly />
       <div onClick={()=> _setCheckVal()}>
           <div className={props.checked? 'box checked' : 'box'}>
@@ -25,7 +25,8 @@ return (
 interface CheckBoxCompProps {
     type: string,
     textStyle: any,
-    textColor: string
+    textColor: string,
+    customStyle: any
 }
 const CheckBoxComp = styled.div`
     & input {
@@ -42,11 +43,13 @@ const CheckBoxComp = styled.div`
         border: 0.8px solid ${(props: CheckBoxCompProps) => (props.type == 'login' ? '#ffffff' : '#E9E9E9')};
         box-sizing: border-box;
         border-radius: 4px;
+        ${(props: CheckBoxCompProps) => (props.customStyle != null ? props.customStyle : null)};
         &.checked {
             background: ${(props: CheckBoxCompProps) => (props.type == 'login' ? 'rgba(255, 255, 255, 0.64)' : '#005CB9')};
             border: 0.8px solid ${(props: CheckBoxCompProps) => (props.type == 'login' ? '#ffffff' : '#005CB9')};
             box-sizing: border-box;
             border-radius: 4px;
+            ${(props: CheckBoxCompProps) => (props.customStyle != null && props.customStyle.checked != null? props.customStyle.checked : null)};
             > svg {
                 position: absolute;
                 top: 3px;
@@ -56,6 +59,7 @@ const CheckBoxComp = styled.div`
         &:hover {
             background: ${(props: CheckBoxCompProps) => (props.type == 'login' ? 'rgba(255, 255, 255, 0.32)' : '')};
             border: 0.8px solid ${(props: CheckBoxCompProps) => (props.type == 'login' ? '#ffffff' : '#005CB9')};
+            ${(props: CheckBoxCompProps) => (props.customStyle != null && props.customStyle.hover != null? props.customStyle.hover : null)};
         }
         
         

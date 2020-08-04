@@ -536,6 +536,12 @@ export function getCompanyDetailData (params) {
             "questions": [{
                 "title": "Lorem ipsum dolor sit amet, consectetur adipiscing eli?",
                 "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vehicula lobortis augue eget faucibus. Donec dsfds malesuada mollis ipsum, a ornare tellus venenatis et. In faucibus est ipsum, a cursus mi commodo sit amet. Nullam ddf vitae auctor lacus, sit Maecenas accumsan sem consectetur, placerat nisi in, feugiat nisi. Nunc vel diam ac tortor ultrices vehicula. Etiam vulputate laoreet dui, eu imperdiet leo blandit non. Phasellus porttitor tortor nec felis placerat lacinia."
+            },{
+                "title": "Lorem ipsum dolor sit amet, consectetur adipiscing eli?",
+                "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vehicula lobortis augue eget faucibus. Donec dsfds malesuada mollis ipsum, a ornare tellus venenatis et. In faucibus est ipsum, a cursus mi commodo sit amet. Nullam ddf vitae auctor lacus, sit Maecenas accumsan sem consectetur, placerat nisi in, feugiat nisi. Nunc vel diam ac tortor ultrices vehicula. Etiam vulputate laoreet dui, eu imperdiet leo blandit non. Phasellus porttitor tortor nec felis placerat lacinia."
+            },{
+                "title": "Lorem ipsum dolor sit amet, consectetur adipiscing eli?",
+                "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vehicula lobortis augue eget faucibus. Donec dsfds malesuada mollis ipsum, a ornare tellus venenatis et. In faucibus est ipsum, a cursus mi commodo sit amet. Nullam ddf vitae auctor lacus, sit Maecenas accumsan sem consectetur, placerat nisi in, feugiat nisi. Nunc vel diam ac tortor ultrices vehicula. Etiam vulputate laoreet dui, eu imperdiet leo blandit non. Phasellus porttitor tortor nec felis placerat lacinia."
             }]
         }
     };

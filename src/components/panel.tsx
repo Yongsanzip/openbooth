@@ -19,17 +19,40 @@ const PannelComp = styled.div`
 background: #FFFFFF;
 color: #999999;
 .title {
+    ${(props: PannelCompPrps) => (props.noPadding ? null : null)};
+    
+    ${({theme}) => theme.media.desktop`
     height: 56px;
-    font-weight: bold;
     font-size: 16px;
     line-height: 56px;
+    ${(props: PannelCompPrps) => (props.noPadding ? null : 'padding: 0 24px;')};
+    `}
+    ${({theme}) => theme.media.mobile`
+    height: 40px;
+    font-size: 12px;
+    line-height: 40px;
+    ${(props: PannelCompPrps) => (props.noPadding ? null : 'padding: 0 16px;')};
+    `}
+    font-weight: bold;
     color: #000000;
     border-bottom: 1px solid #E9E9E9;
     box-sizing: border-box;
-    padding: ${(props: PannelCompPrps) => (props.noPadding ? '0' : '0 24px')};
 }
 .content {
-    & > * { margin-top: 20px; padding: ${(props: PannelCompPrps) => (props.noPadding ? '0' : '0 24px')}; }
+    & > * {
+        ${({theme}) => theme.media.desktop`
+        font-size: 16px;
+        line-height: 26px;
+        margin-top: 20px;
+        ${(props: PannelCompPrps) => (props.noPadding ? null : 'padding: 0 24px;')};
+        `}
+        ${({theme}) => theme.media.mobile`
+        font-size: 12px;
+        line-height: 20px;
+        margin-top: 16px;
+        ${(props: PannelCompPrps) => (props.noPadding ? null : 'padding: 0 16px;')};
+        `}
+    }
     .video {
         width: inherit;
         height: 480px;

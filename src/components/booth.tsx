@@ -28,7 +28,7 @@ function Booth(props){
                 <div className='title'><Ellipsis line={2}>{data.booth_name}</Ellipsis></div>
             </div>
             <div className='company'>
-                <Img src={data.company_img} width="24px" height="24px"/>
+                <Img src={data.company_img} />
                 <div>{data.company_name}</div>
             </div>
         </BoothComp>
@@ -45,9 +45,8 @@ ${(props: BoothCompProps) => (props.type != null && props.type == 'sub'? 'width:
 ${(props: BoothCompProps) => (props.type != null && props.type == 'sub' ? 'height: 306px;' : 'height: 420px;')};
 `}
 ${({theme}) => theme.media.mobile`
-width: 100%;
-max-width: 320px;
-height: 355px;
+${(props: BoothCompProps) => (props.type != null && props.type == 'sub'? 'width: 180px;' : 'width: 100%; max-width: 320px;')};
+${(props: BoothCompProps) => (props.type != null && props.type == 'sub' ? 'height: auto;' : 'height: 355px;')};
 `}
 background: #FFFFFF;
 border: 1px solid #E9E9E9;
@@ -65,7 +64,7 @@ transform: translatey(0);
     width: 100%;
     height: ${(props: BoothCompProps) => (props.type != null && props.type == 'sub' ? '174px' : '240px')};
     ${({theme}) => theme.media.mobile`
-    height: 192px;
+    ${(props: BoothCompProps) => (props.type != null && props.type == 'sub' ? 'height: 96px;' : 'height: 192px;')};
     `}
 }
 > .boothInfo {
@@ -77,8 +76,7 @@ transform: translatey(0);
     ${(props: BoothCompProps) => (props.type != null && props.type == 'sub' ? 'height: 82px;' : 'height: 122px;')};
     `}
     ${({theme}) => theme.media.mobile`
-    padding-top: 14px;
-    height: 114px;
+    ${(props: BoothCompProps) => (props.type != null && props.type == 'sub' ? 'padding-top: 8px;height: 60px;' : 'padding-top: 14px;height: 114px;')};
     `}
     > * {
         padding: ${(props: BoothCompProps) => (props.type != null && props.type == 'sub' ? '0 12px' : '0 16px')};
@@ -96,14 +94,19 @@ transform: translatey(0);
         line-height: 24px;
         `}
         ${({theme}) => theme.media.mobile`
-        font-size: 14px;
-        line-height: 22px;
+        ${(props: BoothCompProps) => (props.type != null && props.type == 'sub' ? 'font-size: 10px;line-height: 18px;' : 'font-size: 14px;line-height: 22px;')};
         `}
     }
 }
 > .company {
     height: ${(props: BoothCompProps) => (props.type != null && props.type == 'sub' ? '' : '56px')};
+    
+    ${({theme}) => theme.media.desktop`
     padding: 12px 0;
+    `}
+    ${({theme}) => theme.media.mobile`
+    ${(props: BoothCompProps) => (props.type != null && props.type == 'sub' ? 'padding: 8px 0;' : null)};
+    `}
     vertical-align: middle;
     margin-left: 16px;
     
@@ -112,9 +115,21 @@ transform: translatey(0);
     color: #999999;
     > * {
         display: inline-block;
-        vertical-align: top;
         line-height: 24px;
+        ${({theme}) => theme.media.desktop`
+        vertical-align: top;
+        `}
+        ${({theme}) => theme.media.mobile`
+        vertical-align: middle;
+        `}
         :first-child {
+            ${({theme}) => theme.media.desktop`
+            width: 24px;
+            height: 24px;
+            `}
+            ${({theme}) => theme.media.mobile`
+            ${(props: BoothCompProps) => (props.type != null && props.type == 'sub' ? 'width: 16px;height: 16px;border-radius: 4px;' : null)};
+            `}
             border: 1px solid #E9E9E9;
             box-sizing: border-box;
             border-radius: 8px;

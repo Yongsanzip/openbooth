@@ -244,6 +244,18 @@ function RequestToExhibitor(props){
         return inputValue;
     };
 
+    const checkBoxStyle = {
+        background: '#ffffff',
+        'border-color': '#E9E9E9',
+        hover: {
+            background: '#DBDBDB',
+            'border-color': '#E9E9E9'
+        },
+        checked: {
+            background: '#005CB9',
+            'border-color': '#E9E9E9'
+        }
+    }
     const checkBoxTextStyle = {
         'font-size': '14px',
         'font-weight': 'bold'
@@ -268,10 +280,10 @@ function RequestToExhibitor(props){
                             </div>
                             <div className='border-bottom'>
                                 <div className='title'>{languageData.inquiryRequest}</div>
-                                <Checkboxfield name='intro' text={languageData.introductionMaterials} onChange={_setIntroduction} checked={introduction} textStyle={checkBoxTextStyle} />
-                                <Checkboxfield name='cost' text={languageData.costInformation} onChange={_setConstInfo} checked={constInfo} textStyle={checkBoxTextStyle} />
-                                <Checkboxfield name='meeting' text={languageData.offlineMeetingReq} onChange={_setOffMeetReq} checked={offMeetReq} textStyle={checkBoxTextStyle} />
-                                <Checkboxfield name='collaboration' text={languageData.collaborationProposal} onChange={_setCollab} checked={collab} textStyle={checkBoxTextStyle} />
+                                <Checkboxfield name='intro' text={languageData.introductionMaterials} onChange={_setIntroduction} checked={introduction} textStyle={checkBoxTextStyle} style={checkBoxStyle} />
+                                <Checkboxfield name='cost' text={languageData.costInformation} onChange={_setConstInfo} checked={constInfo} textStyle={checkBoxTextStyle} style={checkBoxStyle} />
+                                <Checkboxfield name='meeting' text={languageData.offlineMeetingReq} onChange={_setOffMeetReq} checked={offMeetReq} textStyle={checkBoxTextStyle} style={checkBoxStyle} />
+                                <Checkboxfield name='collaboration' text={languageData.collaborationProposal} onChange={_setCollab} checked={collab} textStyle={checkBoxTextStyle} style={checkBoxStyle} />
                             </div>
                             <div className='border-bottom'>
                                 <textarea name='detail' placeholder={languageData.details} />

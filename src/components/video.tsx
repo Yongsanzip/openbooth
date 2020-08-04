@@ -38,6 +38,11 @@ interface VideoCompProps {
 const VideoComp = styled.div`
 width: auto;
 height: ${(props: VideoCompProps) => (props.height != null ? props.height : '720px')};
+${({theme}) => theme.media.desktop`
+`}
+${({theme}) => theme.media.mobile`
+${(props: VideoCompProps) => (props.height == null ? 'height: 204px;' : null)};
+`}
 > div{
     width: 100%;
     height: 100%;
@@ -53,10 +58,23 @@ height: ${(props: VideoCompProps) => (props.height != null ? props.height : '720
         margin-top: -42px;
         text-align: center;
         font-weight: bold;
+        ${({theme}) => theme.media.desktop`
         font-size: 16px;
         line-height: 24px;
+        `}
+        ${({theme}) => theme.media.mobile`
+        font-size: 12px;
+        line-height: 20px;
+        `}
         color: #999999;
-        > * { margin-top: 12px; }
+        > * {
+            ${({theme}) => theme.media.desktop`
+             margin-top: 12px; 
+            `}
+            ${({theme}) => theme.media.mobile`
+             margin-top: 4px; 
+            `}
+         }
     }
 }
 `;

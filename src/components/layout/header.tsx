@@ -90,7 +90,7 @@ function Header(props) {
                     }
                 </div>
                 <div className='title' onClick={goMain}>
-                    <div>Online Exhibition of Third Countries with The World Bank | Bulit on Hope</div>
+                    <div>{deviceType == 'mobile'? 'Bulit on Hope' : 'Online Exhibition of Third Countries with The World Bank | Bulit on Hope'}</div>
                 </div>
                 <div onClick={_showModal}>
                     <Logininfo/>
@@ -148,6 +148,9 @@ const Mainheader = styled.div`
             &.title {
                 font-weight: bold;
                 font-size: 16px;
+                ${({theme}) => theme.media.mobile`
+                    font-size: 12px;
+                `}
                 color: #000000;
                 position: absolute;
                 width: 100%;

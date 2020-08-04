@@ -73,9 +73,15 @@ box-sizing: border-box;
   align-items: center;
   text-align: center;
   font-weight: bold;
+  color: #000000;
+  ${({theme}) => theme.media.desktop`
   font-size: 16px;
   line-height: 24px;
-  color: #000000;
+  `}
+  ${({theme}) => theme.media.mobile`
+  font-size: 12px;
+  line-height: 20px;
+  `}
   > *:nth-child(2) {
     flex: 1;
   }
