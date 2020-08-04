@@ -84,7 +84,7 @@ function Footer(props) {
                     </Footeritem>
                     <Footeritem type={null}>
                         <li>서울특별시 강남구 역삼로 512 인테크빌딩 6층, 오픈부스</li>
-                        <li>openbooth@openbooth.net</li>
+                        <li className='lastItem'>openbooth@openbooth.net</li>
                     </Footeritem>
                 </div>
                 <div>
@@ -116,8 +116,13 @@ const Flexcomp = styled.div`
     }
     `}
     ${({theme}) => theme.media.mobile`
+    display: block;
     > div:last-child {
-        margin-top: 24px;
+        position: initial;
+        top: 0;
+        right: 0;
+        padding: 24px 0 0 0;
+        margin: 0;
     }
     `}
 `;
@@ -135,14 +140,12 @@ li {
     `}
     ${({theme}) => theme.media.mobile`
     ${(props: FooteritemProps) => (props.type != null && props.type == 'icons' ? 'width: 30px;' : '')};
+    &.lastItem { margin-left: 0; }
     `}
     margin: ${(props: FooteritemProps) => (props.type != null && props.type == 'icons' ? '0' : '0 8px')};
     text-align: ${(props: FooteritemProps) => (props.type != null && props.type == 'icons' ? 'center' : 'left')};
     &:first-child { margin-left: 0; }
     &:after {
-        ${({theme}) => theme.media.mobile`
-        display: none;
-        `}
         content: '';
         position: absolute;
         top: 50%;
@@ -170,6 +173,7 @@ const Mainfooter = styled.div`
     height: 246px;
     `}
     ${({theme}) => theme.media.mobile`
+    height: auto;
     padding: 0 12px;
     `}
     > div {
@@ -190,6 +194,7 @@ const Mainfooter = styled.div`
         padding-bottom: 24px;
         font-size: 10px;
         line-height: 18px;
+        padding-bottom: 24px;
         &:nth-child(2){
             padding: 20.5px 0;
         }

@@ -165,7 +165,12 @@ const ImgViewerComp = styled.div`
         > img {
             width: auto;
             height: auto;
+            ${({theme}) => theme.media.desktop`
             max-width: 1280px;
+            `}
+            ${({theme}) => theme.media.mobile`
+            max-width: 100%;
+            `}
             margin: 0;
             border: 0;
             border-radius: 0;

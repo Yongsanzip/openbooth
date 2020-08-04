@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from "../../../modules";
@@ -11,10 +11,10 @@ import {
     Thumblist,
     Documentlist,
     Boardlist,
-    Namecard,UserinfoModal,
-    Booth, Profile, Sendmsg, Custommodal, Video
+    Namecard, UserinfoModal,
+    Booth, Profile, Sendmsg, Custommodal, Video, Img
 } from './../../../components/index'
-import {textLineBreak} from "../../../common/common";
+import {isMobileSize, textLineBreak} from "../../../common/common";
 
 import dummyImg from "./../../../assets/img/bg-dummy.png"
 
@@ -37,6 +37,23 @@ function Detail(props){
     const [selectedVisitor, setSelectedVisitor] = useState(null);
     const [showUserInfoModal, setShowUserInfoModal] = useState(false);
     const [showSendMsgModal, setShowSendMsgModal] = useState(false);
+    const [deviceType, setDeviceType] = useState('deskTop');
+    const _setDeviceType = () => {
+        if(isMobileSize()){
+            setDeviceType('mobile');
+        }
+        else{
+            setDeviceType('deskTop');
+        }
+    }
+
+    useEffect(() => {
+        _setDeviceType();
+        window.addEventListener('resize', _setDeviceType);
+        return () => {
+            window.removeEventListener('resize', _setDeviceType);
+        };
+    }, []);
 
     const tabList = [{
         title: languageData.exhibitionDetails,
@@ -97,7 +114,7 @@ function Detail(props){
         <div>
             <DescriptionComp width={width}>
                 <div>
-                    <img className='posterImg' src={introductionData != null? introductionData.exhibition_thumbnail : ''} />
+                    <Img src={introductionData != null? introductionData.exhibition_thumbnail : ''} width={'100%'} height={'250px'} />
                     <div className='title'>{introductionData != null? introductionData.exhibition_name : ''}</div>
                     {introductionData != null && introductionData.exhibition_description != null? textLineBreak(introductionData.exhibition_description) : ''}
                     <div className='sendMailBtn' onClick={_showSendMsgModal}>
@@ -125,7 +142,7 @@ function Detail(props){
                                             case "video":
                                                 return <Video key={key} height={'480px'} src={component.value}/>;
                                             case "thumbnails":
-                                                return <Thumblist key={key} list={component.value} size={{width: 144, height: 144}} marginRight={18} /> ;
+                                                return <Thumblist key={key} list={component.value} size={deviceType == 'mobile'? null : {width: 144, height: 144}} marginRight={deviceType == 'mobile'? 6 : 18} isMobile={deviceType == 'mobile'} /> ;
                                         }
                                     })
                                     : null
@@ -172,9 +189,21 @@ const TabpanelComp = styled.div`
     > * {
         width: ${(props: TabpanelCompProps) => (props.width != null ? props.width+'px;' : '100%')};
         margin: 0 auto;
+        ${({theme}) => theme.media.desktop`
+        padding-top: 40px;
+        `}
+        ${({theme}) => theme.media.mobile`
+        padding-top: 0;
+        width: 100%;
+        `}
     }
     & .border {
+        ${({theme}) => theme.media.desktop`
         padding-top: 40px;
+        `}
+        ${({theme}) => theme.media.mobile`
+        padding-top: 16px;
+        `}
         > * {
             border: 1px solid #E9E9E9;
             box-sizing: border-box;
@@ -217,22 +246,39 @@ background: #ffffff;
 > div {
     position: relative;
     max-width: ${(props: DescriptionCompProps) => (props.width != null ? props.width+'px;' : '100%')};
-    margin: 0 auto;
+    ${({theme}) => theme.media.desktop`
     padding: 40px 0 80px 0;
+    `}
+    ${({theme}) => theme.media.mobile`
+    padding: 24px 20px 40px 20px;
+    `}
+    margin: 0 auto;
     text-align: center;
     font-weight: normal;
+    color: #999999;
+    ${({theme}) => theme.media.desktop`
     font-size: 16px;
     line-height: 24px;
-    color: #999999;
-    & .posterImg {
-        width: 176px;
-    }
+    `}
+    ${({theme}) => theme.media.mobile`
+    font-size: 12px;
+    line-height: 20px;
+    `}
     & .title {
         font-weight: bold;
-        font-size: 18px;
         color: #000000;
+        ${({theme}) => theme.media.desktop`
         margin-top: 32px;
         margin-bottom: 20px;
+        font-size: 18px;
+        line-height: 24px;
+        `}
+        ${({theme}) => theme.media.mobile`
+        margin-top: 24px;
+        margin-bottom: 8px;
+        font-size: 14px;
+        line-height: 22px;
+        `}
     }
     & .sendMailBtn {
         position: absolute;

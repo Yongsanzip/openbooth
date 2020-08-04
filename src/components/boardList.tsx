@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
-import {Img} from "./index";
+import {Ellipsis, Img} from "./index";
 
 function Boardlist(props){
     const _onClickLink = (link) => {
@@ -13,7 +13,7 @@ function Boardlist(props){
                 return (
                     <BoardItemComp key={key}>
                         <div>
-                            <div className='boardTitle'>{el.title}</div>
+                            <div className='boardTitle'><Ellipsis>{el.title}</Ellipsis></div>
                             <div>
                                 {el.reg_date}  | {el.registrant}
                             </div>
@@ -39,22 +39,43 @@ const BoardListComp = styled.div`
     }
 `;
 const BoardItemComp = styled.div`
+    ${({theme}) => theme.media.desktop`
     padding: 16px 0 16px 24px;
-    font-weight: normal;
     font-size: 12px;
     line-height: 20px;
+    `}
+    ${({theme}) => theme.media.mobile`
+    padding: 9px 0 9px 15px;
+    font-size: 10px;
+    line-height: 18px;
+    `}
+    font-weight: normal;
     color: #999999;
     display: flex;
     flex-direction: row;
     align-items: center;
     > div {
         :first-child { flex: 1; }
-        :last-child { text-align: right; padding-right: 32px; }
+        :last-child {
+            text-align: right;
+            ${({theme}) => theme.media.desktop`
+            padding-right: 32px;
+            `}
+            ${({theme}) => theme.media.mobile`
+            padding-right: 15px;
+            `}
+        }
     }
     .boardTitle {
         font-weight: bold;
+        ${({theme}) => theme.media.desktop`
         font-size: 16px;
         line-height: 26px;
+        `}
+        ${({theme}) => theme.media.mobile`
+        font-size: 12px;
+        line-height: 20px;
+        `}
     }
     
 `;

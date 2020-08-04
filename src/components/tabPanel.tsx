@@ -80,14 +80,19 @@ border-radius: 8px;
     ${({theme}) => theme.media.mobile`
     ${(props: TabPannelCompProps) => (props.noMargin != null ? null: 'padding: 0 16px;')};
     `}
-        
 }
 .tabTitle {
     position: relative;
-    height: 56px;
-    line-height: 56px;
     border-bottom: 1px solid #E9E9E9;
     box-sizing: border-box;
+    ${({theme}) => theme.media.desktop`
+    height: 56px;
+    line-height: 56px;
+    `}
+    ${({theme}) => theme.media.mobile`
+    height: 40px;
+    line-height: 40px;
+    `}
     :after {
         content: '';
         position: absolute;
@@ -108,10 +113,17 @@ border-radius: 8px;
     li {
         display: inline-block;
         font-weight: bold;
-        font-size: ${(props: TabPannelCompProps) => (props.type != null && props.type == 'contactBox'? '14px' : '16px')};
+        ${({theme}) => theme.media.desktop`
+        ${(props: TabPannelCompProps) => (props.type != null && props.type == 'contactBox'? 'font-size: 14px;' : 'font-size: 16px;line-')};
         line-height: 24px;
-        color: #999999;
         margin-right: 24px;
+        `}
+        ${({theme}) => theme.media.mobile`
+        font-size: 12px;
+        line-height: 20px;
+        margin-right: 16px;
+        `}        
+        color: #999999;
         :focus { outline: 0; }
         .active { color: #005CB9; }
         :last-child { margin-right: 0; }
