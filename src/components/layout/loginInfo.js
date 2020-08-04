@@ -40,16 +40,22 @@ margin-right: 0;
 
 const ProfileInfo = styled.div`
     position: relative;
-    width: 32px;
-    height: 32px;
-    height: 32px;
-    margin-top: 10px;
-    margin-right: 3px;
     background: #C4C4C4;
     border: 1px solid #E9E9E9;
     border-radius: 50%;
     box-sizing: border-box;
-    
+    ${({theme}) => theme.media.desktop`
+    width: 32px;
+    height: 32px;
+    margin-top: 10px;
+    margin-right: 3px;
+    `}
+    ${({theme}) => theme.media.mobile`
+    width: 22.59px;
+    height: 22.59px;
+    margin-top: 8px;
+    margin-right: 13.41px;
+    `}    
     > img {
         position: absolute;
         top: 0;
@@ -60,28 +66,44 @@ const ProfileInfo = styled.div`
     }
     & .count {
         position: relative;
-        top: 0;
-        left: 18px;
         font-size: 12px;
         color: #fff;
-        &:before {
-            content: '';
-            position: absolute;
-            top: 18px;
-            left: 0;
-            width: 16px;
-            height: 16px;
-            background: #005CB9;
-            border-radius: 50%;
-        }
+        ${({theme}) => theme.media.desktop`
+        top: 0;
+        left: 0;
+        `}
+        ${({theme}) => theme.media.mobile`
+        top: 0;
+        left: 0;
+        `}
         & > div {
             position: relative;
+            text-align: center;
+            vertical-align: middle;
+            background: #005CB9;
+            border-radius: 50%;
+            ${({theme}) => theme.media.desktop`
             top: 18px;
+            left: 18px;
             width: 16px;
             height: 16px;
-            text-align: center;
             line-height: 17px;
-            vertical-align: middle;
+            `}
+            ${({theme}) => theme.media.mobile`
+            // top: 13px;
+            // left: 13px;
+            // width: 11.29px;
+            // height: 11.29px;
+            // font-size: 8px;
+            // line-height: 16px;
+            
+            top: 12px;
+            left: 13px;
+            width: 15.29px;
+            height: 15.29px;
+            font-size: 8px;
+            line-height: 16px;
+            `}
         }
     }
 `;

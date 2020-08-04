@@ -116,7 +116,7 @@ function Mentoringcard(props){
                         }) : null }
                 </div>
             </div>
-            <Mentorinfo data={props.data.mentorInfo} className="mentorInfo" padding={deviceType != "mobile"? "32px 24px 24px 40px" : "16px"} />
+            <Mentorinfo data={props.data.mentorInfo} className="mentorInfo" padding={deviceType != "mobile"? "32px 24px 24px 40px" : "16px"} isMobile={deviceType=='mobile'} />
             <Custommodal showModal={isShowModal} closeModal={_closeModal} width={deviceType != "mobile"? 480 : 320} height={deviceType != "mobile"? 240 : 170}>
                 <Accesscode data={{
                     title: languageData.accessCodeModalTitle,
@@ -162,14 +162,16 @@ background: #ffffff;
 }
 > .mentoringInfo {
     flex: 1;
-    border-left: 1px solid #E9E9E9;
-    border-right: 1px solid #E9E9E9;
     box-sizing: border-box;
     ${({theme}) => theme.media.desktop`
     padding: 0 0 0 40px;
+    border-left: 1px solid #E9E9E9;
+    border-right: 1px solid #E9E9E9;
     `};
     ${({theme}) => theme.media.mobile`
-    padding: 16px;  
+    padding: 16px;
+    border-left: 0;
+    border-right: 0;
     `}
     & .status {
         position: relative;

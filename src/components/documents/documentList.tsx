@@ -8,7 +8,7 @@ function Documentlist(props) {
             <div className='title'>{props.title}</div>
             {props.list && props.list.length > 0 ? props.list.map((el, key) => {
                 return (
-                    <Documentitem key = {key} title = {el.file_name} />
+                    <Documentitem key = {key} title = {el.file_name} isMobile={props.isMobile} />
                 )} ) : null
             }
         </DocumentlistComp>
@@ -24,12 +24,20 @@ background: #fff;
     &:last-child { border: 0 }
 }
 .title {
+    ${({theme}) => theme.media.desktop`
     height: 56px;
     line-height: 56px;
-    font-weight: bold;
     font-size: 16px;
-    color: #000;
     padding: 0 24px;
+    `}
+    ${({theme}) => theme.media.mobile`
+    height: 40px;
+    line-height: 40px;
+    font-size: 12px;
+    padding: 0 16px;
+    `}
+    font-weight: bold;
+    color: #000;
 }
 `;
 

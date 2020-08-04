@@ -60,20 +60,19 @@ function Namecard(props) {
     }
 
     return (
-        <Userinfocomp className="profile" imgMarginRight={props.imgMarginRight}>
+        <Userinfocomp className="profile" imgMarginRight={props.imgMarginRight} size={props.size}>
             <Img src={props.type == null || props.type != 'company'? props.data.profile_image : props.data.company_thumbnail} full={true} />
             <div className="profileInfo">
                 <div className="mentorName">
                     {props.type == null || props.type != 'company'? props.data.name : props.data.company_name}
-                    {!props.showLogoutBtn? '' :
-                        <Button style={logoutBtnStyle} _clickBtn={_logout}>Logout</Button>
-                    }
+                    {props.showLogoutBtn != null && props.isMobile != true? <Button style={logoutBtnStyle} _clickBtn={_logout}>Logout</Button> : null }
                 </div>
                 {props.type == null || props.type != 'company'?
                     <div className="mentorInfo"><span className="mentorEmail">{props.data.email}<br/></span>{props.data.department}</div>
                     : <div className="mentorInfo">{props.data.content}</div>
                 }
             </div>
+            {props.showLogoutBtn != null && props.isMobile == true? <Button style={logoutBtnStyle} _clickBtn={_logout}>Logout</Button> : null }
             <MentorInfoBtn>
                 {!props.showMailBtn? '' :
                     <button ref={sendMailBtn} className="sendMailBtn">
@@ -95,22 +94,24 @@ function Namecard(props) {
 }
 
 interface UserinfocompProps {
-    imgMarginRight: any
+    imgMarginRight: any,
+    size: any
 }
 const Userinfocomp = styled.div`
     display: flex;
+    align-items: center;
     // margin-bottom: 16px;
     > *:first-child {
+        margin-right: ${(props: UserinfocompProps) => (props.imgMarginRight != null ?  props.imgMarginRight : '16px')};
+        border-radius: 50%;
         ${({theme}) => theme.media.desktop`
         width: 80px;
         height: 80px;
         `}
         ${({theme}) => theme.media.mobile`
-        width: 40px;
-        height: 40px;
+        ${(props: UserinfocompProps) => (props.size != null && props.size == 'large'?  'width: 56px;' : 'width: 40px;')};
+        ${(props: UserinfocompProps) => (props.size != null && props.size == 'large'?  'height: 56px;' : 'height: 40px;')};
         `}
-        margin-right: ${(props: UserinfocompProps) => (props.imgMarginRight != null ?  props.imgMarginRight : '16px')};
-        border-radius: 50%;
     }
     .profileInfo {
         font-weight: normal;
@@ -120,8 +121,8 @@ const Userinfocomp = styled.div`
         line-height: 20px;
         `}
         ${({theme}) => theme.media.mobile`
-        font-size: 10px;
-        line-height: 18px;
+        ${(props: UserinfocompProps) => (props.size != null && props.size == 'large'?  'font-size: 12px;' : 'font-size: 10px;')};
+        ${(props: UserinfocompProps) => (props.size != null && props.size == 'large'?  'line-height: 20px;' : 'line-height: 18px;')};
         `}
         color: #999999;
         > div.mentorName {
@@ -133,8 +134,9 @@ const Userinfocomp = styled.div`
             margin: 6px 0;
             `}
             ${({theme}) => theme.media.mobile`
-            font-size: 12px;
-            line-height: 20px;
+            ${(props: UserinfocompProps) => (props.size != null && props.size == 'large'?  'font-size: 14px;' : 'font-size: 12px;')};
+            ${(props: UserinfocompProps) => (props.size != null && props.size == 'large'?  'line-height: 22px;' : 'line-height: 20px;')};
+            margin: 0;
             `}
             > * {
                 display: inline-block;
@@ -170,9 +172,18 @@ const MentorInfoBtn = styled.div`
         }
         &.sendMailBtn {
             position: absolute;
-            right: 16px;
+            ${({theme}) => theme.media.desktop`
             top: 38px;
+            right: 16px;
             height: 80px;
+            line-height: 80px;
+            `}
+            ${({theme}) => theme.media.mobile`
+            top: 0;
+            right: 16px;
+            height: 88px;
+            line-height: 88px;
+            `}
         }
     }
 `;

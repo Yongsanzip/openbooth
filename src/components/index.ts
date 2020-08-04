@@ -36,6 +36,7 @@ export { default as RequestToExhibitor } from './requestToExhibitor'
 export { default as Thumblist } from './thumbList'
 export { default as Boardlist } from './boardList'
 export { default as Category } from './category/category';
+export { default as CategoryTitle } from './category/categoryTitle';
 
 export { default as LiveCompanyBox } from './liveCompanyBox'
 export { default as Video } from './video';

@@ -1,14 +1,33 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from "../../../modules/index";
 import { getExhibitionReducer, getBoothListReducer, getSelectedExhibitCategoryReducer, setSelectedExhibitCategoryReducer } from "../../../modules/exhibition/exhibition";
 
-import { Category, RollingButton, Booth } from './../../../components/index'
+import { Category, CategoryTitle, RollingButton, Booth } from './../../../components/index'
+import {isMobileSize} from "../../../common/common";
 
 function Exhibit(props) {
-    let languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
+    const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
+    const [deviceType, setDeviceType] = useState('deskTop');
+    const _setDeviceType = () => {
+        if(isMobileSize()){
+            setDeviceType('mobile');
+        }
+        else{
+            setDeviceType('deskTop');
+        }
+    }
+
+    useEffect(()=>{
+        _setDeviceType();
+        window.addEventListener('resize', _setDeviceType);
+
+        return function cleanup() {
+            window.removeEventListener('resize', _setDeviceType);
+        };
+    }, []);
 
     //최초 호출, 전체 전시 카테고리 목록
     const dispatch = useDispatch();
@@ -66,6 +85,19 @@ function Exhibit(props) {
                             <RollingButton toRight onClick={_moveNextCategoryPage} />
                         </div>
                     </div>
+                    {deviceType == 'mobile'?
+                    <CategoryTitleListComp>
+                        <div>
+                        {categoryList && categoryList.length > 0 ?
+                            categoryList.map((el, key) => {
+                                return (
+                                    <CategoryTitle key={key} data={el} _onClick={()=>setSelectedCategoryItem(el)} />
+                                )
+                            }) : null
+                        }
+                        </div>
+                    </CategoryTitleListComp>
+                    :
                     <CategoryListComp categoryPage={categoryPage}>
                         <div>
                             {categoryList && categoryList.length > 0 ?
@@ -77,6 +109,7 @@ function Exhibit(props) {
                             }
                         </div>
                     </CategoryListComp>
+                    }
                 </div>
             </div>
             <div>
@@ -109,58 +142,110 @@ function Exhibit(props) {
     )
 }
 
-const ExhibitComp = styled.div`
+export default Exhibit;
+
+const CategoryTitleListComp = styled.div`
 width: 100%;
-a {
-    text-decoration: none;
-}
+overflow-y: hidden;
+overflow-x: auto;
 > div {
-    padding-bottom: 80px;
-    :last-child { border-top: 1px solid #E9E9E9; box-sizing: border-box; }
-    > div {
-        max-width: 1280px;
-        width: 100%;
-        margin: 0 auto;
-        margin-top: 80px;
-        & .titleBox {
-            display: flex;
-            .title {
-                flex: 1;
-                font-weight: bold;
-                font-size: 24px;
-                line-height: 32px;
-                color: #000000;
-            }
-            .catRollingBtns {
-                > *{
-                    display: inline-block;
-                }
-            }
-        }
+    display: flex;
+    width: fit-content;
+    > * {
+        margin-right: 8px;
+        :first-child { margin-left: 20px; }
+        :last-child { margin-right: 20px; }
     }
 }
 `;
-export default Exhibit;
-
 interface CategoryListCompProps {
     categoryPage: any
 }
 const CategoryListComp = styled.div`
-margin-top: 40px;
 width: 100%;
-height: 460px;
 overflow: hidden;
+${({theme}) => theme.media.desktop`
+margin-top: 40px;
+height: 460px;
+`}
+${({theme}) => theme.media.mobile`
+margin-top: 0;
+padding: 0 20px;
+height: auto;
+`}
 > * {
     width: 100%;
     height: 100%;
     transform: ${(props: CategoryListCompProps) => (props.categoryPage != null && props.categoryPage > 1 ? 'translatex(-'+(100 * (props.categoryPage - 1))+'%)' : '')};
     transition: transform 0.5s 0s ease, box-shadow 0.3s 0s ease-in-out;
     display: flex;
+    ${({theme}) => theme.media.mobile`
+    flex-direction: column;
+    `}
      > * {
         display: inline-block;
-        margin: 0 40px 40px 0;
         vertical-align: top;
+        ${({theme}) => theme.media.desktop`
+        margin: 0 40px 40px 0;
         :nth-child(3n){ margin-right: 0; }
+        `}
+        ${({theme}) => theme.media.mobile`
+        margin: 0 0 16px 0;
+        :last-child { margin-bottom: 40px; }
+        `}
+    }
+}
+`;
+
+const ExhibitComp = styled.div`
+width: 100%;
+a {
+    text-decoration: none;
+}
+> div {
+    ${({theme}) => theme.media.desktop`
+    padding-bottom: 80px;
+    `}
+    ${({theme}) => theme.media.mobile`
+    padding-bottom: 24px;
+    `}
+    :last-child { border-top: 1px solid #E9E9E9; box-sizing: border-box; }
+    > div {
+        max-width: 1280px;
+        width: 100%;
+        margin: 0 auto;
+        & .titleBox {
+            display: flex;
+            ${({theme}) => theme.media.desktop`
+            padding-top: 80px;
+            `}
+            ${({theme}) => theme.media.mobile`
+            padding-top: 24px;
+            padding-left: 20px;
+            padding-bottom: 16px;
+            `}
+            .title {
+                flex: 1;
+                font-weight: bold;
+                color: #000000;
+                ${({theme}) => theme.media.desktop`
+                font-size: 24px;
+                line-height: 32px;
+                `}
+                ${({theme}) => theme.media.mobile`
+                font-size: 14px;
+                line-height: 22px;
+                `}
+            }
+            .catRollingBtns {
+                > *{
+                    display: inline-block;
+                }
+                ${({theme}) => theme.media.mobile`
+                display: none;
+                `}
+            }
+        }
     }
 }
 `;

@@ -9,7 +9,7 @@ import {isMobileSize} from "../../common/common";
 function UserinfoModal(props) {
     return(
         <Custommodal showModal={props.showModal} closeModal={props.handleCloseModal} overlay={0} modalPosition={props.modalPosition}>
-            <Profile showLogoutBtn={props.logout} />
+            <Profile showLogoutBtn={props.logout} isMobile={props.isMobile} />
         </Custommodal>
     )
 }
@@ -20,6 +20,7 @@ function Header(props) {
         top: 0,
         left: 0
     });
+    console.log("userinfoModalPosition::", userinfoModalPosition);
     const [deviceType, setDeviceType] = useState('deskTop');
     const _setDeviceType = () => {
         if(isMobileSize()){
@@ -43,10 +44,19 @@ function Header(props) {
         let iconEl:any;
         if(document.getElementsByClassName('userInfoMenuIcon').length > 0){
             iconEl = document.getElementsByClassName('userInfoMenuIcon')[0];
-            setUserinfoModalPosition({
-                top: iconEl.offsetTop + 50,
-                left: iconEl.offsetLeft + 32 - 480
-            })
+            console.log(deviceType, iconEl.offsetTop, iconEl.offsetLeft);
+            if(isMobileSize()){
+                setUserinfoModalPosition({
+                    top: iconEl.offsetTop + 50,
+                    left: iconEl.offsetLeft - 280 - 10
+                })
+            }
+            else{
+                setUserinfoModalPosition({
+                    top: iconEl.offsetTop + 50,
+                    left: iconEl.offsetLeft + 32 - 480
+                })
+            }
         }
     }
 
@@ -80,13 +90,13 @@ function Header(props) {
                     }
                 </div>
                 <div className='title' onClick={goMain}>
-                    <div>{deviceType}</div>
+                    <div>Online Exhibition of Third Countries with The World Bank | Bulit on Hope</div>
                 </div>
-                <div onClick={_showModal} className={"userInfoMenuIcon"}>
+                <div onClick={_showModal}>
                     <Logininfo/>
                 </div>
             </div>
-            <UserinfoModal showModal={isShowModal} handleCloseModal={_closeModal} logout={true} modalPosition={userinfoModalPosition}/>
+            <UserinfoModal showModal={isShowModal} handleCloseModal={_closeModal} logout={true} modalPosition={userinfoModalPosition} isMobile={deviceType == 'mobile'}/>
         </Mainheader>
     )
 }

@@ -40,6 +40,9 @@ export default function Submain(props) {
 }
 
 const MainBannerComp = styled.div`
+${({theme}) => theme.media.mobile`
+display: none !important;
+`}
 height: 0;
 transition: all .5s ease-in-out;
 overflow: hidden;

@@ -116,7 +116,7 @@ ul {
   width: 100%;
   `}
   ${({theme}) => theme.media.mobile`
-  min-width: 420px;
+  min-width: 390px;
   height: 40px;
   padding: 0 12px;
   `}

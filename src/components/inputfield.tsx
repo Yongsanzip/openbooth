@@ -144,9 +144,15 @@ const InputField = styled.div`
     width: ${(props: InputFieldProps) => (props.width != null && props.width != 'inherit' && props.width.indexOf('%') < 0 ? (Number(props.width) - 45) + 'px' : 'calc(100% - 20px)')};
     background: #F7F7F9;
     font-weight: normal;
+    color: #999999;
+    ${({theme}) => theme.media.desktop`
     font-size: 14px;
     line-height: 22px;
-    color: #999999;
+    `}
+    ${({theme}) => theme.media.mobile`
+    font-size: 12px;
+    line-height: 20px;
+    `}
     ${(props: InputFieldProps) => (props.customStyle ? props.customStyle : null)}
     &::placeholder {
         font-family: 'NanumSquare';

@@ -95,6 +95,9 @@ const IntroduceTitle = styled.div`
 position: relative;
 height: 920px;
 background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${(props: IntroduceTitleProps) => (props.src != null ? props.src : '')});
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
 > div {
     padding-top: 200px;
     max-width: 840px;

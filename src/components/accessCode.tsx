@@ -30,19 +30,6 @@ function Accesscode(props) {
         console.log("click btn on accesscode modal!", props._access);
         if(props._access != null) props._access();
     };
-    const closeBtnStyle = {
-        background: 'transparent',
-        color: '#818181',
-        'font-size': '12px',
-        'line-height': '20px',
-        padding: '0 12px',
-        width: 'auto',
-        border: '0',
-        hover: {
-            color: '#818181',
-            border: '0'
-        }
-    };
 
     return(
         <AccesscodeComp small={props.type == 'small'? true : false} noDec={props.data.content != null ? null : true}>
@@ -50,12 +37,12 @@ function Accesscode(props) {
                 <div className='title'>{props.data.title}</div>
                 {props.data.content != null ? <div className='description'>{props.data.content}</div> : null }
                 <div>
-                    <Inputfield width={'100%'} inputHeight={'22px'} padding={'9px 12px'} placeholder={languageData.accessCode} />
+                    <Inputfield width={'100%'} inputHeight={props.isMobile != null? '20px' : '22px'} padding={props.isMobile != null? '10px 12px' : '9px 12px'} placeholder={languageData.accessCode} />
                     <div className="warning">{languageData.accessCodeNotMatch}</div>
                 </div>
             </div>
-            <div className='btns'>
-                {props.closeModal != null? <Button _clickBtn={props.closeModal} style={closeBtnStyle} >{languageData.close}</Button> : null}
+            <div className='btns modalBtns'>
+                {props.closeModal != null? <Button _clickBtn={props.closeModal} className={'mobileCloseBtn'} >{languageData.close}</Button> : null}
                 <Button _clickBtn={_access} width={105} style={{
                     padding: deviceType != 'mobile'? '7px 0' : '6px 0',
                     width: deviceType != 'mobile'? '105px': '88px'
@@ -79,10 +66,18 @@ const AccesscodeComp = styled.div`
         line-height: 24px;
         color: #999999;
         .title {
-            font-size: ${(props:AccesscodeCompProps) => (props.small != null ? '16px' : '18px')};
-            line-height: ${(props:AccesscodeCompProps) => (props.small != null? '24px' : '26px')};
             color: #000000;
             margin-top: ${(props:AccesscodeCompProps) => (props.small != null ? '16px' : '24px')};
+            
+            ${({theme}) => theme.media.desktop`
+            ${(props:AccesscodeCompProps) => (props.small != null ? 'font-size: 16px;' : 'font-size: 18px;')};
+            ${(props:AccesscodeCompProps) => (props.small != null? 'line-height: 24px;' : 'line-height: 26px;')};
+            `}
+            ${({theme}) => theme.media.mobile`
+            ${(props:AccesscodeCompProps) => (props.small != null ? 'font-size: 12px;' : 'font-size: 18px;')};
+            ${(props:AccesscodeCompProps) => (props.small != null? 'line-height: 20px;' : 'line-height: 26px;')};
+            `}
+
         }
         .description {
             margin-top: 16px;
@@ -110,15 +105,8 @@ const AccesscodeComp = styled.div`
         }
     }
     > .btns {
-        padding: ${(props:AccesscodeCompProps) => (props.small ? '0 10px' : '0 10px')};
-        ${({theme}) => theme.media.desktop`
-        height: 56px;
-        line-height: 56px;
-        `}
-        ${({theme}) => theme.media.mobile`
-        height: 47px;
-        line-height: 47px;
-        `}
+        height: auto;
+        line-height: normal;
         text-align: right;
         border-top: 1px solid #E9E9E9;
         box-sizing: border-box;

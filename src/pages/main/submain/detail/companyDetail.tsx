@@ -242,6 +242,9 @@ position: relative;
 width: 100%;
 height: 1016px;
 background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${(props: CompanyDetailTitleCompProps) => (props.src != null ? props.src : '')});
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
 > *{
     position: absolute;
     top: 50%;

@@ -734,6 +734,11 @@ ${({theme}) => theme.media.desktop`
     max-height: 1080px;
     overflow: hidden;
 `}
+${({theme}) => theme.media.mobile`
+    max-width: inherit;
+    min-width: initial;
+    max-height: inherit;
+`}
 > div {
     width: fit-content;
     ${({theme}) => theme.media.desktop`
@@ -743,6 +748,7 @@ ${({theme}) => theme.media.desktop`
     `}
     ${({theme}) => theme.media.mobile`
         width: 100%;
+        min-width: initial;
         padding-top: 40px;
     `}
     > div {
@@ -803,26 +809,26 @@ ${({theme}) => theme.media.desktop`
         :first-child { margin-bottom: 16px; }
     }
     .loginForm {
-        ${({theme}) => theme.media.mobile`
-            width: 100%;
-        `};
         ${({theme}) => theme.media.desktop`
             ${(props: LoginCompProps) => (props.loginFormWidth != null ? 'width: ' + props.loginFormWidth+'px' : 'width: 430px')};
         `}
+        ${({theme}) => theme.media.mobile`
+            width: 100%;
+        `};
         > form {
             & .findPwdDescript {
                 font-weight: bold;
                 font-size: 16px;
                 line-height: 24px;
                 margin: 40px 0; 
+                ${({theme}) => theme.media.desktop`
+                    :first-child { margin-top: 0; margin-bottom: 16px; }
+                    :last-child { margin-bottom: 0; }
+                `}
                 ${({theme}) => theme.media.mobile`
                     :first-child { margin-top: 0; }
                     padding: 0 20px;
                     :last-child { margin-bottom: 0; border-top: 1px solid #E9E9E9; padding-top: 41px; }
-                `}
-                ${({theme}) => theme.media.desktop`
-                    :first-child { margin-top: 0; margin-bottom: 16px; }
-                    :last-child { margin-bottom: 0; }
                 `}
                 & h2 {
                     ${({theme}) => theme.media.mobile`

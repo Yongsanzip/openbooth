@@ -1,13 +1,30 @@
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import ReactModal from 'react-modal';
 import CSS from 'csstype';
+import {isMobileSize} from "../common/common";
 
 
 function Custommodal(props){
+  const [deviceType, setDeviceType] = useState('deskTop');
+  const _setDeviceType = () => {
+    if(isMobileSize()){
+      setDeviceType('mobile');
+    }
+    else{
+      setDeviceType('deskTop');
+    }
+  }
+
   useEffect(()=>{
     ReactModal.setAppElement('#app');
-  },[])
+    _setDeviceType();
+    window.addEventListener('resize', _setDeviceType);
+
+    return function cleanup() {
+      window.removeEventListener('resize', _setDeviceType);
+    };
+  }, []);
 
   const onOverlayClick = (e)=> {
     e.stopPropagation();
@@ -31,7 +48,7 @@ function Custommodal(props){
     bottom                : 'auto',
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)',
-    width                 : props.width != null? props.width : '480px',
+    width                 : props.width != null? props.width : deviceType != 'mobile'? '480px' : '320px',
     height                : props.height != null? props.height : 'auto',
     padding               : 0,
     borderRadius          : '8px',
@@ -83,9 +100,15 @@ color: #999999;
 .modalcontent {
   & .modalTitle {
     font-weight: bold;
+    color: #000000;
+    ${({theme}) => theme.media.desktop`
     font-size: 18px;
     line-height: 26px;
-    color: #000000;
+    `}
+    ${({theme}) => theme.media.mobile`
+    font-size: 14px;
+    line-height: 22px;
+    `}
   }
   & .modalDescription {
     font-weight: bold;
@@ -93,36 +116,67 @@ color: #999999;
     line-height: 24px;
     padding-top: 16px;
   }
-  textarea {
+  & .textAreaBox {
     width: 100%;
-    height: 270px;
     background: #F7F7F9;
-    font-family: NanumSquare;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 22px;
-    padding: 12px 23px 20px 23px;
-    margin-top: 24px;
     border: 1px solid #E9E9E9;
     box-sizing: border-box;
     color: #999999;
-    resize: none;
-    :focus {
-      outline: 0;
-    }
-  }
-  textarea::placeholder {
-      font-family: NanumSquare;
-      font-style: normal;
-      font-weight: normal;
+    padding: 0;
+    font-family: NanumSquare;
+    font-style: normal;
+    font-weight: normal;
+    ${({theme}) => theme.media.desktop`
+    height: 270px;
+    margin-top: 24px;
+    `}
+    ${({theme}) => theme.media.mobile`
+    height: 145px;
+    margin-top: 16px;
+    `}
+    textarea {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #F7F7F9;
+      resize: none;
+      ${({theme}) => theme.media.desktop`
       font-size: 14px;
       line-height: 22px;
-      color: #999999;
+      padding: 12px 23px 20px 23px;
+      `}
+      ${({theme}) => theme.media.mobile`
+      font-size: 12px;
+      line-height: 20px;
+      padding: 8px 16px 20px 16px;
+      `}
+      :focus {
+        outline: 0;
+      }
+    }
+    textarea::placeholder {
+        font-family: NanumSquare;
+        font-style: normal;
+        font-weight: normal;
+        color: #999999;
+        ${({theme}) => theme.media.desktop`
+        font-size: 14px;
+        line-height: 22px;
+        `}
+        ${({theme}) => theme.media.mobile`
+        font-size: 12px;
+        line-height: 20px;
+        `}
+    }
   }
 
   > div {
+    ${({theme}) => theme.media.desktop`
     padding: 24px 24px 0 24px;
+    `}
+    ${({theme}) => theme.media.mobile`
+    padding: 16px 16px 0 16px;
+    `}
     &.profile {
       padding: 32px 24px; 
     }
@@ -144,11 +198,31 @@ color: #999999;
     }
   }
 }
+& .mobileCloseBtn {
+  background: transparent;
+  color: #818181;
+  font-size: 12px;
+  line-height: 20px;
+  padding: 0 2px;
+  width: auto;
+  border: 0;
+  &:hover {
+    color: #818181;
+    border: 0;
+  }
+}
 & .modalBtns {
-  padding: 10px 0;
+  ${({theme}) => theme.media.desktop`
+  padding: 10px;
+  `}
+  ${({theme}) => theme.media.mobile`
+  padding: 8px 16px;
+  `}
   text-align: right;
   &> * {
     margin-right: 10px;
+    display: inline-block;
+    :last-child { margin-right: 0; }
   }
 }
 `;

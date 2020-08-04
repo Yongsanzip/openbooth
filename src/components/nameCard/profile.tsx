@@ -80,7 +80,7 @@ function Profile(props) {
 
     return (
         <Profilecomp type={props.type}>
-            <Namecard type={props.type} data={data} showMailBtn={props.showMailBtn} showMoreinfoBtn={props.showMoreinfoBtn} showLogoutBtn={props.showLogoutBtn} />
+            <Namecard type={props.type} size={props.size} isMobile={props.isMobile} data={data} showMailBtn={props.showMailBtn} showMoreinfoBtn={props.showMoreinfoBtn} showLogoutBtn={props.showLogoutBtn} />
             <div className="details">
                 {list && list.length > 0 ?
                     list.map((item, key) => {
@@ -156,28 +156,50 @@ interface ProfilecompProps {
 }
 const Profilecomp = styled.div`
 > div {    
-    padding: ${(props: ProfilecompProps) => (props.type != null && props.type == 'company' ?  '24px' : '32px 24px;')};
+    ${({theme}) => theme.media.desktop`
+    ${(props: ProfilecompProps) => (props.type != null && props.type == 'company' ?  'padding: 24px' : 'padding: 32px 24px;')};
+    `}
+    ${({theme}) => theme.media.mobile`
+    padding: 16px;
+    `}
 }
 .details {
-    padding: 0 32px 32px 32px;
     border-top: 1px solid #E9E9E9;
     box-sizing: border-box;
     font-weight: normal;
+    color: #999999;
+    ${({theme}) => theme.media.desktop`
     font-size: 16px;
     line-height: 24px;
-    color: #999999;
+    padding: 0 32px 32px 32px;
+    `}
+    ${({theme}) => theme.media.mobile`
+    font-size: 12px;
+    line-height: 20px;
+    padding: 0 16px 16px 16px;
+    `}
     & > div {
-        padding-top: 24px;
         height: ${(props: ProfilecompProps) => (props.type != null && props.type == 'company' ?  '24px' : '')};
         & > * {
             display: ${(props: ProfilecompProps) => (props.type != null && props.type == 'company' ?  'inline-block' : '')};
             vertical-align: ${(props: ProfilecompProps) => (props.type != null && props.type == 'company' ?  'middle' : '')};
         }
+        ${({theme}) => theme.media.desktop`
+        padding-top: 24px;
+        `}
+        ${({theme}) => theme.media.mobile`
+        padding-top: 16px;
+        `}
     }
     .fieldname {
         font-weight: bold;
-        margin-bottom: 4px;
         ${(props: ProfilecompProps) => (props.type != null && props.type == 'company' ?  'width: 80px; margin-right: 3px;' : '')}
+        ${({theme}) => theme.media.desktop`
+        margin-bottom: 4px;
+        `}
+        ${({theme}) => theme.media.mobile`
+        margin-bottom: 0;
+        `}
     }
     
     & .snsIcon {

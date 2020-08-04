@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
-import {Sendmsg, Namecard, Profile, Custommodal } from "../index";
+import {Sendmsg, Namecard, Profile, Custommodal, Button} from "../index";
 
 function MentorinfoModal(props){
     const [showSendMsgModal, setShowSendMsgModal] = useState(false);
     const _showSendMsgModal = ()=> {
+        console.log("click msg btn")
         setShowSendMsgModal(true);
     }
 
@@ -19,7 +20,14 @@ function MentorinfoModal(props){
 
     return(
         <Custommodal showModal={props.showModal} closeModal={props.handleCloseModal}>
-            <Profile data={props.data} showMailBtn={_showSendMsgModal} />
+            <Profile data={props.data} showMailBtn={props.isMobile === true ? null : _showSendMsgModal} size={'large'}/>
+            {props.isMobile === true?
+                <div className={'modalBtns'}>
+                    <Button _clickBtn={props.handleCloseModal} className={'mobileCloseBtn'} >Close</Button>
+                    <Button fill={true} width={88} _clickBtn={_showSendMsgModal}>Message</Button>
+                </div>
+                : null
+            }
             <Sendmsg showModal={showSendMsgModal} data={props.data} closeModal={_closeSendMsgModal} sentMsgToMentor={_sentMsg} />
         </Custommodal>
     )
@@ -41,7 +49,7 @@ function Mentorinfo(props){
         <MentorinfoComp padding={props.padding}>
             <Namecard data={props.data} showMoreinfoBtn={_showMentorInfo} imgMarginRight={"15px"} />
             {props.data.content}
-            <MentorinfoModal showModal={showMentorInfoModal} handleCloseModal={_closeMentorInfo} data={props.data} />
+            <MentorinfoModal showModal={showMentorInfoModal} handleCloseModal={_closeMentorInfo} data={props.data} isMobile={props.isMobile} />
         </MentorinfoComp>
     )
 }

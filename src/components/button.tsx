@@ -10,7 +10,7 @@ function Button(props) {
   
   return (
       <Buttoncomp width={props.width} customStyle={props.style} type={props.type} className={props.fill? 'fill' : ''} onClick={_onclick}>
-          <button type={"button"}>{props.children}</button>
+          <button type={"button"} className={props.className}>{props.children}</button>
       </Buttoncomp>
     )
 }
@@ -29,12 +29,21 @@ const Buttoncomp = styled.div`
     box-sizing: border-box;
     border-radius: 24px;
     font-weight: bold;
-    font-size: 14px;
-    line-height: 20px;
     vertical-align: center;
     text-align: center;
     color: ${(props: ButtoncompProps) => (props.type != null && props.type == 'whiteLine' ? '#ffffff' : '#005CB9')};
+    ${({theme}) => theme.media.desktop`
     padding: 13px 0;
+    font-size: 14px;
+    line-height: 20px;
+    ${(props: ButtoncompProps) => (props.customStyle != null ? props.customStyle : '')};
+    `}
+    ${({theme}) => theme.media.mobile`
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 20px;
+    ${(props: ButtoncompProps) => (props.customStyle != null ? props.customStyle : '')};
+    `}
     &:hover {
         color: ${(props: ButtoncompProps) => (props.type != null && props.type == 'whiteLine' ? '#ffffff' : '#00416B')};
         border: 0.8px solid ${(props: ButtoncompProps) => (props.type != null && props.type == 'whiteLine' ? '#ffffff' : '#00416B')};

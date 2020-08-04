@@ -109,6 +109,7 @@
     "accessCodeNotMatch": "Access code does not match.",
     "accessCodeModalTitle": "Please enter the access code",
     "accessCodeModalContent": "An access code is required to enter the mentoring room.",
+    "accessMentoringRoom": "To enter another mentoring room",
 
     "close": "Close",
     "enter": "Enter",

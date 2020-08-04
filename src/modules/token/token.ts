@@ -177,7 +177,6 @@ function tokenReducer(state: tokenState = initialState, action: loginTokenAction
     case SET_NEW_PASSWORD:
       return { ...state };
     case SET_LOGIN:
-        console.log("SET Is SET_LOGIN????", action.payload);
         state.isFailedLogin = false;
         state.isLogin = action.payload;
       return { ...state };
@@ -188,11 +187,9 @@ function tokenReducer(state: tokenState = initialState, action: loginTokenAction
         state.language = action.payload;
         return { ...state };
     case SET_IS_EMAIL_OVERLAP_TRUE:
-        console.log("SET Is EMAIL OVERLAP????", action.payload);
         state.isOverlap = action.payload;
         return { ...state };
     case SET_IS_EMAIL_OVERLAP_FALSE:
-        console.log("SET Is EMAIL OVERLAP????", action.payload);
       state.isOverlap = action.payload;
       return { ...state };
     case SET_LANGUAGE_DATA:
