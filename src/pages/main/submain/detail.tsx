@@ -215,22 +215,41 @@ const TabpanelComp = styled.div`
     }
     & .visitors {
         & > * {
+            ${({theme}) => theme.media.desktop`
             padding-top: 40px;
             :last-child { padding-bottom: 80px; }
+            `}
+            ${({theme}) => theme.media.mobile`
+            padding-top: 16px;
+            :last-child { padding-bottom: 40px; }
+            `}
         }
         & .visitorCount{
             font-weight: bold;
+            color: #999999;
+            ${({theme}) => theme.media.desktop`
             font-size: 16px;
             line-height: 24px;
-            color: #999999;
+            `}
+            ${({theme}) => theme.media.mobile`
+            font-size: 12px;
+            line-height: 20px;
+            `}
         }
         & .visitorList {
              > * {
                 display: inline-block;
+                :nth-child(2n) { margin-right: 0; }
+                ${({theme}) => theme.media.desktop`
                 width: 400px;
                 margin-right: 40px;
                 margin-bottom: 40px;
-                :nth-child(2n) { margin-right: 0; }
+                `}
+                ${({theme}) => theme.media.mobile`
+                width: 100%;
+                margin-right: 16px;
+                margin-bottom: 20px;
+                `}
              }
         }
     }
