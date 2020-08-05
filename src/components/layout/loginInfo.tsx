@@ -1,26 +1,25 @@
 import React from 'react';
 import styled from "styled-components";
 import base64 from 'base-64';
+import { useSelector } from 'react-redux';
+import {RootState} from "../../modules";
 
 function Logininfo() {
-    const isLogin = true;
-    const token = sessionStorage.getItem('token');
-    const tokenData = token != null ? token.split('.') : new Array();
-    const userInfo = JSON.parse(base64.decode(tokenData[1]));
+    const isLogin = useSelector((state: RootState) => state.tokenReducer.isLogin);
+    let userInfo:any = {};
+    if(isLogin && sessionStorage.getItem('token') != null){
+        const token = sessionStorage.getItem('token');
+        const tokenData = token != null ? token.split('.') : new Array();
+        userInfo = JSON.parse(base64.decode(tokenData[1]));
+    }
     const count = 1;
 
     return (
         <div>
-            {isLogin?
-                <ProfileInfo>
-                    <img src={userInfo.profile_image} />
-                    <div className="count"><div>{count > 9? '9+' : count}</div></div>
-                </ProfileInfo>
-            : <LoginBtns>
-                    <div>로그인</div>
-                    <div>로그아웃</div>
-                </LoginBtns>
-            }
+            <ProfileInfo>
+                <img src={userInfo.profile_image} />
+                <div className="count"><div>{count > 9? '9+' : count}</div></div>
+            </ProfileInfo>
         </div>
     )
 }
