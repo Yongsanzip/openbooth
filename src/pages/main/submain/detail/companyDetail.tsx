@@ -119,11 +119,13 @@ function Companydetail(props) {
 
     //전체 목록 중 랜덤표시 vs 선택한 카테고리의 부스 중 랜덤 표시
     if(true){
+        //전체 부스 목록
         if(boothList != null && boothList.length == null){
             boothList = new Array(boothList);
         }
     }
     else{
+        //선택한 카테고리 부스 목록
         let boothList = selectedCategory.booth;
         if(typeof boothList.length == 'undefined'){
             boothList = new Array(boothList);

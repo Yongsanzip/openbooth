@@ -37,6 +37,8 @@ function Detail(props){
     const [selectedVisitor, setSelectedVisitor] = useState(null);
     const [showUserInfoModal, setShowUserInfoModal] = useState(false);
     const [showSendMsgModal, setShowSendMsgModal] = useState(false);
+    const numberOfVisitorPage = 10;
+    const [visitorsLimit, setVisitorsLimit] = useState(10);
     const [deviceType, setDeviceType] = useState('deskTop');
     const _setDeviceType = () => {
         if(isMobileSize()){
@@ -164,13 +166,29 @@ function Detail(props){
                         </div>
                         <div className='visitorList'>
                             {visitorsData != null && visitorsData.length > 0 ?
-                                visitorsData.map((el, key) => {
-                                    return (
-                                        <div key={key}><Namecard data={el} showMoreinfoBtn={()=>_onShowUserInfoModal(el)} /></div>
-                                    )
-                                }) : null
+                                deviceType == 'mobile'?
+                                    visitorsData.slice(0, visitorsLimit).map((el, key) => {
+                                        return (
+                                            <div key={key}><Namecard data={el} showMoreinfoBtn={()=>_onShowUserInfoModal(el)} /></div>
+                                        )
+                                    })
+                                    :
+                                    visitorsData.map((el, key) => {
+                                        return (
+                                            <div key={key}><Namecard data={el} showMoreinfoBtn={()=>_onShowUserInfoModal(el)} /></div>
+                                        )
+                                    })
+                                : null
                             }
                         </div>
+                        {deviceType == 'mobile' && visitorsData.length > visitorsLimit?
+                            <div className={'showMore'} onClick={()=>setVisitorsLimit(visitorsLimit + numberOfVisitorPage)}>
+                                <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.41 0.589843L6 5.16984L10.59 0.589844L12 1.99984L6 7.99984L-6.16331e-08 1.99984L1.41 0.589843Z" fill="#999999"/>
+                                </svg>
+                            </div>
+                            : null
+                        }
                     </div>
                 </Tabpannel>
             </TabpanelComp>
@@ -214,14 +232,13 @@ const TabpanelComp = styled.div`
         :last-child { padding-bottom: 120px; }        
     }
     & .visitors {
+        position: relative;
         & > * {
             ${({theme}) => theme.media.desktop`
             padding-top: 40px;
-            :last-child { padding-bottom: 80px; }
             `}
             ${({theme}) => theme.media.mobile`
             padding-top: 16px;
-            :last-child { padding-bottom: 40px; }
             `}
         }
         & .visitorCount{
@@ -244,13 +261,23 @@ const TabpanelComp = styled.div`
                 width: 400px;
                 margin-right: 40px;
                 margin-bottom: 40px;
+                :last-child { padding-bottom: 80px;margin-bottom: 0; }
                 `}
                 ${({theme}) => theme.media.mobile`
                 width: 100%;
                 margin-right: 16px;
                 margin-bottom: 20px;
+                :last-child { padding-bottom: 40px;margin-bottom: 0; }
                 `}
              }
+        }
+        & .showMore {
+            position: absolute;
+            bottom: 0;
+            height: 40px;
+            line-height: 40px;
+            padding: 0;
+            text-align: center;
         }
     }
 }
