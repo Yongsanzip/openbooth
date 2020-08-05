@@ -7,7 +7,7 @@ import {Hash, Accesscode, Custommodal, Img, Ellipsis, Button} from "./../index"
 import Mentorinfo from "./mentorInfo"
 
 import dummyImg from "../../assets/img/bg-dummy.png";
-import {isMobileSize} from "../../common/common";
+import {getBrowserSize} from "../../common/common";
 
 function MenteeItem(props) {
     return (
@@ -43,14 +43,9 @@ function Mentoringcard(props){
     const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
     const cardRef = useRef(null);
     const [isShowModal, SetIsShowModal] = useState(false);
-    const [deviceType, setDeviceType] = useState('deskTop');
+    const [deviceType, setDeviceType] = useState('pc');
     const _setDeviceType = () => {
-        if(isMobileSize()){
-            setDeviceType('mobile');
-        }
-        else{
-            setDeviceType('deskTop');
-        }
+        setDeviceType(getBrowserSize());
     }
 
     useEffect(()=>{
@@ -116,12 +111,12 @@ function Mentoringcard(props){
                         }) : null }
                 </div>
             </div>
-            <Mentorinfo data={props.data.mentorInfo} className="mentorInfo" padding={deviceType != "mobile"? "32px 24px 24px 40px" : "16px"} isMobile={deviceType=='mobile'} />
-            <Custommodal showModal={isShowModal} closeModal={_closeModal} width={deviceType != "mobile"? 480 : 320} height={deviceType != "mobile"? 240 : 170}>
+            <Mentorinfo data={props.data.mentorInfo} className="mentorInfo" padding={deviceType == "pc"? "32px 24px 24px 40px" : "16px"} isMobile={deviceType=='mobile'} />
+            <Custommodal showModal={isShowModal} closeModal={_closeModal} width={deviceType == "pc"? 480 : 320} height={deviceType != "mobile"? 240 : 170}>
                 <Accesscode data={{
                     title: languageData.accessCodeModalTitle,
-                    content: deviceType != "mobile"? languageData.accessCodeModalContent : null
-                }} btn={languageData.enter} closeModal={deviceType != 'mobile'? null : _closeModal}  _access={()=>_onClickAccessBtn(props.data)} />
+                    content: deviceType == "pc"? languageData.accessCodeModalContent : null
+                }} btn={languageData.enter} closeModal={deviceType == "pc"? null : _closeModal}  _access={()=>_onClickAccessBtn(props.data)} />
             </Custommodal>
         </Card>
     )

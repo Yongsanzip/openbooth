@@ -1,17 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import {Button, Custommodal, Ellipsis} from "./../index";
-import {isMobileSize} from "../../common/common";
+import {getBrowserSize} from "../../common/common";
 
 function Sendmsg(props) {
-    const [deviceType, setDeviceType] = useState('deskTop');
+    const [deviceType, setDeviceType] = useState('pc');
     const _setDeviceType = () => {
-        if(isMobileSize()){
-            setDeviceType('mobile');
-        }
-        else{
-            setDeviceType('deskTop');
-        }
+        setDeviceType(getBrowserSize());
     }
 
     useEffect(()=>{
@@ -30,18 +25,18 @@ function Sendmsg(props) {
     const btnStyle = {
         padding: '7px 0',
         width: '105px',
-        height: deviceType == 'mobile'? '32px' : '36px'
+        height: deviceType != 'pc'? '32px' : '36px'
     }
 
     return(
-        <Custommodal showModal={props.showModal} width={deviceType == 'mobile'? "320px" : "640px"} height={deviceType == 'mobile'? "246px" : "400px"} closeModal={props.closeModal}>
+        <Custommodal showModal={props.showModal} width={deviceType != 'pc'? "320px" : "640px"} height={deviceType != 'pc'? "246px" : "400px"} closeModal={props.closeModal}>
             <div className='modalcontent'>
                 <div className='modalTitle'><Ellipsis>Send Message to {props.data == null? '' : props.data.name}</Ellipsis></div>
                 <div className='textAreaBox'><textarea placeholder='Leave a message here' /></div>
             </div>
             <SendMsgComp className='modalBtns'>
-                {deviceType == 'mobile'? <Button _clickBtn={props.closeModal} className={'mobileCloseBtn'} >Close</Button> : null}
-                <Button className='modalBtn' _clickBtn={_Send} width={deviceType == 'mobile'? 88 : 150} style={btnStyle} fill={true}>
+                {deviceType != 'pc'? <Button _clickBtn={props.closeModal} className={'mobileCloseBtn'} >Close</Button> : null}
+                <Button className='modalBtn' _clickBtn={_Send} width={deviceType != 'pc'? 88 : 150} style={btnStyle} fill={true}>
                     Send
                 </Button>
             </SendMsgComp>

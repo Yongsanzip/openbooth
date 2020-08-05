@@ -6,18 +6,13 @@ import { RootState } from "../../../modules/index";
 import { getExhibitionReducer, getBoothListReducer, getSelectedExhibitCategoryReducer, setSelectedExhibitCategoryReducer } from "../../../modules/exhibition/exhibition";
 
 import { Category, CategoryTitle, RollingButton, Booth } from './../../../components/index'
-import {isMobileSize} from "../../../common/common";
+import {getBrowserSize} from "../../../common/common";
 
 function Exhibit(props) {
     const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
-    const [deviceType, setDeviceType] = useState('deskTop');
+    const [deviceType, setDeviceType] = useState('pc');
     const _setDeviceType = () => {
-        if(isMobileSize()){
-            setDeviceType('mobile');
-        }
-        else{
-            setDeviceType('deskTop');
-        }
+        setDeviceType(getBrowserSize());
     }
 
     useEffect(()=>{
@@ -85,7 +80,7 @@ function Exhibit(props) {
                             <RollingButton toRight onClick={_moveNextCategoryPage} />
                         </div>
                     </div>
-                    {deviceType == 'mobile'?
+                    {deviceType != 'pc'?
                     <CategoryTitleListComp>
                         <div>
                         {categoryList && categoryList.length > 0 ?

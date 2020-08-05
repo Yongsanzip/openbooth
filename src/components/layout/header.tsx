@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import Logininfo from "./loginInfo"
 import {Custommodal, Profile} from "../index";
-import {isMobileSize} from "../../common/common";
+import {getBrowserSize} from "../../common/common";
 
 function UserinfoModal(props) {
     return(
@@ -21,14 +21,9 @@ function Header(props) {
         left: 0
     });
     console.log("userinfoModalPosition::", userinfoModalPosition);
-    const [deviceType, setDeviceType] = useState('deskTop');
+    const [deviceType, setDeviceType] = useState('pc');
     const _setDeviceType = () => {
-        if(isMobileSize()){
-            setDeviceType('mobile');
-        }
-        else{
-            setDeviceType('deskTop');
-        }
+        setDeviceType(getBrowserSize());
     }
 
     useEffect(() => {
@@ -42,10 +37,11 @@ function Header(props) {
     const _setUserinfoModalPosition= () => {
         _setDeviceType();
         let iconEl:any;
+        console.log(getBrowserSize() );
         if(document.getElementsByClassName('userInfoMenuIcon').length > 0){
             iconEl = document.getElementsByClassName('userInfoMenuIcon')[0];
             console.log(deviceType, iconEl.offsetTop, iconEl.offsetLeft);
-            if(isMobileSize()){
+            if(getBrowserSize() != 'pc'){
                 setUserinfoModalPosition({
                     top: iconEl.offsetTop + 50,
                     left: iconEl.offsetLeft - 280 - 10
@@ -77,7 +73,7 @@ function Header(props) {
         <Mainheader>
             <div className='header'>
                 <div className={'logo'} onClick={goMain}>
-                    {deviceType == 'mobile'?
+                    {deviceType != 'pc'?
                         <svg width="52" height="18" viewBox="0 0 52 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 18C13.9706 18 18 13.9706 18 9C18 4.02944 13.9706 0 9 0C4.02944 0 0 4.02944 0 9C0 13.9706 4.02944 18 9 18Z" fill="#00416B"/>
                             <path d="M43.5429 0.0857143C43.1572 0.0428571 42.8143 0 42.4286 0C40.8 0 39.2572 0.428571 37.9286 1.2C37.8857 1.24286 37.8429 1.24286 37.8 1.28571C37.1572 1.62857 36.4286 1.8 35.6572 1.8C34.8857 1.8 34.1572 1.58571 33.5143 1.28571C33.4715 1.28571 33.4286 1.24286 33.3857 1.2C32.1429 0.471429 30.7286 0.0428571 29.1857 0C29.1 0 28.9715 0 28.8857 0C23.9143 0 19.8857 4.02857 19.8857 9C19.8857 13.9714 23.9143 18 28.8857 18C30.6 18 32.1857 17.5286 33.5143 16.7143C34.1572 16.3714 34.8857 16.2 35.6572 16.2C36.4286 16.2 37.1572 16.4143 37.8 16.7143C39.1715 17.5286 40.7572 18 42.4286 18C47.4 18 51.4286 13.9714 51.4286 9C51.4286 4.41429 48 0.642857 43.5429 0.0857143Z" fill="#005CB9"/>
@@ -90,9 +86,9 @@ function Header(props) {
                     }
                 </div>
                 <div className='title' onClick={goMain}>
-                    <div>{deviceType == 'mobile'? 'Bulit on Hope' : 'Online Exhibition of Third Countries with The World Bank | Bulit on Hope'}</div>
+                    <div>{deviceType != 'pc'? 'Bulit on Hope' : 'Online Exhibition of Third Countries with The World Bank | Bulit on Hope'}</div>
                 </div>
-                <div onClick={_showModal}>
+                <div onClick={_showModal} className='userInfoMenuIcon'>
                     <Logininfo/>
                 </div>
             </div>

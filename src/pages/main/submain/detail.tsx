@@ -14,7 +14,7 @@ import {
     Namecard, UserinfoModal,
     Booth, Profile, Sendmsg, Custommodal, Video, Img
 } from './../../../components/index'
-import {isMobileSize, textLineBreak} from "../../../common/common";
+import {getBrowserSize, textLineBreak} from "../../../common/common";
 
 import dummyImg from "./../../../assets/img/bg-dummy.png"
 
@@ -37,16 +37,11 @@ function Detail(props){
     const [selectedVisitor, setSelectedVisitor] = useState(null);
     const [showUserInfoModal, setShowUserInfoModal] = useState(false);
     const [showSendMsgModal, setShowSendMsgModal] = useState(false);
-    const numberOfVisitorPage = 10;
-    const [visitorsLimit, setVisitorsLimit] = useState(10);
-    const [deviceType, setDeviceType] = useState('deskTop');
+    const numberOfVisitorPage = 16;
+    const [visitorsLimit, setVisitorsLimit] = useState(16);
+    const [deviceType, setDeviceType] = useState('pc');
     const _setDeviceType = () => {
-        if(isMobileSize()){
-            setDeviceType('mobile');
-        }
-        else{
-            setDeviceType('deskTop');
-        }
+        setDeviceType(getBrowserSize());
     }
 
     useEffect(() => {
@@ -144,7 +139,7 @@ function Detail(props){
                                             case "video":
                                                 return <Video key={key} height={'480px'} src={component.value}/>;
                                             case "thumbnails":
-                                                return <Thumblist key={key} list={component.value} size={deviceType == 'mobile'? null : {width: 144, height: 144}} marginRight={deviceType == 'mobile'? 6 : 18} isMobile={deviceType == 'mobile'} /> ;
+                                                return <Thumblist key={key} list={component.value} size={deviceType != 'pc'? null : {width: 144, height: 144}} marginRight={deviceType != 'pc'? 6 : 18} isMobile={deviceType != 'pc'} /> ;
                                         }
                                     })
                                     : null
@@ -166,7 +161,7 @@ function Detail(props){
                         </div>
                         <div className='visitorList'>
                             {visitorsData != null && visitorsData.length > 0 ?
-                                deviceType == 'mobile'?
+                                deviceType != 'pc'?
                                     visitorsData.slice(0, visitorsLimit).map((el, key) => {
                                         return (
                                             <div key={key}><Namecard data={el} showMoreinfoBtn={()=>_onShowUserInfoModal(el)} /></div>
@@ -181,7 +176,7 @@ function Detail(props){
                                 : null
                             }
                         </div>
-                        {deviceType == 'mobile' && visitorsData.length > visitorsLimit?
+                        {deviceType != 'pc' && visitorsData.length > visitorsLimit?
                             <div className={'showMore'} onClick={()=>setVisitorsLimit(visitorsLimit + numberOfVisitorPage)}>
                                 <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.41 0.589843L6 5.16984L10.59 0.589844L12 1.99984L6 7.99984L-6.16331e-08 1.99984L1.41 0.589843Z" fill="#999999"/>

@@ -3,7 +3,6 @@ import styled from "styled-components";
 import dummyImg from "../../assets/img/bg-dummy.png";
 import Mentorinfo from "./mentorInfo";
 import {Hash, Video} from "../index";
-import {isMobileSize} from "../../common/common";
 
 function MentordetailContent(props){
     const hashStyle = {

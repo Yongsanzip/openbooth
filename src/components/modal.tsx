@@ -2,18 +2,13 @@ import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import ReactModal from 'react-modal';
 import CSS from 'csstype';
-import {isMobileSize} from "../common/common";
+import {getBrowserSize} from "../common/common";
 
 
 function Custommodal(props){
-  const [deviceType, setDeviceType] = useState('deskTop');
+  const [deviceType, setDeviceType] = useState('pc');
   const _setDeviceType = () => {
-    if(isMobileSize()){
-      setDeviceType('mobile');
-    }
-    else{
-      setDeviceType('deskTop');
-    }
+    setDeviceType(getBrowserSize());
   }
 
   useEffect(()=>{
@@ -48,7 +43,7 @@ function Custommodal(props){
     bottom                : 'auto',
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)',
-    width                 : props.width != null? props.width : deviceType != 'mobile'? '480px' : '320px',
+    width                 : props.width != null? props.width : deviceType == 'pc'? '480px' : '320px',
     height                : props.height != null? props.height : 'auto',
     padding               : 0,
     borderRadius          : '8px',

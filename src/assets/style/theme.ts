@@ -1,29 +1,35 @@
 import baseStyled, { css, CSSProp, ThemedStyledInterface } from 'styled-components';
 
 const sizes: { [key: string]: number; } = {
-    mobile: 360,
-    desktop: 1024
+    mobile: 414,
+    tablet: 768,
+    desktop: 768
 };
 
 type BackQuoteArgs = string[];
 
 interface Media {
     mobile: (...args: BackQuoteArgs) => CSSProp | undefined,
+    tablet: (...args: BackQuoteArgs) => CSSProp | undefined,
     desktop: (...args: BackQuoteArgs) => CSSProp | undefined,
 }
 
 const media: Media = {
     mobile: (...args: BackQuoteArgs) => undefined,
+    tablet: (...args: BackQuoteArgs) => undefined,
     desktop: (...args: BackQuoteArgs) => undefined
 };
 
 Object.keys(sizes).reduce((acc: Media, label: string) => {
     switch (label) {
         case 'desktop':
-            acc.desktop = (...args: BackQuoteArgs) => css`@media only screen and (min-width: ${sizes.mobile}px) {${args}}`;
+            acc.desktop = (...args: BackQuoteArgs) => css`@media only screen and (min-width: ${sizes.tablet}px) {${args}}`;
+            break;
+        case 'tablet':
+            acc.tablet = (...args: BackQuoteArgs) => css`@media only screen and (max-width: ${sizes.desktop}px) and (min-width: ${sizes.tablet}px) {${args}}`;
             break;
         case 'mobile':
-            acc.mobile = (...args: BackQuoteArgs) => css`@media only screen and (max-width: ${sizes.mobile}px) {${args}}`;
+            acc.mobile = (...args: BackQuoteArgs) => css`@media only screen and (max-width: ${sizes.tablet}px) {${args}}`;
             break;
         default:
             break;

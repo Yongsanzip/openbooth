@@ -125,7 +125,7 @@ export function getIntroduction (params) {
         "message": "",
         "data": {
             "exhibition_code": "",
-            "introduction_image": "http://",
+            "introduction_image": "http://localhost:3000/static/media/1.8d23c66c.jpg",
             "exhibition_thumbnail":"http://localhost:3000/static/media/1.8d23c66c.jpg",
             "exhibition_description":"Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat",
             "exhibition_name": "Online Exhibition of Thired Countries with The World Bank | Bulit on Hope",

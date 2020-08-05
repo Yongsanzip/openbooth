@@ -8,11 +8,14 @@ export const textLineBreak = (lines) => {
         : lines;
 }
 
-export const isMobileSize = () => {
-    if(window.outerWidth > 360){
-        return false;
+export const getBrowserSize = () => {
+    if(window.outerWidth >= 769){
+        return 'pc'
+    }
+    else if(window.outerWidth >= 415){
+        return 'tablet';
     }
     else {
-        return true;
+        return 'mobile';
     }
 }

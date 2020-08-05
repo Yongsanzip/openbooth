@@ -3,18 +3,13 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
 import {RootState} from "../modules";
 import {Button, Custommodal, Inputfield} from "./index";
-import {isMobileSize} from "../common/common";
+import {getBrowserSize} from "../common/common";
 
 function Accesscode(props) {
     const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
-    const [deviceType, setDeviceType] = useState('deskTop');
+    const [deviceType, setDeviceType] = useState('pc');
     const _setDeviceType = () => {
-        if(isMobileSize()){
-            setDeviceType('mobile');
-        }
-        else{
-            setDeviceType('deskTop');
-        }
+        setDeviceType(getBrowserSize());
     }
 
     useEffect(()=>{
@@ -44,8 +39,8 @@ function Accesscode(props) {
             <div className='btns modalBtns'>
                 {props.closeModal != null? <Button _clickBtn={props.closeModal} className={'mobileCloseBtn'} >{languageData.close}</Button> : null}
                 <Button _clickBtn={_access} width={105} style={{
-                    padding: deviceType != 'mobile'? '7px 0' : '6px 0',
-                    width: deviceType != 'mobile'? '105px': '88px'
+                    padding: deviceType == 'pc'? '7px 0' : '6px 0',
+                    width: deviceType == 'pc'? '105px': '88px'
                 }} fill={true} >{props.btn}</Button>
             </div>
         </AccesscodeComp>

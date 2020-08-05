@@ -11,7 +11,7 @@ import {
 } from "../../modules/token/token";
 
 import {Img, Checkboxfield, Inputfield, Button, Alertmodal} from "../../components";
-import {isMobileSize, textLineBreak} from "../../common/common";
+import {getBrowserSize, textLineBreak} from "../../common/common";
 
 import dummyImg from "../../assets/img/bg-dummy.png";
 
@@ -32,14 +32,14 @@ const Login = props => {
 
     // console.log("pageType:::::::::::::", pageType);
 
-    const [deviceType, setDeviceType] = useState('deskTop');
+    const [deviceType, setDeviceType] = useState('pc');
     const _setDeviceType = (page:any) => {
-        console.log("_setDeviceType")
+        setDeviceType(getBrowserSize());
+
         if(page == null) page = pageType;
         let appEl:any;
         if(document.getElementById("app") != null) appEl = document.getElementById("app");
-        if(isMobileSize()){
-            setDeviceType('mobile');
+        if(getBrowserSize() != 'pc'){
             if(appEl != null){
                 let height = '100%';
                 if(page == 'regist') height = 'auto';
@@ -47,7 +47,6 @@ const Login = props => {
             }
         }
         else{
-            setDeviceType('deskTop');
             if(appEl != null) appEl.style.height = '100%';
         }
     }
@@ -487,10 +486,10 @@ const Login = props => {
                         </InputFieldComp>
                         <InputFieldComp className={pageType == 'login' || pageType == 'regist' || pageType == 'resetPwd'? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Password <span ref={warnningPwdRef} className={'warn'}>Password format is incorrect</span></div>
-                            <Inputfield type={'password'} name={'password'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={deviceType != 'mobile'? languageData.passwordRule : 'Password'} noEmpty={true} validator={pageType == 'login'? null : _checkPwdFormat} _onKeyUp={_onKeyUp}/>
+                            <Inputfield type={'password'} name={'password'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={deviceType == 'pc'? languageData.passwordRule : 'Password'} noEmpty={true} validator={pageType == 'login'? null : _checkPwdFormat} _onKeyUp={_onKeyUp}/>
                         </InputFieldComp>
                         <InputFieldComp className={pageType == 'regist' || pageType == 'resetPwd'? 'show passwordConfirm' : 'hide passwordConfirm'} >
-                            <Inputfield type={'password'} name={'passwordConfirm'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={deviceType != 'mobile'? languageData.repeatPwd : 'Repeat password'} noEmpty={true} validator={_checkPwdFormat} _onKeyUp={_onKeyUp} />
+                            <Inputfield type={'password'} name={'passwordConfirm'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={deviceType == 'pc'? languageData.repeatPwd : 'Repeat password'} noEmpty={true} validator={_checkPwdFormat} _onKeyUp={_onKeyUp} />
                         </InputFieldComp>
                         <InputFieldComp className={pageType == 'regist'? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Name <span className={'warn'}>{languageData.emptyValueMsg}</span></div>
@@ -507,22 +506,22 @@ const Login = props => {
                         <InputFieldComp className={pageType == 'regist2'? 'show' : 'hide'} >
                             <Inputfield type={'file'} name={'profileImg'} width={'100%'} style={inputFieldStyle}/>
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist' && deviceType=='mobile'? 'show visitorInfo' : 'hide visitorInfo'} >
+                        <InputFieldComp className={pageType == 'regist' && deviceType !='pc'? 'show visitorInfo' : 'hide visitorInfo'} >
                             Visitor information
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist2' || (pageType == 'regist' && deviceType=='mobile')? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType == 'regist2' || (pageType == 'regist' && deviceType !='pc')? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Country <span className={'warn'}>Select this value</span></div>
                             <Inputfield name={'country'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Country'} noEmpty={true} />
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist2' || (pageType == 'regist' && deviceType=='mobile')? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType == 'regist2' || (pageType == 'regist' && deviceType !='pc')? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Company / affiliation <span className={'warn'}>{languageData.emptyValueMsg}</span></div>
                             <Inputfield name={'company'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Company or affiliation'} noEmpty={true} />
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist2' || (pageType == 'regist' && deviceType=='mobile')? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType == 'regist2' || (pageType == 'regist' && deviceType !='pc')? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Department <span className={'warn'}>Select this value</span></div>
                             <Inputfield name={'department'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Department'} noEmpty={true} />
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist2' || (pageType == 'regist' && deviceType=='mobile')? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType == 'regist2' || (pageType == 'regist' && deviceType !='pc')? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Position <span className={'warn'}>Select this value</span></div>
                             <Inputfield name={'position'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Position'} noEmpty={true} />
                         </InputFieldComp>
@@ -533,15 +532,15 @@ const Login = props => {
                             </div>
                         </InputFieldComp>
                         <InputFieldComp className={pageType == 'findPwd'? 'show alignRight sendBtn' : 'hide alignRight sendBtn'} >
-                            <Button fill={true} width={104} style={{height: '36px', padding: '7px 35px', 'font-weight': 'bold'}} _clickBtn={_SendResetPwdLink}>Send</Button>
+                            <Button fill={true} width={104} style={deviceType == 'pc'? {height: '36px', padding: '7px 35px', 'font-weight': 'bold'} : null} _clickBtn={_SendResetPwdLink}>Send</Button>
                         </InputFieldComp>
                         <InputFieldComp className={pageType == 'resetPwd'? 'show alignRight saveBtn' : 'hide alignRight saveBtn'} >
-                            <Button fill={true} width={104} style={{height: '36px', padding: '7px 35px', 'font-weight': 'bold'}} _clickBtn={_setNewPwd}>Save</Button>
+                            <Button fill={true} width={104} style={deviceType == 'pc'? {height: '36px', padding: '7px 35px', 'font-weight': 'bold'} : null} _clickBtn={_setNewPwd}>Save</Button>
                         </InputFieldComp>
-                        <InputFieldComp  className={pageType == 'regist' && deviceType !='mobile' ? 'show registBtn' : 'hide registBtn'} >
+                        <InputFieldComp  className={pageType == 'regist' && deviceType =='pc' ? 'show registBtn' : 'hide registBtn'} >
                             <Button width={'100%'} style={registBtnStyle} _clickBtn={()=>_setPageType('regist2')}>Next step</Button>
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist2' || (pageType == 'regist' && deviceType=='mobile')? 'show registBtn' : 'hide registBtn'} >
+                        <InputFieldComp className={pageType == 'regist2' || (pageType == 'regist' && deviceType !='pc')? 'show registBtn' : 'hide registBtn'} >
                             <Button fill={true} width={'100%'} _clickBtn={_regist}>Register</Button>
                         </InputFieldComp>
                         <InputFieldComp className={pageType == 'login'? 'show inlineBox btns loginBtmBtns_desktop' : 'hide inlineBox btns loginBtmBtns_desktop'} >
@@ -554,12 +553,6 @@ const Login = props => {
                                 <Button width={'210'} style={btnStyle} _clickBtn={()=>_setPageType('regist')}>Register</Button>
                             </div>
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'login'? 'show btns loginBtmBtns_mobile' : 'hide btns loginBtmBtns_mobile'} >
-                            <div>
-                                <div className={'fieldTitle'}>{languageData.registerTitle}</div>
-                                <Button width={'100%'} style={btnStyle} _clickBtn={()=>_setPageType('regist')}>Register</Button>
-                            </div>
-                        </InputFieldComp>
                         <InputFieldComp className={pageType == 'regist' || pageType == 'regist2'? 'show inlineBox btns registBtmBtns_desktop' : 'hide inlineBox btns registBtmBtns_desktop'} >
                             <div>
                                 <div className={'fieldTitle'}>{languageData.forgotPwdTitle}</div>
@@ -570,22 +563,34 @@ const Login = props => {
                                 <Button width={'210'} style={btnStyle} _clickBtn={()=>_setPageType('login')}>Login</Button>
                             </div>
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'findPwd'? 'show findPwdDescript' : 'hide findPwdDescript'} >
+                        <InputFieldComp className={pageType == 'findPwd' && deviceType =='pc'? 'show findPwdDescript' : 'hide findPwdDescript'} >
                             <b>openbooth@openbooth.net</b><br/>
                             <div className={'description'}>{languageData.sendPwdResetMailDescript}</div>
                         </InputFieldComp>
                     </form>
                 </div>
             </div>
+            {pageType == 'findPwd' && deviceType !='pc'?
+                <div className={'mobileBtmDescript'}>
+                    <div>openbooth@openbooth.net</div>
+                    <div>{languageData.sendPwdResetMailDescript}</div>
+                </div>
+                : null
+            }
+            {pageType == 'login' && deviceType !='pc'?
+                <InputFieldComp className={'loginBtmBtns_mobile btns'} >
+                    <div>
+                        <div className={'fieldTitle'}>{languageData.registerTitle}</div>
+                        <Button width={'100%'} style={btnStyle} _clickBtn={()=>_setPageType('regist')}>Register</Button>
+                    </div>
+                </InputFieldComp>
+                : null
+            }
             <Alertmodal data={registAlertData} showModal={showRegistAlert} closeModal={_closeRegistAlert} onClick={()=>_regist()} />
         </LoginComp>
     )
 }
 export default Login;
-
-interface InputFieldCompProps {
-	marginTop: any;
-}
 
 const InputFieldComp = styled.div`
     position: relative;
@@ -596,28 +601,10 @@ const InputFieldComp = styled.div`
     ${({theme}) => theme.media.mobile`
     padding: 0 20px;
     `}
-    
-    ${({theme}) => theme.media.mobile`
-    // &.regist2 {
-    //     display: block;
-    //     opacity: 1;
-    // }
-    `}
     &.passwordConfirm, &.sendBtn {
         padding-top: 8px;
         ${({theme}) => theme.media.mobile`
         padding-top: 16px;
-            button {
-                width: 100%;
-                padding: 13px 0;
-                font-weight: bold;
-                font-size: 16px;
-                line-height: 24px;
-                height: auto;
-            }
-        &.sendBtn {
-            margin-bottom: 116px;
-        }
         &.passwordConfirm {
             padding-top: 8px;
         }
@@ -659,14 +646,6 @@ const InputFieldComp = styled.div`
         `}
         ${({theme}) => theme.media.mobile`
         padding-top: 16px;
-        button {
-            width: 100%;
-            padding: 13px 0;
-            font-weight: bold;
-            font-size: 16px;
-            line-height: 24px;
-            height: auto;
-        }
         `}
     }
     &.registBtn {
@@ -674,20 +653,12 @@ const InputFieldComp = styled.div`
         padding-top: 16px;
         `}
         ${({theme}) => theme.media.mobile`
-        padding: 40px 20px;
+        padding: 40px 20px 0 20px;
         `}
     }
     &.loginBtmBtns_desktop {
         padding-top: 10px;
         ${({theme}) => theme.media.mobile`
-        display: none;
-        `}
-    }
-    &.loginBtmBtns_mobile {
-        border-top: 1px solid #E9E9E9;
-        padding: 23px 20px;
-    
-        ${({theme}) => theme.media.desktop`
         display: none;
         `}
     }
@@ -738,6 +709,17 @@ ${({theme}) => theme.media.mobile`
     max-width: inherit;
     min-width: initial;
     max-height: inherit;
+    display: flex;
+    flex-direction: column;
+    > *: first-child { flex: 1; }
+    button {
+        width: 100%;
+        padding: 13px 0;
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 22px;
+        color: #FFFFFF;
+    }
 `}
 > div {
     width: fit-content;
@@ -799,6 +781,7 @@ ${({theme}) => theme.media.mobile`
         ${({theme}) => theme.media.mobile`
             display: block;
         `}
+        width: 100%;
         padding: 0 20px;
         font-style: normal;
         font-weight: 800;
@@ -814,6 +797,7 @@ ${({theme}) => theme.media.mobile`
         `}
         ${({theme}) => theme.media.mobile`
             width: 100%;
+            margin-bottom: 24px;
         `};
         > form {
             & .findPwdDescript {
@@ -828,7 +812,6 @@ ${({theme}) => theme.media.mobile`
                 ${({theme}) => theme.media.mobile`
                     :first-child { margin-top: 0; }
                     padding: 0 20px;
-                    :last-child { margin-bottom: 0; border-top: 1px solid #E9E9E9; padding-top: 41px; }
                 `}
                 & h2 {
                     ${({theme}) => theme.media.mobile`
@@ -885,6 +868,31 @@ ${({theme}) => theme.media.mobile`
             }
         }
     }
+}
+.mobileBtmDescript {
+    border-top: 1px solid #E9E9E9;
+    padding: 40px 0;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+    color: #FFFFFF;
+    > * {
+        padding: 0 20px;
+        :first-child {
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 24px;
+        }
+    }
+}
+.loginBtmBtns_mobile {
+    border-top: 1px solid #E9E9E9;
+    padding: 23px 20px;
+    > * { width: 100%; }
+
+    ${({theme}) => theme.media.desktop`
+    display: none;
+    `}
 }
 .weightNormal {
     font-weight: normal;

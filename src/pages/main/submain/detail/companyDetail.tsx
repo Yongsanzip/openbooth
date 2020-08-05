@@ -18,7 +18,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import {RootState} from "../../../../modules";
 import {getCompanyDetailDataReducer} from "../../../../modules/exhibition/exhibition";
-import {isMobileSize} from "../../../../common/common";
+import {getBrowserSize} from "../../../../common/common";
 
 function Companydetail(props) {
     let languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
@@ -49,14 +49,9 @@ function Companydetail(props) {
         'fieldname': languageData == null? '' : languageData.desiredInvestment,
         'value': companyDetailData == null? '' : companyDetailData.business_information.investment_stage
     }];
-    const [deviceType, setDeviceType] = useState('deskTop');
+    const [deviceType, setDeviceType] = useState('pc');
     const _setDeviceType = () => {
-        if(isMobileSize()){
-            setDeviceType('mobile');
-        }
-        else{
-            setDeviceType('deskTop');
-        }
+        setDeviceType(getBrowserSize());
     }
 
     useEffect(() => {
@@ -171,7 +166,7 @@ function Companydetail(props) {
                                     : null
                                 }
                             </div>
-                            {companyDetailData != null? <Profile data={companyDetailData} type='company' isMobile={deviceType == 'mobile'}/> : null }
+                            {companyDetailData != null? <Profile data={companyDetailData} type='company' isMobile={deviceType != 'pc'}/> : null }
                         </CompanyNamePannel>
                         <div className='border'>
                             <Pannel title={languageData==null? '' : languageData.ExhibitorDescription}>
@@ -181,9 +176,9 @@ function Companydetail(props) {
                                             case "text":
                                                 return <div key={key} className='text'>{component.value}</div>;
                                             case "video":
-                                                return <Video key={key} height={deviceType == 'mobile'? '160px' : '480px'} src={component.value}/>;
+                                                return <Video key={key} height={deviceType != 'pc'? '160px' : '480px'} src={component.value}/>;
                                             case "thumbnails":
-                                                return <Thumblist key={key} list={component.value} companyData={companyDetailData} isMobile={deviceType == 'mobile'} /> ;
+                                                return <Thumblist key={key} list={component.value} companyData={companyDetailData} isMobile={deviceType != 'pc'} /> ;
                                         }
                                     }): null
                                 }
@@ -194,7 +189,7 @@ function Companydetail(props) {
                                 {tabItem != null && tabItem.length > 0?
                                     tabItem.map((tab: any, key)=> {
                                         return <div key={key} className={key+' hide'}>
-                                            <TabContent component={tab.component} companyData={companyDetailData} isMobile={deviceType == 'mobile'} />
+                                            <TabContent component={tab.component} companyData={companyDetailData} isMobile={deviceType != 'pc'} />
                                         </div>
                                     })
                                     : null
@@ -211,7 +206,7 @@ function Companydetail(props) {
                         }
                         {companyDetailData != null && companyDetailData.documents != null?
                             <div className='border'>
-                                <Documentlist title={languageData.mentoringDocument} list={companyDetailData.documents} isMobile={deviceType == 'mobile'} />
+                                <Documentlist title={languageData.mentoringDocument} list={companyDetailData.documents} isMobile={deviceType != 'pc'} />
                             </div>
                             : null
                         }

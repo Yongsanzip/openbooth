@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
 import {Img, Hash, Ellipsis} from "./index";
-import {isMobileSize} from "../common/common";
 
 function BoothHashes(props){
     return(
@@ -18,7 +17,6 @@ function BoothHashes(props){
     )
 }
 function Booth(props){
-    const isMobile = isMobileSize();
     const { data, onClick, type } = props;
     return (
         <BoothComp type={type}>

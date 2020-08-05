@@ -3,18 +3,13 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
 import {RootState} from "../../../../modules";
 import {Detailmenubar, MentordetailContentComp, Documentlist, Accesscode} from "../../../../components";
-import {isMobileSize} from "../../../../common/common";
+import {getBrowserSize} from "../../../../common/common";
 
 function Mentordetail(props){
     const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
-    const [deviceType, setDeviceType] = useState('deskTop');
+    const [deviceType, setDeviceType] = useState('pc');
     const _setDeviceType = () => {
-        if(isMobileSize()){
-            setDeviceType('mobile');
-        }
-        else{
-            setDeviceType('deskTop');
-        }
+        setDeviceType(getBrowserSize());
     }
 
     useEffect(()=>{
@@ -53,10 +48,10 @@ function Mentordetail(props){
         <div>
             <Detailmenubar data={mentorData.mentorInfo} title={mentorData.mentorInfo.name}/>
             <DetailContent>
-                <MentordetailContentComp data={mentorData.mentorInfo} isMobile={deviceType == 'mobile'} />
+                <MentordetailContentComp data={mentorData.mentorInfo} isMobile={deviceType != 'pc'} />
                 <div>
-                    <Documentlist title={languageData.mentoringDocument} list={mentorData.documentList} isMobile={deviceType == 'mobile'} />
-                    <Accesscode data={mentorData.accessModalData} btn={languageData.enter} type="small" isMobile={deviceType == 'mobile'} />
+                    <Documentlist title={languageData.mentoringDocument} list={mentorData.documentList} isMobile={deviceType != 'pc'} />
+                    <Accesscode data={mentorData.accessModalData} btn={languageData.enter} type="small" isMobile={deviceType != 'pc'} />
                 </div>
             </DetailContent>
         </div>
