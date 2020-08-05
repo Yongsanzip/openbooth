@@ -606,7 +606,7 @@ const InputFieldComp = styled.div`
         ${({theme}) => theme.media.mobile`
         padding-top: 16px;
         &.passwordConfirm {
-            padding-top: 8px;
+            padding-top: 0;
         }
         `}
     }

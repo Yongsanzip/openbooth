@@ -43,7 +43,7 @@ ${(props: BoothCompProps) => (props.type != null && props.type == 'sub'? 'width:
 ${(props: BoothCompProps) => (props.type != null && props.type == 'sub' ? 'height: 306px;' : 'height: 420px;')};
 `}
 ${({theme}) => theme.media.mobile`
-${(props: BoothCompProps) => (props.type != null && props.type == 'sub'? 'width: 180px;' : 'width: 100%; max-width: 320px;')};
+${(props: BoothCompProps) => (props.type != null && props.type == 'sub'? 'width: 180px;' : 'width: 100%;')};
 ${(props: BoothCompProps) => (props.type != null && props.type == 'sub' ? 'height: auto;' : 'height: 355px;')};
 `}
 background: #FFFFFF;

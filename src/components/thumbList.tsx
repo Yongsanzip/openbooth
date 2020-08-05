@@ -20,6 +20,17 @@ function Thumblist(props){
         }
     }
 
+    const moveSlideActive = (arrow) => {
+        if(arrow == 'prev'){
+            if(activeItemIndex < 1) return;
+            setActiveItemIndex(activeItemIndex - 1);
+        }
+        else{
+            if(activeItemIndex >= props.list.length) return;
+            setActiveItemIndex(activeItemIndex + 1);
+        }
+    }
+
     const ShowViewer = (idx) => {
         setActiveViewerIdx(idx);
         setIsShowViewer(true)
@@ -45,17 +56,49 @@ function Thumblist(props){
                     }) : null
                 }
             </Carousel>
-
             {isShowViewer? <ImgViewer closeViewer={()=>setIsShowViewer(false)} list={props.list} activeIdx={activeViewerIdx} setActiveIdx={setActiveViewerIdx} companyData={props.companyData}/> : null }
+            <ListControllerComp>
+                <div onClick={()=>moveSlideActive('prev')}>
+                    <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.41016 1.41L2.83016 6L7.41016 10.59L6.00016 12L0.000156927 6L6.00016 -1.23266e-07L7.41016 1.41Z" fill="#999999"/>
+                    </svg>
+                </div>
+                <div onClick={()=>moveSlideActive('next')}>
+                    <svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0.589844 10.59L5.16984 6L0.589844 1.41L1.99984 0L7.99984 6L1.99984 12L0.589844 10.59Z" fill="#999999"/>
+                    </svg>
+                </div>
+            </ListControllerComp>
         </ThumblistComp>
     )
 }
+
 interface ThumblistCompProps {
     size:any;
     marginRight:any;
     columns:any;
 }
+
+const ListControllerComp = styled.div`
+${({theme}) => theme.media.desktop`
+display: none;
+`}
+${({theme}) => theme.media.mobile`
+display: block;
+`}
+position: absolute;
+top: 50%;
+margin-top: -12px;
+width: 100%;
+> * {
+    position: absolute;
+    top: 0;
+    :first-child { left: 12px; }
+    :last-child { right: 12px; }
+}
+`;
 const ThumblistComp = styled.div`
+    position: relative;
     width: 100%;
     overflow: hidden;
     .imgBox { line-height: 0; }

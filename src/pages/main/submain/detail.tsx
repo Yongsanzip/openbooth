@@ -152,7 +152,7 @@ function Detail(props){
                             </Pannel>
                         </div>
                         <div className='border'>
-                            <Documentlist title={languageData.exhibitDocuments} list={introductionData.documents} />
+                            <Documentlist title={languageData.exhibitDocuments} list={introductionData.documents} isMobile={deviceType != 'pc'}/>
                         </div>
                     </div>
                     <div className='tabContent visitors hide'>
@@ -223,8 +223,14 @@ const TabpanelComp = styled.div`
             border-radius: 8px;
             overflow: hidden;
         }
-        :last-child { padding-bottom: 120px; }        
-        :last-child { padding-bottom: 120px; }        
+        :last-child {
+            ${({theme}) => theme.media.desktop`
+            padding-bottom: 120px;
+            `}
+            ${({theme}) => theme.media.mobile`
+            padding-bottom: 40px;
+            `}
+        }
     }
     & .visitors {
         position: relative;
