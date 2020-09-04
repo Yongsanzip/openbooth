@@ -1,10 +1,6 @@
-import React, {Component, useState} from 'react';
+import React, {useState} from 'react';
 import styled from "styled-components";
-import Carousel, { Dots } from '@brainhubeu/react-carousel';
-import '@brainhubeu/react-carousel/lib/style.css';
-import img1 from "./../assets/img/1.jpg";
-import img2 from "./../assets/img/2.jpg";
-import img3 from "./../assets/img/3.jpg";
+import Carousel from '@brainhubeu/react-carousel';
 import {Ellipsis, RollingBannerButton} from "./index";
 
 function Mainbanner(props){
@@ -14,11 +10,11 @@ function Mainbanner(props){
     const onActiveChange = (v) => {
         if(v >= props.data.length) v = 0;
         setActiveIdx(v)
-    }
+    };
 
     const moveActiveBanner = (arrow) => {
         let idx = activeIdx;
-        if(arrow == 'prev') {
+        if(arrow === 'prev') {
             idx = idx-1;
             if(idx < 0) idx = props.data.length;
         }
@@ -27,7 +23,7 @@ function Mainbanner(props){
             if(idx > props.data.length-1) idx = 0;
         }
         onActiveChange(idx);
-    }
+    };
 
     return (
         <Banner height={height}>
@@ -42,8 +38,8 @@ function Mainbanner(props){
                 {props.data && props.data.length > 0 ?
                     props.data.map((el, key) => {
                         return (
-                            <Banneritem key={key} height={null}>
-                                <img src={img1} height={height} />
+                            <Banneritem key={key} height={height}>
+                                <img src={el.booth_banner} height={height} />
                                 {/*el.booth_banner*/}
                                 <div className='titleInfo'>
                                     {el.category.join(', ')} | {el.company_name}<br/>
@@ -144,11 +140,31 @@ const Banner = styled.div`
 position: relative;
 width: 100%;
 height: ${(props:BannerProps) => (props.height != null ? props.height+'px' : '280px')};
-.controllers {
+background: #000000;
+.BrainhubCarouselItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
-    margin: 0 auto;
+}
+.BrainhubCarousel .BrainhubCarousel__trackContainer .BrainhubCarousel__track {
+    display: flex;
+    overflow: hidden;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.BrainhubCarousel .BrainhubCarousel__trackContainer {
+    overflow: hidden;
+}
+.BrainhubCarousel {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+.BrainhubCarousel__container {
     width: 100%;
-    max-width: 1280px;
+    overflow: hidden;
 }
 `;
 

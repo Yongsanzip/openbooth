@@ -1,13 +1,18 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import { useHistory } from 'react-router-dom';
 
 import {Hambutton, Sendmsg} from './index'
+import {useClientRect} from "../common/common";
 
 const Detailmenubar = (props) => {
   const history = useHistory();
   const [isShowMsgModal, setIsShowMsgModal] = useState(false);
-  const detailmenubarRef = useRef(null);
+  const [detailmenubarEl, detailmenubarRef] = useClientRect(null);
+  const msgData = {
+    name: props.data == null? '' : props.data.company_name,
+    email: props.data == null? '' : props.data.email
+  };
 
   const _sentMsg = function(){
     console.log("SEND MSG");
@@ -16,32 +21,23 @@ const Detailmenubar = (props) => {
 
   useEffect(() => {
     window.addEventListener('scroll', _isSubmenuTop);
+    return()=>{
+      window.removeEventListener('scroll', _isSubmenuTop);
+    }
   }, []);
 
   const _isSubmenuTop = function() {
-
-    let detailmenubarEl:any;
-    if (typeof detailmenubarRef !== 'undefined' &&
-        typeof detailmenubarRef.current !== 'undefined') {
-      detailmenubarEl = detailmenubarRef.current;
-
-      if(detailmenubarEl != null){
-        const offsetTop = detailmenubarEl.offsetTop;
-        if(window.scrollY > offsetTop){
-          detailmenubarEl.classList.add('fixedOnTop');
-        }
-        else{
-          detailmenubarEl.classList.remove('fixedOnTop');
-        }
+    if (detailmenubarEl != null && detailmenubarEl.current != null) {
+      const offsetTop = detailmenubarEl.offsetTop;
+      if(window.scrollY > offsetTop){
+        detailmenubarEl.classList.add('fixedOnTop');
+      }
+      else{
+        detailmenubarEl.classList.remove('fixedOnTop');
       }
     }
+  };
 
-  }
-
-  const msgData = {
-    name: props.data == null? '' : props.data.company_name,
-    email: props.data == null? '' : props.data.email
-  }
 
   return (
       <DetailmenuComp ref={detailmenubarRef}>
@@ -55,7 +51,8 @@ const Detailmenubar = (props) => {
           <Sendmsg showModal={isShowMsgModal} data={msgData} closeModal={()=>setIsShowMsgModal(false)} sentMsgToMentor={_sentMsg} />
       </DetailmenuComp>
   )
-}
+};
+export default Detailmenubar;
 
 const DetailmenuComp = styled.div`
 width: 100%;
@@ -90,5 +87,3 @@ box-sizing: border-box;
   }
 }
 `;
-
-export default Detailmenubar;

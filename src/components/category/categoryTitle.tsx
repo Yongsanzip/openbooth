@@ -3,10 +3,9 @@ import styled from "styled-components";
 import {Ellipsis} from "../index";
 
 function CategoryTitle(props){
-    console.log(props);
     return (
         <CategoryTitleComp onClick={props._onClick != null? props._onClick : null}>
-            <CategoryTitleImgComp src={props.data.category_image}></CategoryTitleImgComp>
+            <CategoryTitleImgComp src={props.data.category_image}/>
             <div className='titleText'><Ellipsis>{props.data.category}</Ellipsis></div>
         </CategoryTitleComp>
     )

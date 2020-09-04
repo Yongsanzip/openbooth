@@ -5,18 +5,18 @@ import {Sendmsg, Namecard, Profile, Custommodal, Button} from "../index";
 function MentorinfoModal(props){
     const [showSendMsgModal, setShowSendMsgModal] = useState(false);
     const _showSendMsgModal = ()=> {
-        console.log("click msg btn")
+        // console.log("click msg btn");
         setShowSendMsgModal(true);
-    }
+    };
 
     const _closeSendMsgModal = ()=> {
         setShowSendMsgModal(false);
-    }
+    };
 
     const _sentMsg = () => {
         _closeSendMsgModal();
         props.handleCloseModal();
-    }
+    };
 
     return(
         <Custommodal showModal={props.showModal} closeModal={props.handleCloseModal}>
@@ -40,10 +40,10 @@ function Mentorinfo(props){
     const _showMentorInfo = (e) => {
         if(e != null) e.stopPropagation();
         setShowMentorInfoModal(true);
-    }
+    };
     const _closeMentorInfo = () => {
         setShowMentorInfoModal(false);
-    }
+    };
 
     return (
         <MentorinfoComp padding={props.padding}>

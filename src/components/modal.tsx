@@ -9,7 +9,7 @@ function Custommodal(props){
   const [deviceType, setDeviceType] = useState('pc');
   const _setDeviceType = () => {
     setDeviceType(getBrowserSize());
-  }
+  };
 
   useEffect(()=>{
     ReactModal.setAppElement('#app');
@@ -25,16 +25,16 @@ function Custommodal(props){
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
     props.closeModal();
-  }
+  };
 
   const _onClickClose = (e)=> {
     e.stopPropagation();
     props.closeModal();
-  }
+  };
 
   const _stopBubbling = (e)=> {
     e.stopPropagation();
-  }
+  };
 
   let contentCustomStyles: any = {
     top                   : '50%',
@@ -43,7 +43,7 @@ function Custommodal(props){
     bottom                : 'auto',
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)',
-    width                 : props.width != null? props.width : deviceType == 'pc'? '480px' : '320px',
+    width                 : props.width != null? props.width : deviceType === 'pc'? '480px' : '320px',
     height                : props.height != null? props.height : 'auto',
     padding               : 0,
     borderRadius          : '8px',

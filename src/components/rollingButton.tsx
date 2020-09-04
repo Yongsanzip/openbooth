@@ -6,10 +6,10 @@ function RollingButton(props){
 
     const _onMouseOver = (val)=> {
         setIsHover(val);
-    }
+    };
 
     const _setClass = () => {
-        let classes = new Array();
+        let classes:any = [];
         if(props.toLeft){
             classes.push('prev');
         }
@@ -21,7 +21,7 @@ function RollingButton(props){
             classes.push('hover');
         }
         return classes.join(' ');
-    }
+    };
 
     return (
         <RollingBtn onMouseOver={()=>_onMouseOver(true)} onMouseOut={()=>_onMouseOver(false)}>

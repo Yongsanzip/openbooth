@@ -1,63 +1,76 @@
-import React, {Component, createRef, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
-import {Pannel} from "./index";
-import {Link} from "react-router-dom";
-import CompanyListitem from "./category/companylistitem";
-import Listitem from "./category/listitem";
+import {useClientRect} from "../common/common";
 
 function Tabpannel(props) {
-    const tabTitle = useRef(null);
-    const tabContent = useRef(null);
+    const [tabTitle, tabTitleRef] = useClientRect(null);
+    const [tabContent, tabContentRef] = useClientRect(null);
     const [activePosition, setActivePosition] = useState({width:0, left: 0});
     const [activeTab, setActiveTab] = useState(0);
 
     const _onClickTab = function(idx){
-        // if(props.changeActiveTab == null) return;
-        // props.changeActiveTab(idx);
-        setActiveTab(idx);
+        if(tabTitle.children == null || tabTitle.children.length < 0) return;
+        setActivePosition({width: tabTitle.children[idx].offsetWidth, left: tabTitle.children[idx].offsetLeft});
 
-        let tabTitleEl:any;
-        if (typeof tabTitle !== 'undefined' &&
-            typeof tabTitle.current !== 'undefined') {
-            tabTitleEl = tabTitle.current;
-        }
-        if(tabTitleEl == null || tabTitleEl.children.length < 1) return;
-        setActivePosition({width: tabTitleEl.children[idx].offsetWidth, left: tabTitleEl.children[idx].offsetLeft});
-
-        if(tabContent.current == null) return;
-        let tabContentEl:any;
-        if (typeof tabContent !== 'undefined' &&
-            typeof tabContent.current !== 'undefined') {
-            tabContentEl = tabContent.current;
-        }
         props.tabs.forEach(function(el, idx) {
-            tabContentEl.children[idx].classList.remove('show')
-            tabContentEl.children[idx].classList.add('hide');
+            if(tabContent.children[idx] == null) return;
+            tabContent.children[idx].classList.remove('show');
+            tabContent.children[idx].classList.add('hide');
         });
         const key = props.tabs[idx].name;
-        tabContentEl.getElementsByClassName(key)[0].classList.add('show');
-        tabContentEl.getElementsByClassName(key)[0].classList.remove('hide');
+        if(tabContent.getElementsByClassName(key).length < 1) return;
+        tabContent.getElementsByClassName(key)[0].classList.add('show');
+        tabContent.getElementsByClassName(key)[0].classList.remove('hide');
 
+        if(idx === activeTab) return;
+        setActiveTab(idx);
         if(props._onChangeTab) props._onChangeTab(idx);
-    }
+    };
 
+    const setTabTitleClass = (key) => {
+        let classList:any = [];
+        if(activeTab === key) classList.push("active");
+        if(props.tabs[key].name === '-') classList.push("flex");
+
+        return classList.join(" ");
+    };
+
+    useEffect(()=>{
+        if(props.children != null && props.tabs != null && props.tabs.length > 0){
+            _onClickTab(props.activeTab == null? 0 : props.activeTab);
+        }
+    }, [props.children]);
     useEffect(() => {
-        _onClickTab(props.activeTab == null? 0 : props.activeTab);
-    }, []);
+        function setActiveTabStyle() {
+            _onClickTab(props.activeTab == null? 0 : props.activeTab);
+        }
+
+        if(props.tabs != null && props.tabs.length > 0 && activePosition.width === 0){
+            setActiveTabStyle();
+            window.addEventListener('resize', setActiveTabStyle);
+        }
+        if(props.activeTab != null && props.activeTab !== activeTab){
+            setActiveTabStyle();
+        }
+
+        return () => {
+            window.removeEventListener('resize', setActiveTabStyle);
+        };
+    }, [props.tabs, props.activeTab, tabTitle.current, tabContent.current, activePosition]);
 
     return (
         <TabPannelComp activePosition={activePosition} width={props.width} noMargin={props.noMargin} type={props.type}>
             <div className='tabTitle'>
-                <ul ref={tabTitle}>
+                <ul ref={tabTitleRef}>
                     {props.tabs && props.tabs.length > 0 ?
                         props.tabs.map((item, key) => {
                             return (
-                                <li className={activeTab==key? 'active':''} key={key} onClick={()=>_onClickTab(key)}>{item.title}</li>
+                                <li className={setTabTitleClass(key)} key={key} onClick={()=>_onClickTab(key)}>{item.title !== '-'? item.title : ''}</li>
                             )
                         }) : null }
                 </ul>
             </div>
-            <div className='tabContent' ref={tabContent}>
+            <div className='tabContent' ref={tabContentRef}>
                 {props.children}
             </div>
         </TabPannelComp>
@@ -114,7 +127,7 @@ border-radius: 8px;
         display: inline-block;
         font-weight: bold;
         ${({theme}) => theme.media.desktop`
-        ${(props: TabPannelCompProps) => (props.type != null && props.type == 'contactBox'? 'font-size: 14px;' : 'font-size: 16px;line-')};
+        ${(props: TabPannelCompProps) => (props.type != null && props.type === 'contactBox'? 'font-size: 14px;' : 'font-size: 16px;line-')};
         line-height: 24px;
         margin-right: 24px;
         `}

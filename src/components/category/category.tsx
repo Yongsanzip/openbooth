@@ -1,32 +1,29 @@
-import React, { Component } from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import List from "./list";
 
 function Category(props) {
-    const _onClickTitle = () => {
-        if(props.onClickTitle != null){
-            props.onClickTitle();
-        }
-    }
-
     const { data, showIndex, listType } = props;
-    let list = data.booth;
-    if(list.length == null || list.length < 0){
-        list = new Array(data.booth);
-    }
+    const [list, setList] = useState(data.booth);
+
+    useEffect(()=>{
+        if(data.booth.length == null || data.booth.length < 0){
+            setList([data.booth]);
+        }
+    }, [data]);
 
     const _onErrorImg = (e) => {
         e.target.style.display = 'none';
-    }
+    };
     return (
         <CategoryBox>
             <div className='categoryTitle' onClick={props.onClickTitle}>
                 <div className='titleImg'>
-                    {data.category_image != null? <img src={data.category_image} width="100%" height="100%" onError={_onErrorImg}/> : null }
+                    {data.category_image != null? <img src={data.category_image} width="100%" height="100%" onError={_onErrorImg} alt={''} /> : null }
                 </div>
                 <div className='titleText'>{data.category}</div>
             </div>
-            <List type={listType} list={list} showIndex={showIndex}  >list</List>
+            <List type={listType} list={list} showIndex={showIndex}>list</List>
         </CategoryBox>
     )
 }

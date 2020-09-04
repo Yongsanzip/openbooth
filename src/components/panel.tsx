@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from "styled-components";
 
 function Pannel(props){
     return (
         <PannelComp noPadding={props.noPadding}>
-            {props.title != null && props.title != ''? <div className='title'>{props.title}</div> : null }
+            {props.title != null && props.title !== ''? <div className='title'>{props.title}</div> : null }
             <div className='content'>
                 {props.children}
             </div>

@@ -1,65 +1,68 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
+import {useClientRect} from "../common/common";
 
 function Submenubar(props) {
-  // const isLanguageChange = useSelector((state: RootState) => state.tokenReducer.isLanguageChange);
-  // console.log("isLanguageChange::", isLanguageChange);
   const [activePosition, setActivePosition] = useState({width:0, left: 0});
-  const submenubarRef = useRef(null);
+  const [submenubarEl, submenubarRef] = useClientRect(null);
 
-  useEffect(() => {
-    _setActive(new Object(), props.activeIdx);
-    _isSubmenuTop();
-    window.addEventListener('resize', function(){_setActive(new Object(), props.activeIdx)});
-    window.addEventListener('scroll', _isSubmenuTop);
-    setTimeout(function(){
-      _setActive(new Object(), props.activeIdx);
-    }, 300)
-  }, []);
+  useEffect(()=>{
+    if(submenubarEl != null && submenubarEl.querySelector != null && props.menuList != null){
+      _setActive(props.menuList[props.activeIdx], props.activeIdx);
+    }
+    window.addEventListener('resize', function(){_setActive(props.menuList[props.activeIdx], props.activeIdx)});
+    return()=>{
+      window.removeEventListener('resize', function(){_setActive(props.menuList[props.activeIdx], props.activeIdx)});
+    }
+  }, [props.menuList, submenubarEl.current]);
 
-  const _isSubmenuTop = function() {
-    let submenubarEl:any;
-    if (typeof submenubarRef !== 'undefined' &&
-        typeof submenubarRef.current !== 'undefined') {
-      submenubarEl = submenubarRef.current;
-
-      if(submenubarEl != null){
-        const offsetTop = submenubarEl.previousElementSibling.offsetTop + submenubarEl.previousElementSibling.offsetHeight;
-        if (window.scrollY > offsetTop) {
-          submenubarEl.classList.add('fixedOnTop');
-        } else {
-          submenubarEl.classList.remove('fixedOnTop');
-        }
+  useEffect(()=>{
+    if(submenubarEl != null && submenubarEl.previousElementSibling != null){
+      window.addEventListener('scroll', _isSubmenuTop);
+    }
+    return () => {
+      if(submenubarEl != null && submenubarEl.previousElementSibling != null){
+        window.removeEventListener('scroll', _isSubmenuTop);
       }
     }
-    // _setActiveUnderBar(props.activeIdx);
-  }
+  }, [submenubarEl, submenubarEl.current]);
+
+  const _isSubmenuTop = function() {
+    if(submenubarEl != null && submenubarEl.previousElementSibling != null){
+      const offsetTop = submenubarEl.previousElementSibling.offsetTop + submenubarEl.previousElementSibling.offsetHeight;
+      if (window.scrollY > offsetTop) {
+        submenubarEl.classList.add('fixedOnTop');
+      } else {
+        submenubarEl.classList.remove('fixedOnTop');
+      }
+    }
+  };
 
   const _setActive = function(data, idx) {
     _setActiveUnderBar(idx);
     if(data.highlight) return true;
 
     if(props.onChangeTab != null) props.onChangeTab(idx);
-  }
+  };
 
   const _setActiveUnderBar = function(idx){
-    let menuEl: any;
-    if(document.getElementsByClassName("submenu"+idx).length > 0){
-      menuEl = document.getElementsByClassName("submenu"+idx)[0];
-    }
-    if(menuEl == null) return;
-    setActivePosition({width: menuEl.offsetWidth, left: menuEl.offsetLeft});
+    if(submenubarEl != null && submenubarEl.querySelector != null){
+      if(submenubarEl.querySelector(".submenu"+idx) != null) {
 
-  }
+        const menuEl = submenubarEl.querySelector(".submenu"+idx);
+        setActivePosition({width: menuEl.offsetWidth, left: menuEl.offsetLeft});
+      }
+    }
+  };
 
   const _setLiClass = function(menu, key) {
-    if(menu.name == '-') {
+    if(menu.name === '-') {
       return 'flex';
     }
 
-    let classes:any = new Array();
+    let classes:any = [];
     classes.push('submenu' + key);
-    if(props.activeIdx == key){
+    if(props.activeIdx === key){
       classes.push('active');
     }
     if(menu.highlight){
@@ -67,7 +70,7 @@ function Submenubar(props) {
     }
 
     return classes.join(' ');
-  }
+  };
 
   return (
       <SubmenuComp activePosition={activePosition} customStyle={props.style} ref={submenubarRef}>
@@ -76,8 +79,8 @@ function Submenubar(props) {
               props.menuList.map((el, key) => {
                 return (
                     <li key={key} className={_setLiClass(el, key)} >
-                      {el.name != '-'?
-                          <a onClick={()=>_setActive(el, key)}>{el.name}</a>
+                      {el.name !== '-'?
+                          <div onClick={()=>_setActive(el, key)}>{el.name}</div>
                           : ''
                       }
                       {el.cnt != null? <div className="count"><span>{el.cnt}</span></div> : ''}

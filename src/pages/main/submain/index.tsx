@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Route} from 'react-router-dom'
 import styled from "styled-components";
 
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from "../../../modules";
-import { getBoothBannerReducer } from "../../../modules/exhibition/exhibition";
+import {getBoothBannerReducer, setBoothBannerReducer} from "../../../modules/exhibition/exhibition";
 
 import Mainbanner from "../../../components/mainBanner"
 import Submenubar from "../../../components/submenubar";
@@ -15,19 +15,28 @@ import Detail from "./detail";
 
 export default function Submain(props) {
     const dispatch = useDispatch();
-    let mainBannerData = useSelector((state: RootState) => state.exhibitionReducer.boothBanners);
-    if(mainBannerData == null){
-        mainBannerData = {};
-        dispatch(getBoothBannerReducer());
-    }
+    const mainBannerData = useSelector((state: RootState) => state.exhibitionReducer.boothBanners);
+    useEffect(()=>{
+        if(mainBannerData == null){
+            dispatch(getBoothBannerReducer());
+        }
+    }, [mainBannerData]);
+    useEffect(()=>{
+        if(props.location.pathname === '/main') props._onMenuChange(0);
 
-    if(props.location.pathname == '/main') props._onMenuChange(0);
+        return()=>{
+            dispatch(setBoothBannerReducer(null));
+        }
+    }, []);
 
     return (
         <SubmainComp>
-            <MainBannerComp className={props.activeMenu == 2? 'open show' : 'close'}>
-                <Mainbanner data={mainBannerData} />
-            </MainBannerComp>
+            {mainBannerData != null?
+                <MainBannerComp className={props.activeMenu === 2? 'open show' : 'close'}>
+                    <Mainbanner data={mainBannerData} />
+                </MainBannerComp>
+                : null
+            }
             <Submenubar menuList={props.submenus} activeIdx={props.activeMenu} onChangeTab={props._onMenuChange}/>
             <div>
                 <Route path={`${props.match.path}/intro`} component={Introduction} />

@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from "styled-components";
 
 function Img(props) {
     return (
         <ImgComp src={props.src} width={props.width} height={props.height} widthFull={props.widthFull} full={props.full} >
-            {props.src == null || props.src == ''? <div className='empty' /> : null}
+            {props.src == null || props.src === ''? <div className='empty' /> : null}
         </ImgComp>
     )
 }

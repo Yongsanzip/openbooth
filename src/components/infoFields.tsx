@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import styled from "styled-components";
 import {Hash} from "./index";
 
@@ -11,11 +11,11 @@ function Infofields(props) {
         'text-align': 'center',
         'letter-spacing': '-0.01em',
         color: '#005CB9'
-    }
+    };
   return (
       <div>
         {props.list && props.list.length > 0 ? props.list.map((el, key) => {
-              if(el.fieldname == 'Exhibits'){
+              if(el.fieldname === 'Exhibits'){
                   return (
                       <InfoComp key={key} className='row hashes' fieldWidth={props.fieldWidth}>
                           <div>{el.fieldname}</div>

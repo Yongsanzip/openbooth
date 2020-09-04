@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import styled from "styled-components";
 
 function Listitem(props){
@@ -6,7 +6,7 @@ function Listitem(props){
     return (
         <CategoryListItem>
             {showIndex? <div className='index'>{idx+1}</div> : ''}
-            <div className='titleImg'></div>
+            <div className='titleImg'/>
             <div className='titleBox'>
                 <div>{item.title}</div>
                 <div className='date'>{item.date}</div>

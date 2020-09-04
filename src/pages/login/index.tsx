@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
 import {RootState} from "../../modules";
@@ -10,23 +10,20 @@ import {
     setNewPasswordReducer
 } from "../../modules/token/token";
 
-import {Img, Checkboxfield, Inputfield, Button, Alertmodal} from "../../components";
-import {getBrowserSize, textLineBreak} from "../../common/common";
-
-import dummyImg from "../../assets/img/bg-dummy.png";
+import {Checkboxfield, Inputfield, Button, Alertmodal} from "../../components";
+import {getBrowserSize, textLineBreak, useClientRect} from "../../common/common";
 
 const Login = props => {
     const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
     // console.log("languageData::", languageData);
 
     const dispatch = useDispatch();
-    const history = props.history;
     const [pageType, setPageType] = useState<string>(props.location != null && props.location.pathname != null && props.location.pathname.indexOf("resetpwd") > -1? 'resetPwd' : 'login');
-    const loginForm = useRef<HTMLFormElement>(null);
-    const warnningEmailRef = useRef(null);
+    const [loginFormEl, loginFormRef] = useClientRect(null);
+    const [warnningEmailEl, warnningEmailRef] = useClientRect(null);
     const [emailValue, setEmailValue] = useState<string>(''); // 중복계정 확인용도
-    const warnningPwdRef = useRef(null);
-    const warnningAccountRef = useRef(null);
+    const [warnningPwdEl, warnningPwdRef] = useClientRect(null);
+    const [warnningAccountEl, warnningAccountRef] = useClientRect(null);
     const [rememberAccount, setRememberAccount] = useState<boolean>(false);
     const [showRegistAlert, setShowRegistAlert] = useState<boolean>(false);
 
@@ -39,69 +36,61 @@ const Login = props => {
         if(page == null) page = pageType;
         let appEl:any;
         if(document.getElementById("app") != null) appEl = document.getElementById("app");
-        if(getBrowserSize() != 'pc'){
+        if(getBrowserSize() !== 'pc'){
             if(appEl != null){
                 let height = '100%';
-                if(page == 'regist') height = 'auto';
+                if(page === 'regist') height = 'auto';
                 appEl.style.height = height;
             }
         }
         else{
             if(appEl != null) appEl.style.height = '100%';
         }
-    }
-
-    useEffect(()=>{
-        _setDeviceType(null);
-        window.addEventListener('resize', _setDeviceType);
-        const localstorageEmail = localStorage.getItem('email');
-        if(localstorageEmail != null){
-            setRememberAccount(true);
-            let loginFormEl: any;
-            if (typeof loginForm !== 'undefined' &&
-                typeof loginForm.current !== 'undefined') {
-                loginFormEl = loginForm.current;
-            }
-            loginFormEl.querySelector('[name=email]').value = localstorageEmail;
-        }
-        return () => {
-            window.removeEventListener('resize', _setDeviceType);
-        };
-    }, [])
+    };
 
     const registAlertData = {
         title: 'Lorem ipsum dolor',
         contents: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed laoreet metus ac libero cursus maximus. Nulla hendrerit porta facilisis.'
     };
 
+    useEffect(()=>{
+        _setDeviceType(null);
+        window.addEventListener('resize', _setDeviceType);
+        const localstorageEmail = localStorage.getItem('email');
+        if(localstorageEmail != null && loginFormEl.current != null && loginFormEl.querySelector != null){
+            setRememberAccount(true);
+            loginFormEl.querySelector('[name=email]').value = localstorageEmail;
+        }
+        return () => {
+            window.removeEventListener('resize', _setDeviceType);
+        };
+    }, [loginFormEl, loginFormEl.current]);
+
     const isOverlapEmail = useSelector((state: RootState) => state.tokenReducer.isOverlap);
-    // console.log("isOverlapEmail::", isOverlapEmail);
-    let warnningEmailEl: any;
-    if (typeof warnningEmailRef !== 'undefined' &&
-        typeof warnningEmailRef.current !== 'undefined') {
-        warnningEmailEl = warnningEmailRef.current;
-    }
-    if(isOverlapEmail && pageType == 'regist'){
-        warnningEmailEl.style.opacity = '1';
-        warnningEmailEl.innerText = languageData.overlapEmail;
-    }
-    else if(!isOverlapEmail && pageType == 'findPwd' && emailValue != ''){
-        warnningEmailEl.style.opacity = '1';
-        warnningEmailEl.innerText = languageData.notOverlapEmail;
-    }
+    useEffect(()=>{
+        // console.log("isOverlapEmail::", isOverlapEmail);
+        if(warnningEmailEl.current != null && warnningEmailEl.style != null) {
+            if(isOverlapEmail && pageType === 'regist'){
+                warnningEmailEl.style.opacity = '1';
+                warnningEmailEl.innerText = languageData.overlapEmail;
+            }
+            else if(!isOverlapEmail && pageType === 'findPwd' && emailValue !== ''){
+                warnningEmailEl.style.opacity = '1';
+                warnningEmailEl.innerText = languageData.notOverlapEmail;
+            }
+        }
+    }, [warnningEmailEl.current, pageType, isOverlapEmail]);
 
     const isFailedLogin = useSelector((state: RootState) => state.tokenReducer.isFailedLogin);
+    useEffect(()=>{
+        if(warnningAccountEl != null && warnningAccountEl.current != null && warnningAccountEl.style != null){
+            warnningAccountEl.style.opacity = '0';
+            if(isFailedLogin){
+                warnningAccountEl.style.opacity = '1';
+            }
+        }
+    }, [isFailedLogin, warnningAccountEl.current]);
 
-    let warnningAccountEl: any;
-    if (typeof warnningAccountRef !== 'undefined' &&
-        typeof warnningAccountRef.current !== 'undefined') {
-        warnningAccountEl = warnningAccountRef.current;
-    }
-    if(warnningAccountEl != null && warnningAccountEl.style != null) warnningAccountEl.style.opacity = '0';
-    if(isFailedLogin){
-        warnningAccountEl.style.opacity = '1';
-    }
-    
     /* Style */
     const loginFormWidth = 432;
     const btnStyle = {
@@ -116,7 +105,7 @@ const Login = props => {
             background: 'rgba(255, 255, 255, 0.32)'
         },
         height: '48px'
-    }
+    };
     const registBtnStyle = JSON.parse(JSON.stringify(btnStyle));
     registBtnStyle['border-width'] = '2px';
     registBtnStyle['hover']['border-width'] = '2px';
@@ -128,16 +117,15 @@ const Login = props => {
         'color': '#ffffff',
         'border-color': '#ffffff',
         // 'padding': '16px'
-    }
+    };
     const LoginBtnStyle = {
         'font-weight': 'bold',
         'font-size': '16px',
         'line-height': '24px'
-    }
+    };
 
     const _setPageType = function(type:string) {
-        console.log("_setPageType::::", type);
-        if(type == 'regist2'){
+        if(type === 'regist2'){
             if(!_checkFormEmpty()) return false;
         }
         else{
@@ -165,18 +153,18 @@ const Login = props => {
             result: true,
             value: inputValue
         };
-    }
+    };
 
     const pwdValidator = (inputValue:string) => {
         const num = inputValue.search(/[0-9]/g);
         const eng = inputValue.search(/[a-z]/ig);
-        if(inputValue == null || inputValue == ''){
+        if(inputValue === ''){
             return {
                 result: false,
                 msg: languageData.emptyValueMsg
             };
         }
-        else if(inputValue.length < 8 || inputValue.search(/\s/) != -1 || num < 0 || eng < 0){
+        else if(inputValue.length < 8 || inputValue.search(/\s/) !== -1 || num < 0 || eng < 0){
             return {
                 result: false,
                 msg: languageData.passwordRule
@@ -186,10 +174,10 @@ const Login = props => {
             result: true,
             value: inputValue
         };
-    }
+    };
 
     const pwdConfirmValidator = (inputValue1:string, inputValue2:string) => {
-        if(inputValue1 != inputValue2){
+        if(inputValue1 !== inputValue2){
             return {
                 result: false,
                 msg: languageData.pwdNotSame
@@ -199,10 +187,10 @@ const Login = props => {
         return {
             result: true
         };
-    }
+    };
 
     const emptyCheck = (inputValue:string) => {
-        if(inputValue == null || inputValue == ''){
+        if(inputValue == null || inputValue === ''){
             return {
                 result: false,
                 msg: languageData.emptyValueMsg
@@ -212,20 +200,9 @@ const Login = props => {
         return {
             result: true
         };
-    }
+    };
 
     const _checkEmailFormat = () => {
-        let loginFormEl: any;
-        if (typeof loginForm !== 'undefined' &&
-            typeof loginForm.current !== 'undefined') {
-            loginFormEl = loginForm.current;
-        }
-        let warnningEmailEl: any;
-        if (typeof warnningEmailRef !== 'undefined' &&
-            typeof warnningEmailRef.current !== 'undefined') {
-            warnningEmailEl = warnningEmailRef.current;
-        }
-
         const inputValue = loginFormEl.querySelector('[name=email]').value;
         const check = emailValidator(inputValue);
         if(!check.result){
@@ -234,7 +211,7 @@ const Login = props => {
             return false;
         }
 
-        if(pageType != 'login' && inputValue != emailValue) {
+        if(pageType !== 'login' && inputValue !== emailValue) {
             //중복확인
             dispatch(isEmailOverlapConfirmReducer(inputValue));
             setEmailValue(inputValue);
@@ -243,21 +220,10 @@ const Login = props => {
         return inputValue;
     };
     const _checkPwdFormat = ()=> {
-        let loginFormEl: any;
-        if (typeof loginForm !== 'undefined' &&
-            typeof loginForm.current !== 'undefined') {
-            loginFormEl = loginForm.current;
-        }
-        let warnningPwdEl: any;
-        if (typeof warnningPwdRef !== 'undefined' &&
-            typeof warnningPwdRef.current !== 'undefined') {
-            warnningPwdEl = warnningPwdRef.current;
-        }
-
         const pwd = loginFormEl.querySelector('[name=password]').value;
         warnningPwdEl.style.opacity = '0';
 
-        if(pageType == 'login'){
+        if(pageType === 'login'){
             const check = pwdValidator(pwd);
             if(!check.result){
                 warnningPwdEl.style.opacity = '1';
@@ -266,9 +232,9 @@ const Login = props => {
             }
             return pwd;
         }
-        else if(pageType == 'regist' || pageType == 'regist2' || pageType == 'resetPwd'){
+        else if(pageType === 'regist' || pageType === 'regist2' || pageType === 'resetPwd'){
             const pwdConfirm = loginFormEl.querySelector('[name=passwordConfirm]').value;
-            if(pwd == '' || pwdConfirm == '') return false;
+            if(pwd === '' || pwdConfirm === '') return false;
 
             const check = pwdValidator(pwd);
             if(!check.result){
@@ -288,11 +254,6 @@ const Login = props => {
         }
     };
     const _checkFormEmpty = ()=> {
-        let loginFormEl: any;
-        if (typeof loginForm !== 'undefined' &&
-            typeof loginForm.current !== 'undefined') {
-            loginFormEl = loginForm.current;
-        }
         const inputs = loginFormEl.querySelectorAll('input');
         let result = true;
         let checkEmpty:any = null;
@@ -300,7 +261,7 @@ const Login = props => {
             if(el.parentElement.parentElement.classList.toString().indexOf("hide") > -1) return true;
             if(el.classList.toString().indexOf("noempty") < 0) return true;
 
-            console.log(el);
+            // console.log(el);
 
             checkEmpty = emptyCheck(el.value);
             let warnEl:any;
@@ -309,7 +270,7 @@ const Login = props => {
                 warnEl.style.opacity = checkEmpty != null ? checkEmpty.result ? '0' : '1' : '1';
             }
 
-            if(!checkEmpty.result) result = false;
+            if(checkEmpty == null || !checkEmpty.result) result = false;
         });
 
         return result;
@@ -317,21 +278,10 @@ const Login = props => {
     const _login = () => {
         const email = _checkEmailFormat();
         const pwd = _checkPwdFormat();
-        // this._checkFormEmpty();
 
-        if(!email || !pwd) {
-            return false;
-        }
-
-        let loginFormEl: any;
-        if (typeof loginForm !== 'undefined' &&
-            typeof loginForm.current !== 'undefined') {
-            loginFormEl = loginForm.current;
-        }
-        // const formData = new FormData(loginFormEl);
+        if(!email || !pwd) return false;
 
         dispatch(getTokenReducer(email, pwd));
-
         if(rememberAccount) {
             //이메일 저장
             localStorage.setItem("email", email);
@@ -346,31 +296,25 @@ const Login = props => {
             return false;
         }
 
-        // const response = props.findAccount({
-        //     email: email
-        // });
         dispatch(sendFIndPwdMailReducer({
             email: email
         }));
         console.log("send!");
 
         _resetForm();
-    }
+    };
     const _setNewPwd = () => {
         const pwdCheck = _checkPwdFormat();
         if(!pwdCheck) {
             return false;
         }
-        let loginFormEl: any;
-        if (typeof loginForm !== 'undefined' &&
-            typeof loginForm.current !== 'undefined') {
-            loginFormEl = loginForm.current;
-        }
-        const loginFormData = new FormData(loginFormEl);
+        const loginFormData = new FormData();
+        // loginFormData.append('aa', loginFormEl.querySelect('[name=').value);
+
         dispatch(setNewPasswordReducer({
             loginFormData
         }));
-    }
+    };
     const _regist = () => {
         const emailCheck = _checkEmailFormat();
         const pwdCheck = _checkPwdFormat();
@@ -381,12 +325,17 @@ const Login = props => {
         }
 
 
-        let loginFormEl: any;
-        if (typeof loginForm !== 'undefined' &&
-            typeof loginForm.current !== 'undefined') {
-            loginFormEl = loginForm.current;
-        }
-        const loginFormData = new FormData(loginFormEl);
+        const loginFormData = new FormData();
+        loginFormData.append('email', loginFormEl.querySelector('[name=email]').value);
+        loginFormData.append('password', loginFormEl.querySelector('[name=password]').value);
+        loginFormData.append('name', loginFormEl.querySelector('[name=name]').value);
+        loginFormData.append('phone', loginFormEl.querySelector('[name=phone]').value);
+        loginFormData.append('profileImg', loginFormEl.querySelector('[name=profileImg]').files[0]);
+        loginFormData.append('country', loginFormEl.querySelector('[name=country]').value);
+        loginFormData.append('company', loginFormEl.querySelector('[name=company]').value);
+        loginFormData.append('department', loginFormEl.querySelector('[name=department]').value);
+        loginFormData.append('position', loginFormEl.querySelector('[name=position]').value);
+
         // const paramData = {
         //     email: loginFormData.get('email'),
         //     password: loginFormData.get('password'),
@@ -397,23 +346,19 @@ const Login = props => {
         //     company: loginFormData.get('company'),
         //     department: loginFormData.get('department'),
         //     position: loginFormData.get('position')
-        // }
+        // };
+        // console.log(paramData);
 
         dispatch(registReducer({
             loginFormData
         }));
-    }
+    };
     const _resetForm = () => {
-        let loginFormEl: any;
-        if (typeof loginForm !== 'undefined' &&
-            typeof loginForm.current !== 'undefined') {
-            loginFormEl = loginForm.current;
-        }
         const inputs = loginFormEl.querySelectorAll('input');
         // console.log(inputs);
         inputs.forEach(function(el){
             el.value = '';
-            if(el.type == 'checkbox') {
+            if(el.type === 'checkbox') {
                 setRememberAccount(false);
             }
         })
@@ -424,29 +369,29 @@ const Login = props => {
         _setPageType('login');
     };
     const _onKeyUp = (e) => {
-        if(e.keyCode == 13){//enter
-            if(pageType == 'login' && e.target.name == 'password'){
+        if(e.keyCode === 13){//enter
+            if(pageType === 'login' && e.target.name === 'password'){
                 _login();
             }
-            else if(pageType == 'findPwd' && e.target.name == 'email'){
+            else if(pageType === 'findPwd' && e.target.name === 'email'){
                 _SendResetPwdLink();
             }
-            else if(pageType == 'resetPwd' && e.target.name == 'passwordConfirm'){
+            else if(pageType === 'resetPwd' && e.target.name === 'passwordConfirm'){
                 _setNewPwd();
             }
         }
-    }
+    };
 
     return (
-        <LoginComp src={dummyImg} loginFormWidth={loginFormWidth} pageType={pageType} >
+        <LoginComp src={"https://picsum.photos/1280/1080"} loginFormWidth={loginFormWidth} pageType={pageType} >
             <div>
                 <div className='titleText'>
                     <div>
-                    {pageType != null && pageType == 'regist'? null
+                    {pageType != null && pageType === 'regist'? null
                     : languageData.loginText}
                     </div>
                     <h1>{languageData.loginText2}</h1>
-                    {pageType != null && pageType == 'regist'?
+                    {pageType != null && pageType === 'regist'?
                         <div className='info'>
                             {textLineBreak(languageData.registDescript)}
                         </div>
@@ -466,84 +411,84 @@ const Login = props => {
                         </svg>
                     </div>
                     <div>
-                        {pageType == 'login' ? '“Built on Hope”' :
-                            pageType == 'regist' ? 'Register' :
-                                pageType == 'findPwd' || pageType == 'resetPwd' ? 'Reset your password' :
+                        {pageType === 'login' ? '“Built on Hope”' :
+                            pageType === 'regist' ? 'Register' :
+                                pageType === 'findPwd' || pageType === 'resetPwd' ? 'Reset your password' :
                                     null
                         }
                     </div>
                 </div>
                 <div className='loginForm'>
-                    <form ref={loginForm}  onSubmit={()=> function(){ return false; } }>
-                        <div className={pageType == 'findPwd' || pageType == 'resetPwd'? 'show findPwdDescript' : 'hide findPwdDescript'} >
+                    <form ref={loginFormRef}  onSubmit={()=> function(){ return false; } }>
+                        <div className={pageType === 'findPwd' || pageType === 'resetPwd'? 'show findPwdDescript' : 'hide findPwdDescript'} >
                             <h2>Reset your password</h2>
-                            {pageType == 'findPwd'? <div>Enter your email address and we'll send you a link to reset your password.</div> : null}
-                            {pageType == 'resetPwd'? <div className={'weightNormal'}><div className={'weightBold'}>openbooth@openbooth.net</div>You can create your new password here.</div> : null}
+                            {pageType === 'findPwd'? <div>Enter your email address and we'll send you a link to reset your password.</div> : null}
+                            {pageType === 'resetPwd'? <div className={'weightNormal'}><div className={'weightBold'}>openbooth@openbooth.net</div>You can create your new password here.</div> : null}
                         </div>
-                        <InputFieldComp className={pageType != 'regist2' && pageType != 'resetPwd'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType !== 'regist2' && pageType !== 'resetPwd'? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>ID <span ref={warnningEmailRef} className={'warn'}>{languageData.incorrectEmailFormat}</span></div>
                             <Inputfield name={'email'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Email'} noEmpty={true} validator={_checkEmailFormat} _onKeyUp={_onKeyUp} />
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'login' || pageType == 'regist' || pageType == 'resetPwd'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType === 'login' || pageType === 'regist' || pageType === 'resetPwd'? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Password <span ref={warnningPwdRef} className={'warn'}>Password format is incorrect</span></div>
-                            <Inputfield type={'password'} name={'password'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={deviceType == 'pc'? languageData.passwordRule : 'Password'} noEmpty={true} validator={pageType == 'login'? null : _checkPwdFormat} _onKeyUp={_onKeyUp}/>
+                            <Inputfield type={'password'} name={'password'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={deviceType === 'pc'? languageData.passwordRule : 'Password'} noEmpty={true} validator={pageType === 'login'? null : _checkPwdFormat} _onKeyUp={_onKeyUp}/>
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist' || pageType == 'resetPwd'? 'show passwordConfirm' : 'hide passwordConfirm'} >
-                            <Inputfield type={'password'} name={'passwordConfirm'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={deviceType == 'pc'? languageData.repeatPwd : 'Repeat password'} noEmpty={true} validator={_checkPwdFormat} _onKeyUp={_onKeyUp} />
+                        <InputFieldComp className={pageType === 'regist' || pageType === 'resetPwd'? 'show passwordConfirm' : 'hide passwordConfirm'} >
+                            <Inputfield type={'password'} name={'passwordConfirm'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={deviceType === 'pc'? languageData.repeatPwd : 'Repeat password'} noEmpty={true} validator={_checkPwdFormat} _onKeyUp={_onKeyUp} />
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType === 'regist'? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Name <span className={'warn'}>{languageData.emptyValueMsg}</span></div>
                             <Inputfield name={'name'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Name'} noEmpty={true} />
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType === 'regist'? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Phone <span className={'warn'}>{languageData.emptyValueMsg}</span></div>
                             <Inputfield name={'phone'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Phone'} noEmpty={true} />
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'login'? 'show inlineBox rememberEmail' : 'hide inlineBox rememberEmail'} >
+                        <InputFieldComp className={pageType === 'login'? 'show inlineBox rememberEmail' : 'hide inlineBox rememberEmail'} >
                             <Checkboxfield name={'rememberEmail'} onChange={(val: any)=>setRememberAccount(val)} checked={rememberAccount} width={'100%'} style={inputFieldStyle} text={languageData.rememberEmail} type={'login'} textColor={'#ffffff'} />
                             <div className={'warn alignRight'} ref={warnningAccountRef} >{languageData.incorrectAccount}</div>
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist2'? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType === 'regist2'? 'show' : 'hide'} >
                             <Inputfield type={'file'} name={'profileImg'} width={'100%'} style={inputFieldStyle}/>
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist' && deviceType !='pc'? 'show visitorInfo' : 'hide visitorInfo'} >
+                        <InputFieldComp className={pageType === 'regist' && deviceType !=='pc'? 'show visitorInfo' : 'hide visitorInfo'} >
                             Visitor information
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist2' || (pageType == 'regist' && deviceType !='pc')? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType === 'regist2' || (pageType === 'regist' && deviceType !=='pc')? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Country <span className={'warn'}>Select this value</span></div>
                             <Inputfield name={'country'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Country'} noEmpty={true} />
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist2' || (pageType == 'regist' && deviceType !='pc')? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType === 'regist2' || (pageType === 'regist' && deviceType !=='pc')? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Company / affiliation <span className={'warn'}>{languageData.emptyValueMsg}</span></div>
                             <Inputfield name={'company'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Company or affiliation'} noEmpty={true} />
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist2' || (pageType == 'regist' && deviceType !='pc')? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType === 'regist2' || (pageType === 'regist' && deviceType !=='pc')? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Department <span className={'warn'}>Select this value</span></div>
                             <Inputfield name={'department'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Department'} noEmpty={true} />
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist2' || (pageType == 'regist' && deviceType !='pc')? 'show' : 'hide'} >
+                        <InputFieldComp className={pageType === 'regist2' || (pageType === 'regist' && deviceType !=='pc')? 'show' : 'hide'} >
                             <div className={'fieldTitle'}>Position <span className={'warn'}>Select this value</span></div>
                             <Inputfield name={'position'} width={'100%'} style={inputFieldStyle} height={'48px'} padding={'15px'} placeholder={'Position'} noEmpty={true} />
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'login'? 'show loginBtn' : 'hide loginBtn'} >
+                        <InputFieldComp className={pageType === 'login'? 'show loginBtn' : 'hide loginBtn'} >
                             <Button fill={true} width={'100%'} style={LoginBtnStyle} _clickBtn={_login}>Login</Button>
                             <div className={'forgotPwdBtn_mobile'} onClick={()=>_setPageType('findPwd')}>
                                 {languageData.forgotPwdTitle}
                             </div>
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'findPwd'? 'show alignRight sendBtn' : 'hide alignRight sendBtn'} >
-                            <Button fill={true} width={104} style={deviceType == 'pc'? {height: '36px', padding: '7px 35px', 'font-weight': 'bold'} : null} _clickBtn={_SendResetPwdLink}>Send</Button>
+                        <InputFieldComp className={pageType === 'findPwd'? 'show alignRight sendBtn' : 'hide alignRight sendBtn'} >
+                            <Button fill={true} width={104} style={deviceType === 'pc'? {height: '36px', padding: '7px 35px', 'font-weight': 'bold'} : null} _clickBtn={_SendResetPwdLink}>Send</Button>
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'resetPwd'? 'show alignRight saveBtn' : 'hide alignRight saveBtn'} >
-                            <Button fill={true} width={104} style={deviceType == 'pc'? {height: '36px', padding: '7px 35px', 'font-weight': 'bold'} : null} _clickBtn={_setNewPwd}>Save</Button>
+                        <InputFieldComp className={pageType === 'resetPwd'? 'show alignRight saveBtn' : 'hide alignRight saveBtn'} >
+                            <Button fill={true} width={104} style={deviceType === 'pc'? {height: '36px', padding: '7px 35px', 'font-weight': 'bold'} : null} _clickBtn={_setNewPwd}>Save</Button>
                         </InputFieldComp>
-                        <InputFieldComp  className={pageType == 'regist' && deviceType =='pc' ? 'show registBtn' : 'hide registBtn'} >
+                        <InputFieldComp  className={pageType === 'regist' && deviceType ==='pc' ? 'show registBtn' : 'hide registBtn'} >
                             <Button width={'100%'} style={registBtnStyle} _clickBtn={()=>_setPageType('regist2')}>Next step</Button>
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist2' || (pageType == 'regist' && deviceType !='pc')? 'show registBtn' : 'hide registBtn'} >
+                        <InputFieldComp className={pageType === 'regist2' || (pageType === 'regist' && deviceType !=='pc')? 'show registBtn' : 'hide registBtn'} >
                             <Button fill={true} width={'100%'} _clickBtn={_regist}>Register</Button>
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'login'? 'show inlineBox btns loginBtmBtns_desktop' : 'hide inlineBox btns loginBtmBtns_desktop'} >
+                        <InputFieldComp className={pageType === 'login'? 'show inlineBox btns loginBtmBtns_desktop' : 'hide inlineBox btns loginBtmBtns_desktop'} >
                             <div>
                                 <div className={'fieldTitle'}>{languageData.forgotPwdTitle}</div>
                                 <Button width={'210'} style={btnStyle} _clickBtn={()=>_setPageType('findPwd')}>Find your password</Button>
@@ -553,7 +498,7 @@ const Login = props => {
                                 <Button width={'210'} style={btnStyle} _clickBtn={()=>_setPageType('regist')}>Register</Button>
                             </div>
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'regist' || pageType == 'regist2'? 'show inlineBox btns registBtmBtns_desktop' : 'hide inlineBox btns registBtmBtns_desktop'} >
+                        <InputFieldComp className={pageType === 'regist' || pageType === 'regist2'? 'show inlineBox btns registBtmBtns_desktop' : 'hide inlineBox btns registBtmBtns_desktop'} >
                             <div>
                                 <div className={'fieldTitle'}>{languageData.forgotPwdTitle}</div>
                                 <Button width={'210'} style={btnStyle} _clickBtn={()=>_setPageType('findPwd')}>Find your password</Button>
@@ -563,21 +508,21 @@ const Login = props => {
                                 <Button width={'210'} style={btnStyle} _clickBtn={()=>_setPageType('login')}>Login</Button>
                             </div>
                         </InputFieldComp>
-                        <InputFieldComp className={pageType == 'findPwd' && deviceType =='pc'? 'show findPwdDescript' : 'hide findPwdDescript'} >
+                        <InputFieldComp className={pageType === 'findPwd' && deviceType ==='pc'? 'show findPwdDescript' : 'hide findPwdDescript'} >
                             <b>openbooth@openbooth.net</b><br/>
                             <div className={'description'}>{languageData.sendPwdResetMailDescript}</div>
                         </InputFieldComp>
                     </form>
                 </div>
             </div>
-            {pageType == 'findPwd' && deviceType !='pc'?
+            {pageType === 'findPwd' && deviceType !=='pc'?
                 <div className={'mobileBtmDescript'}>
                     <div>openbooth@openbooth.net</div>
                     <div>{languageData.sendPwdResetMailDescript}</div>
                 </div>
                 : null
             }
-            {pageType == 'login' && deviceType !='pc'?
+            {pageType === 'login' && deviceType !=='pc'?
                 <InputFieldComp className={'loginBtmBtns_mobile btns'} >
                     <div>
                         <div className={'fieldTitle'}>{languageData.registerTitle}</div>
@@ -589,7 +534,7 @@ const Login = props => {
             <Alertmodal data={registAlertData} showModal={showRegistAlert} closeModal={_closeRegistAlert} onClick={()=>_regist()} />
         </LoginComp>
     )
-}
+};
 export default Login;
 
 const InputFieldComp = styled.div`
@@ -724,7 +669,7 @@ ${({theme}) => theme.media.mobile`
 > div {
     width: fit-content;
     ${({theme}) => theme.media.desktop`
-        ${(props: LoginCompProps) => props.pageType != null && props.pageType == 'regist' ? 'padding-top: 240px' : 'padding-top: 320px'};
+        ${(props: LoginCompProps) => props.pageType != null && props.pageType === 'regist' ? 'padding-top: 240px' : 'padding-top: 320px'};
         min-width: 1170px;
         margin: 0 auto;
     `}
@@ -737,7 +682,7 @@ ${({theme}) => theme.media.mobile`
         display: inline-block;
         vertical-align: top;
         ${({theme}) => theme.media.desktop`
-            ${(props: LoginCompProps) => props.pageType != null && props.pageType == 'regist' ? 'margin-right: 235px' : 'margin-right: 218px'};
+            ${(props: LoginCompProps) => props.pageType != null && props.pageType === 'regist' ? 'margin-right: 235px' : 'margin-right: 218px'};
         `}
         :last-child { margin-right: 0; vertical-align: middle; }
     }
@@ -745,7 +690,7 @@ ${({theme}) => theme.media.mobile`
         ${({theme}) => theme.media.mobile`
             display: none;
         `}
-        max-width: ${(props: LoginCompProps) => props.pageType != null && props.pageType == 'regist' ? '503px' : '520px'};
+        max-width: ${(props: LoginCompProps) => props.pageType != null && props.pageType === 'regist' ? '503px' : '520px'};
         font-size: 32px;
         line-height: 40px;
         font-weight: bold;
@@ -754,7 +699,7 @@ ${({theme}) => theme.media.mobile`
         color: #FFFFFF;
 
         & > .info {
-            padding-top: ${(props: LoginCompProps) => (props.pageType != null && props.pageType == 'regist' ? '50px' : '38px')};
+            padding-top: ${(props: LoginCompProps) => (props.pageType != null && props.pageType === 'regist' ? '50px' : '38px')};
             padding-bottom: 40px;
             font-weight: normal;  
             font-size: 20px;
@@ -768,8 +713,8 @@ ${({theme}) => theme.media.mobile`
             }
         }
         > h1 {
-            margin-top: ${(props: LoginCompProps) => (props.pageType != null && props.pageType == 'regist' ? '0' : '38px')};
-            margin-bottom: ${(props: LoginCompProps) => (props.pageType != null && props.pageType == 'regist' ? '13px' : '41px')};
+            margin-top: ${(props: LoginCompProps) => (props.pageType != null && props.pageType === 'regist' ? '0' : '38px')};
+            margin-bottom: ${(props: LoginCompProps) => (props.pageType != null && props.pageType === 'regist' ? '13px' : '41px')};
             padding: 0 0;
             font-weight: 800;
             font-size: 64px;
@@ -856,7 +801,7 @@ ${({theme}) => theme.media.mobile`
                     line-height: 20px;
                     height: 16px;
                     padding-left: 12px;
-                    padding-bottom: ${(props: LoginCompProps) => props.pageType != null && props.pageType == 'regist' ? '6px' : '7px'};
+                    padding-bottom: ${(props: LoginCompProps) => props.pageType != null && props.pageType === 'regist' ? '6px' : '7px'};
                 }
                 > * {
                     width: 210px;

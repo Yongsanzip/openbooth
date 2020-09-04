@@ -2,7 +2,7 @@ import React from 'react';
 import styled from "styled-components";
 import {Button} from "./index";
 
-function LiveCompanyBox(props) {
+function LiveCompanyBox() {
   return (
       <LiveCompanyBoxComp >
           <div>Company name</div>

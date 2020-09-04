@@ -1,19 +1,20 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from "../../../modules/index";
-import { getExhibitionReducer, getBoothListReducer, getSelectedExhibitCategoryReducer, setSelectedExhibitCategoryReducer } from "../../../modules/exhibition/exhibition";
+import { RootState } from "../../../modules";
+import { getExhibitionReducer, getBoothListReducer, setSelectedExhibitCategoryReducer } from "../../../modules/exhibition/exhibition";
 
 import { Category, CategoryTitle, RollingButton, Booth } from './../../../components/index'
 import {getBrowserSize} from "../../../common/common";
 
 function Exhibit(props) {
+    const dispatch = useDispatch();
     const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
     const [deviceType, setDeviceType] = useState('pc');
     const _setDeviceType = () => {
         setDeviceType(getBrowserSize());
-    }
+    };
 
     useEffect(()=>{
         _setDeviceType();
@@ -24,50 +25,40 @@ function Exhibit(props) {
         };
     }, []);
 
-    //최초 호출, 전체 전시 카테고리 목록
-    const dispatch = useDispatch();
-    let exhibition = useSelector((state: RootState) => state.exhibitionReducer.data);
-    if(exhibition == null){
-        exhibition = {};
-        dispatch(getExhibitionReducer());
-    }
-    else{
-        if(exhibition.length < 2) exhibition = exhibition[0];
-    }
-
-    //최초 호출, 전체 부스 목록
-    let boothList = useSelector((state: RootState) => state.exhibitionReducer.boothList);
-    if(boothList == null){
-        boothList = {};
-        let BoothListData = {
-            category_id: ''
-        };
-        dispatch(getBoothListReducer(BoothListData));
-    }
-    else{
-        if(boothList.length < 2) boothList = boothList[0];
-    }
-
+    //전체 전시 카테고리 목록
+    const exhibition = useSelector((state: RootState) => state.exhibitionReducer.data);
+    //전체 부스 목록
+    const boothList = useSelector((state: RootState) => state.exhibitionReducer.boothList);
     //선택한 전시 카테고리
     let selectedCategory = useSelector((state: RootState) => state.exhibitionReducer.selectedExhibit);
+
+    useEffect(()=>{
+        if(exhibition == null){
+            dispatch(getExhibitionReducer());
+        }
+
+        if(boothList == null){
+            dispatch(getBoothListReducer({category_id: ''}));
+        }
+    }, [exhibition, boothList]);
+
     const setSelectedCategoryItem = (el)=> {
-        console.log(el);
+        // console.log(el);
         dispatch(setSelectedExhibitCategoryReducer(el));
-    }
+    };
 
     //Exhibition category 목록 페이징
     const [categoryPage, setCategoryPage] = useState(1);
-    let categoryList = exhibition.data;
 
     const _movePrevCategoryPage = () => {
         setCategoryPage(categoryPage > 1 ? categoryPage - 1 : 1);
-    }
+    };
     const _moveNextCategoryPage = () => {
         let categoryPageVal = categoryPage;
-        const categoryTotalPage = categoryList.length;
+        const categoryTotalPage = exhibition.length;
         categoryPageVal = Math.ceil(categoryTotalPage / 3) > categoryPage ? categoryPage + 1 : categoryPage;
         setCategoryPage(categoryPageVal);
-    }
+    };
 
     return (
         <ExhibitComp>
@@ -80,11 +71,11 @@ function Exhibit(props) {
                             <RollingButton toRight onClick={_moveNextCategoryPage} />
                         </div>
                     </div>
-                    {deviceType != 'pc'?
+                    {deviceType !== 'pc'?
                     <CategoryTitleListComp>
                         <div>
-                        {categoryList && categoryList.length > 0 ?
-                            categoryList.map((el, key) => {
+                        {exhibition && exhibition.length > 0 ?
+                            exhibition.map((el, key) => {
                                 return (
                                     <CategoryTitle key={key} data={el} _onClick={()=>setSelectedCategoryItem(el)} />
                                 )
@@ -95,8 +86,8 @@ function Exhibit(props) {
                     :
                     <CategoryListComp categoryPage={categoryPage}>
                         <div>
-                            {categoryList && categoryList.length > 0 ?
-                                categoryList.map((el, key) => {
+                            {exhibition && exhibition.length > 0 ?
+                                exhibition.map((el, key) => {
                                     return (
                                         <Category key={key} data={el} listType="companyProfile" onClickTitle={()=>setSelectedCategoryItem(el)} />
                                     )
@@ -131,7 +122,6 @@ function Exhibit(props) {
                         </div>
                     </CategoryListComp>
                 </div>
-
             </div>
         </ExhibitComp>
     )

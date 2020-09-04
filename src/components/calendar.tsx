@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import "react-modern-calendar-datepicker/lib/DatePicker.css";
+// import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import DatePicker, { DayValue, DayRange, Day } from 'react-modern-calendar-datepicker'
 // import DatePicker from "react-datepicker";
 import styled from "styled-components";

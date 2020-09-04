@@ -1,7 +1,6 @@
-import React, {Component, useState} from 'react';
+import React, {useState} from 'react';
 import styled from "styled-components";
-import Carousel, { Dots } from '@brainhubeu/react-carousel';
-import '@brainhubeu/react-carousel/lib/style.css';
+import Carousel from '@brainhubeu/react-carousel';
 import {ImgViewer} from "./index";
 
 function Imgslide(props){
@@ -11,12 +10,12 @@ function Imgslide(props){
 
     const onActiveChange = (v) => {
         if(v >= props.list.length) v = 0;
-        setActiveIdx(v)
-    }
+        setActiveIdx(v);
+    };
 
     const moveActiveBanner = (arrow) => {
         let idx = activeIdx;
-        if(arrow == 'prev') {
+        if(arrow === 'prev') {
             idx = idx-1;
             if(idx < 0) idx = props.list.length;
         }
@@ -25,12 +24,12 @@ function Imgslide(props){
             if(idx > props.list.length-1) idx = 0;
         }
         onActiveChange(idx);
-    }
+    };
 
     const ShowViewer = (idx) => {
         setActiveViewerIdx(idx);
-        setIsShowViewer(true)
-    }
+        setIsShowViewer(true);
+    };
 
     return (
         <ImgSlideComp>
@@ -45,9 +44,9 @@ function Imgslide(props){
                 {props.list && props.list.length > 0 ?
                     props.list.map((el, key) => {
                         return (
-                            <div key={key} className={'imgBox'} onClick={()=>ShowViewer(key)}>
-                                <img src={el}/>
-                            </div>
+                            <ImgBox key={key} onClick={()=>ShowViewer(key)}>
+                                <img src={el} alt={''} />
+                            </ImgBox>
                         )
                     }) : null
                 }
@@ -74,21 +73,23 @@ function Imgslide(props){
     )
 }
 
-const ImgSlideComp = styled.div`
+const ImgBox = styled.div`
 width: 455px;
 height: 455px;
 background: #333333;
+box-sizing: border-box;
+img {
+    width: 100%;
+    height: 100%;
+}
+`;
+const ImgSlideComp = styled.div`
+width: 455px;
+height: 455px;
 border-radius: 8px;
+box-sizing: border-box;
 overflow: hidden;
 position: relative;
-.imgBox {
-    width: 455px;
-    height: 455px;
-    img {
-        width: 100%;
-        height: 100%;
-    }
-}
 .controllers {
     > *{
         position: absolute;
@@ -97,6 +98,34 @@ position: relative;
         :first-child { left: 16px; }
         :last-child { right: 16px; }
     }
+}
+.BrainhubCarouselItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin: 0 auto;
+}
+.BrainhubCarousel .BrainhubCarousel__trackContainer .BrainhubCarousel__track {
+    display: flex;
+    overflow: hidden;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}
+.BrainhubCarousel .BrainhubCarousel__trackContainer {
+    overflow: hidden;
+    background: transparent;
+}
+.BrainhubCarousel {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+.BrainhubCarousel__container {
+    width: 100%;
+    overflow: hidden;
 }
 `;
 

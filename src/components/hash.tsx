@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import styled from "styled-components";
 
 function Hash(props){
   const _clickHash = (id) => {
       console.log("clicked hash");
       if(props._onClick != null) props._onClick();
-  }
+  };
 
     const { id, name } = props;
     return (

@@ -1,18 +1,17 @@
 import React, {useEffect, useRef, useState} from 'react';
 import styled from "styled-components";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {RootState} from "../../modules";
 
-import {Hash, Accesscode, Custommodal, Img, Ellipsis, Button} from "./../index"
+import {Hash, Accesscode, Custommodal, Img, Ellipsis} from "./../index"
 import Mentorinfo from "./mentorInfo"
 
-import dummyImg from "../../assets/img/bg-dummy.png";
 import {getBrowserSize} from "../../common/common";
 
 function MenteeItem(props) {
     return (
         <MenteeComp>
-            <Img src={props.src}></Img>
+            <Img src={props.src}/>
             <div className="menteeName">{props.name}</div>
         </MenteeComp>
     )
@@ -46,7 +45,7 @@ function Mentoringcard(props){
     const [deviceType, setDeviceType] = useState('pc');
     const _setDeviceType = () => {
         setDeviceType(getBrowserSize());
-    }
+    };
 
     useEffect(()=>{
         _setDeviceType();
@@ -55,27 +54,27 @@ function Mentoringcard(props){
             typeof cardRef.current !== 'undefined') {
             cardEl = cardRef.current;
         }
-        cardEl.addEventListener('click', _showModal);;
+        cardEl.addEventListener('click', _showModal);
         window.addEventListener('resize', _setDeviceType);
 
         return function cleanup() {
             cardEl.removeEventListener('click', _showModal);
             window.removeEventListener('resize', _setDeviceType);
         };
-    }, [])
+    }, []);
 
     const _showModal = (e) => {
         if(e != null) e.stopPropagation();
         SetIsShowModal(true);
-    }
+    };
     const _closeModal = () => {
         SetIsShowModal(false);
-    }
+    };
 
     const _onClickAccessBtn = (data) => {
         props._onClick(data);
         _closeModal();
-    }
+    };
 
     const hashStyle = {
         'padding': '2px 9px  !important',
@@ -87,7 +86,7 @@ function Mentoringcard(props){
 
     return (
         <Card ref={cardRef}>
-            <Img src={dummyImg} widthFull={true}/>
+            <Img src={null} widthFull={true}/>
             <div className="mentoringInfo">
                 <div className="status">
                     <div className={props.data.isLive? 'isOpen live' : 'isOpen off'}>{props.data.isLive? languageData.live : languageData.off}</div>
@@ -111,12 +110,13 @@ function Mentoringcard(props){
                         }) : null }
                 </div>
             </div>
-            <Mentorinfo data={props.data.mentorInfo} className="mentorInfo" padding={deviceType == "pc"? "32px 24px 24px 40px" : "16px"} isMobile={deviceType=='mobile'} />
-            <Custommodal showModal={isShowModal} closeModal={_closeModal} width={deviceType == "pc"? 480 : 320} height={deviceType != "mobile"? 240 : 170}>
+            <Mentorinfo data={props.data.mentorInfo} className="mentorInfo" padding={deviceType === "pc"? "32px 24px 24px 40px" : "16px"} isMobile={deviceType ==='mobile'} />
+            <Custommodal showModal={isShowModal} closeModal={_closeModal} width={deviceType === "pc"? 480 : 320} height={deviceType !== "mobile"? 240 : 170}>
                 <Accesscode data={{
                     title: languageData.accessCodeModalTitle,
+                    // eslint-disable-next-line eqeqeq
                     content: deviceType == "pc"? languageData.accessCodeModalContent : null
-                }} btn={languageData.enter} closeModal={deviceType == "pc"? null : _closeModal}  _access={()=>_onClickAccessBtn(props.data)} />
+                }} btn={languageData.enter} closeModal={deviceType === "pc"? null : _closeModal}  _access={()=>_onClickAccessBtn(props.data)} />
             </Custommodal>
         </Card>
     )

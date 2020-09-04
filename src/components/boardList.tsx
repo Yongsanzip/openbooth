@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from "styled-components";
-import {Ellipsis, Img} from "./index";
+import {Ellipsis} from "./index";
 
 function Boardlist(props){
     const _onClickLink = (link) => {
         if(link == null) return;
         window.location.href = link;
-    }
+    };
     return (
         <BoardListComp>
             {props.list && props.list.length > 0 ? props.list.map((el, key) => {

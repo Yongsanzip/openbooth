@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import {
     Detailmenubar,
@@ -12,27 +12,43 @@ import {
     Thumblist,
     Tabpannel,
     TabContent,
-    Button, Video, Imgslide, LiveCompanyBox
+    Video, Imgslide, LiveCompanyBox
 } from "../../../../components";
 
 import { useSelector, useDispatch } from 'react-redux';
 import {RootState} from "../../../../modules";
-import {getCompanyDetailDataReducer} from "../../../../modules/exhibition/exhibition";
-import {getBrowserSize} from "../../../../common/common";
+import {getBoothListReducer, getCompanyDetailDataReducer} from "../../../../modules/exhibition/exhibition";
+import {getBrowserSize, useClientRect} from "../../../../common/common";
 
 function Companydetail(props) {
     let languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
     const dispatch = useDispatch();
     //company detail data
-    let companyDetailData = useSelector((state: RootState) => state.exhibitionReducer.companyDetail);
-    if(companyDetailData == null){
-        const params = {};
-        dispatch(getCompanyDetailDataReducer(params));
-    }
-    console.log("companyDetailData::", companyDetailData);
+    const companyDetailData = useSelector((state: RootState) => state.exhibitionReducer.companyDetail);
+    const [tabList, setTabList] = useState([]);
+    const [tabItems, setTabItems] = useState([]);
+    useEffect(()=>{
+        if(companyDetailData == null){
+            dispatch(getCompanyDetailDataReducer({}));
+        }
+        else{
+            let tabListTmp: any = [];
+            if(companyDetailData.item != null){
+                const tabItemsTmp = companyDetailData.item.length > 0? companyDetailData.item : new Array(companyDetailData.item);
+                setTabItems(tabItemsTmp);
+                tabItemsTmp.forEach((tab: any, idx)=>{
+                    tabListTmp.push({
+                        title: tab.item_name,
+                        name: idx
+                    });
+                });
+                setTabList(tabListTmp);
+            }
+        }
+    }, [companyDetailData]);
 
-    const requestFormBoxRef = useRef(null);
-    const bottomPanelRef = useRef(null);
+    const [requestFormBoxEl, requestFormBoxRef] = useClientRect(null);
+    const [bottomPanelEl, bottomPanelRef] = useClientRect(null);
     const businessInfo = [{
         'fieldname': languageData == null? '' : languageData.businessModel,
         'value': companyDetailData == null? '' : companyDetailData.business_information.business_model
@@ -52,7 +68,7 @@ function Companydetail(props) {
     const [deviceType, setDeviceType] = useState('pc');
     const _setDeviceType = () => {
         setDeviceType(getBrowserSize());
-    }
+    };
 
     useEffect(() => {
         _setDeviceType();
@@ -65,87 +81,103 @@ function Companydetail(props) {
     }, []);
 
     const _isSubmenuTop = ()=> {
-        let formBox:any;
-        if (typeof requestFormBoxRef !== 'undefined' &&
-            typeof requestFormBoxRef.current !== 'undefined') {
-            formBox = requestFormBoxRef.current;
-        }
-        let bottomPanel:any;
-        if (typeof bottomPanelRef !== 'undefined' &&
-            typeof bottomPanelRef.current !== 'undefined') {
-            bottomPanel = bottomPanelRef.current;
-        }
-        if(formBox == null || bottomPanel == null) return;
+        if(requestFormBoxEl == null || requestFormBoxEl.current == null) return;
+        if(bottomPanelEl == null || bottomPanelEl.current == null) return;
 
-        if(window.scrollY + 40 > formBox.parentElement.previousElementSibling.offsetTop){
-            if(window.scrollY + 40 > bottomPanel.offsetTop - formBox.clientHeight) {
-                formBox.classList.remove('fixedOnTopForm');
-                formBox.style.position = 'absolute';
-                formBox.style.top = bottomPanel.offsetTop - formBox.clientHeight + 'px';
+        if(window.scrollY + 40 > requestFormBoxEl.parentElement.previousElementSibling.offsetTop){
+            if(window.scrollY + 40 > bottomPanelEl.offsetTop - requestFormBoxEl.clientHeight) {
+                requestFormBoxEl.classList.remove('fixedOnTopForm');
+                requestFormBoxEl.style.position = 'absolute';
+                requestFormBoxEl.style.top = bottomPanelEl.offsetTop - requestFormBoxEl.clientHeight + 'px';
             }
             else{
-                formBox.style.position = '';
-                formBox.style.top = '56px';
-                formBox.classList.add('fixedOnTopForm');
+                requestFormBoxEl.style.position = '';
+                requestFormBoxEl.style.top = '56px';
+                requestFormBoxEl.classList.add('fixedOnTopForm');
             }
         }
         else{
-            formBox.classList.remove('fixedOnTopForm');
+            requestFormBoxEl.classList.remove('fixedOnTopForm');
         }
-    }
+    };
 
-    let tabItem = [];
-    let tabList: any;
-    if(companyDetailData != null && companyDetailData.item != null){
-        tabItem = companyDetailData.item.length != null? companyDetailData.item : new Array(companyDetailData.item);
-        tabItem.forEach(function(tab: any, idx){
-            if(tabList == null) tabList = new Array();
-            tabList.push({
-                title: tab.item_name,
-                name: idx
-            })
-        })
-    }
 
     //전체 부스 목록
-    let boothList = useSelector((state: RootState) => state.exhibitionReducer.boothList);
+    const allBoothList = useSelector((state: RootState) => state.exhibitionReducer.boothList);
+    useEffect(()=>{
+        if(allBoothList == null){
+            dispatch(getBoothListReducer({}));
+        }
+        else{
+
+        }
+    });
     //선택한 전시 카테고리
     const selectedCategory = useSelector((state: RootState) => state.exhibitionReducer.selectedExhibit);
 
-    //전체 목록 중 랜덤표시 vs 선택한 카테고리의 부스 중 랜덤 표시
-    if(true){
-        //전체 부스 목록
-        if(boothList != null && boothList.length == null){
-            boothList = new Array(boothList);
+    const defaultValue:any = null;
+    const isShowAllView = true;
+    const [boothList, setBoothList] = useState(defaultValue);
+    useEffect(()=>{
+        //전체 목록 중 랜덤표시 vs 선택한 카테고리의 부스 중 랜덤 표시
+        if(isShowAllView){
+            //전체 부스 목록
+            if(allBoothList != null){
+                if(typeof allBoothList.length == "number"){
+                    setBoothList(allBoothList);
+                }
+                else {
+                    setBoothList([allBoothList]);
+                }
+            }
         }
-    }
-    else{
-        //선택한 카테고리 부스 목록
-        let boothList = selectedCategory.booth;
-        if(typeof boothList.length == 'undefined'){
-            boothList = new Array(boothList);
+        else{
+            //선택한 카테고리 부스 목록
+            if(selectedCategory != null){
+                if(typeof selectedCategory.length == "number"){
+                    setBoothList(selectedCategory.booth);
+                }
+                else {
+                    setBoothList([selectedCategory.booth]);
+                }
+            }
         }
-    }
+    }, [isShowAllView, allBoothList, selectedCategory]);
 
+    const [randomNumbs, setRandomNumbs] = useState(defaultValue);
     const getRandomInt = (min, max) => {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
-    }
+    };
 
-    let randomNumbs = new Array();
-    if(boothList != null && boothList.length != null){
-        let i = 0;
-        let rand = 0;
-        while(i < 4){
-            rand = getRandomInt(0, boothList.length);
-            if(randomNumbs.length > 0 && randomNumbs.indexOf(rand) > -1){
-                continue;
+    useEffect(()=>{
+        let randomNumbsTmp:any = [];
+        if(boothList != null && boothList.length > 0){
+            let i = 0;
+            let rand = 0;
+            while(i < 4){
+                rand = getRandomInt(0, boothList.length);
+                if(randomNumbsTmp.length > 0 && randomNumbsTmp.indexOf(rand) > -1){
+                    continue;
+                }
+                randomNumbsTmp.push(rand);
+                i++;
             }
-            randomNumbs.push(rand);
-            i++;
         }
-    }
+        setRandomNumbs(randomNumbsTmp);
+    }, [boothList]);
+
+    const _setPanelContent = (component, key) => {
+        switch(component.type){
+            case "text":
+                return <div key={key} className='text'>{component.value}</div>;
+            case "video":
+                return <Video key={key} height={deviceType !== 'pc'? '160px' : '480px'} src={component.value}/>;
+            case "thumbnails":
+                return <Thumblist key={key} list={component.value} companyData={companyDetailData} isMobile={deviceType !== 'pc'} /> ;
+        }
+    };
 
     return (
         <CompanyDetailComp>
@@ -166,30 +198,23 @@ function Companydetail(props) {
                                     : null
                                 }
                             </div>
-                            {companyDetailData != null? <Profile data={companyDetailData} type='company' isMobile={deviceType != 'pc'}/> : null }
+                            {companyDetailData != null? <Profile data={companyDetailData} type='company' isMobile={deviceType !== 'pc'}/> : null }
                         </CompanyNamePannel>
                         <div className='border'>
                             <Pannel title={languageData==null? '' : languageData.ExhibitorDescription}>
                                 {companyDetailData != null && companyDetailData.exhibitor_description != null?
                                     companyDetailData.exhibitor_description.map((component, key)=> {
-                                        switch(component.type){
-                                            case "text":
-                                                return <div key={key} className='text'>{component.value}</div>;
-                                            case "video":
-                                                return <Video key={key} height={deviceType != 'pc'? '160px' : '480px'} src={component.value}/>;
-                                            case "thumbnails":
-                                                return <Thumblist key={key} list={component.value} companyData={companyDetailData} isMobile={deviceType != 'pc'} /> ;
-                                        }
+                                        return _setPanelContent(component, key);
                                     }): null
                                 }
                             </Pannel>
                         </div>
                         <div className='border'>
                             <Tabpannel tabs={tabList}>
-                                {tabItem != null && tabItem.length > 0?
-                                    tabItem.map((tab: any, key)=> {
+                                {tabItems != null && tabItems.length > 0?
+                                    tabItems.map((tab: any, key)=> {
                                         return <div key={key} className={key+' hide'}>
-                                            <TabContent component={tab.component} companyData={companyDetailData} isMobile={deviceType != 'pc'} />
+                                            <TabContent component={tab.component} companyData={companyDetailData} isMobile={deviceType !== 'pc'} />
                                         </div>
                                     })
                                     : null
@@ -206,7 +231,7 @@ function Companydetail(props) {
                         }
                         {companyDetailData != null && companyDetailData.documents != null?
                             <div className='border'>
-                                <Documentlist title={languageData.mentoringDocument} list={companyDetailData.documents} isMobile={deviceType != 'pc'} />
+                                <Documentlist title={languageData.mentoringDocument} list={companyDetailData.documents} isMobile={deviceType !== 'pc'} />
                             </div>
                             : null
                         }

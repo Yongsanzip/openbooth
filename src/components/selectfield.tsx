@@ -4,18 +4,18 @@ import styled from "styled-components";
 function Selectfield(props){
     let valueIdx = null;
     if(props.value != null) {
-        props.list.map((item, idx) => {
-            if(item.name == props.value) valueIdx = idx;
-        })
+        props.list.forEach((item, idx) => {
+            if(item.name === props.value) valueIdx = idx;
+        });
     }
     const [isFocus, setIsfocus] = useState(false);
     const [selected, setSelected] = useState(props.list !=null && props.list.length > 0? valueIdx != null? props.list[valueIdx] : props.list[0] : '');
     const selectRef = useRef(null);
     if(props.reset && props.afterReset != null){
-        if(selected.name != props.value && props.value != null && selected != null){
+        if(selected.name !== props.value && props.value != null){
             setSelected(props.list !=null && props.list.length > 0? valueIdx != null? props.list[valueIdx] : props.list[0] : '');
         }
-        else if(selected.name != props.list[0].name){
+        else if(selected.name !== props.list[0].name){
             setSelected(props.list[0]);
         }
         props.afterReset();
@@ -23,7 +23,7 @@ function Selectfield(props){
 
     const _setIsFocus = () => {
         setIsfocus(!isFocus);
-    }
+    };
     const _setSelectedOption = (idx) => {
         let selectEl:any;
         if (typeof selectRef !== 'undefined' &&
@@ -36,13 +36,12 @@ function Selectfield(props){
         }
         _setIsFocus();
 
-    }
+    };
   return (
-      <SelectFieldComp type={props.type} rows={props.rows}>
+      <SelectFieldComp type={props.type} rows={props.rows} padding={props.padding}>
           <select name={props.name} ref={selectRef}>
               {props.list && props.list.length > 0 ?
                   props.list.map((el, key) => {
-                      const view_url = '/view/' + el.board_id;
                       return (
                           <option key = {key} value = {el.value} > {el.name} </option>
                       )}
@@ -78,8 +77,9 @@ function Selectfield(props){
 
 interface SelectBoxProps {
     type: any,
-    rows: any
-};
+    rows: any,
+    padding: any
+}
 
 const SelectFieldComp = styled.div`
 position: relative;
@@ -91,10 +91,10 @@ letter-spacing: -0.01em;
 color: #999999;
 width: 'auto';
 & .selectBox {
-    padding: 8px 12px 8px 8px;
+    padding: ${(props: SelectBoxProps) => (props.padding != null ? props.padding : '8px 12px 8px 8px')};
     border: 1px solid #E9E9E9;
     box-sizing: border-box;
-    background: ${(props: SelectBoxProps) => (props.type != 'white' ? '#F7F7F9' : '#ffffff')};
+    background: ${(props: SelectBoxProps) => (props.type !== 'white' ? '#F7F7F9' : '#ffffff')};
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -127,10 +127,10 @@ width: 'auto';
     li {
         display: ${(props: SelectBoxProps) => (props.rows != null ? 'inline-block' : 'block')};
         width: ${(props: SelectBoxProps) => (props.rows != null ? 'calc(100%/'+props.rows+')' : '')};
-        background: ${(props: SelectBoxProps) => (props.type != 'white' ? '#F7F7F9' : '#ffffff')};
+        background: ${(props: SelectBoxProps) => (props.type !== 'white' ? '#F7F7F9' : '#ffffff')};
+        padding: ${(props: SelectBoxProps) => (props.padding != null ? props.padding : '8px 16px')};
         border-bottom: 1px solid #E9E9E9;
         box-sizing: border-box;
-        padding: 8px 16px;
         :nth-last-child(2) {border-bottom: 0}
         :last-child {border-bottom: 0}
     }

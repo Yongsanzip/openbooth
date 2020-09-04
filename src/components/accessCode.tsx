@@ -1,8 +1,8 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {RootState} from "../modules";
-import {Button, Custommodal, Inputfield} from "./index";
+import {Button, Inputfield} from "./index";
 import {getBrowserSize} from "../common/common";
 
 function Accesscode(props) {
@@ -10,7 +10,7 @@ function Accesscode(props) {
     const [deviceType, setDeviceType] = useState('pc');
     const _setDeviceType = () => {
         setDeviceType(getBrowserSize());
-    }
+    };
 
     useEffect(()=>{
         _setDeviceType();
@@ -19,15 +19,15 @@ function Accesscode(props) {
         return function cleanup() {
             window.removeEventListener('resize', _setDeviceType);
         };
-    }, [])
+    }, []);
 
-    const _access = function(e){
-        console.log("click btn on accesscode modal!", props._access);
+    const _access = function(){
+        // console.log("click btn on accesscode modal!", props._access);
         if(props._access != null) props._access();
     };
 
     return(
-        <AccesscodeComp small={props.type == 'small'? true : false} noDec={props.data.content != null ? null : true}>
+        <AccesscodeComp small={props.type === 'small'} noDec={props.data.content != null ? null : true}>
             <div className='content'>
                 <div className='title'>{props.data.title}</div>
                 {props.data.content != null ? <div className='description'>{props.data.content}</div> : null }
@@ -39,8 +39,8 @@ function Accesscode(props) {
             <div className='btns modalBtns'>
                 {props.closeModal != null? <Button _clickBtn={props.closeModal} className={'mobileCloseBtn'} >{languageData.close}</Button> : null}
                 <Button _clickBtn={_access} width={105} style={{
-                    padding: deviceType == 'pc'? '7px 0' : '6px 0',
-                    width: deviceType == 'pc'? '105px': '88px'
+                    padding: deviceType === 'pc'? '7px 0' : '6px 0',
+                    width: deviceType === 'pc'? '105px': '88px'
                 }} fill={true} >{props.btn}</Button>
             </div>
         </AccesscodeComp>

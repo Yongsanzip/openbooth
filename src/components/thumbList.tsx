@@ -1,15 +1,26 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import Carousel from '@brainhubeu/react-carousel';
 import {ImgViewer} from "./index"
+import {useClientRect} from "../common/common";
 
 function Thumblist(props){
+    const [thisEl, thisRef] = useClientRect(null);
     const [activeItemIndex, setActiveItemIndex] = useState(0);
     const [activeViewerIdx, setActiveViewerIdx] = useState(0);
     const [isShowViewer, setIsShowViewer] = useState(false);
-    const numberOfPage = props.columns != null? props.columns : props.isMobile? 3 : 5;
+    const [numberOfPage, setNumberOfPage] = useState(props.columns != null? props.columns : props.isMobile? 3 : 5);
     const margin = props.marginRight != null ? props.marginRight : props.isMobile? 6 : 25;
     const width = props.size != null ? props.size.width : props.isMobile? 92 : 160;
+
+    useEffect(()=> {
+        if(thisEl != null && thisEl.offsetWidth !== 0){
+            const pageWidth = (width+margin)*numberOfPage;
+            if(thisEl.offsetWidth < pageWidth){
+                setNumberOfPage(numberOfPage - 1);
+            }
+        }
+    }, [thisEl, thisEl.current, numberOfPage, margin, width]);
 
     const changeActiveItem = (idx) => {
         if(props.list != null && props.list.length > 0){
@@ -18,10 +29,10 @@ function Thumblist(props){
             }
             setActiveItemIndex(idx);
         }
-    }
+    };
 
     const moveSlideActive = (arrow) => {
-        if(arrow == 'prev'){
+        if(arrow === 'prev'){
             if(activeItemIndex < 1) return;
             setActiveItemIndex(activeItemIndex - 1);
         }
@@ -29,15 +40,15 @@ function Thumblist(props){
             if(activeItemIndex >= props.list.length) return;
             setActiveItemIndex(activeItemIndex + 1);
         }
-    }
+    };
 
     const ShowViewer = (idx) => {
         setActiveViewerIdx(idx);
         setIsShowViewer(true)
-    }
+    };
 
     return (
-        <ThumblistComp size={props.size} marginRight={props.marginRight} columns={numberOfPage}>
+        <ThumblistComp ref={thisRef} size={props.size} marginRight={props.marginRight} columns={numberOfPage}>
             <Carousel
                 value={activeItemIndex}
                 onChange={changeActiveItem}
@@ -50,7 +61,7 @@ function Thumblist(props){
                     props.list.map((el, key) => {
                         return (
                             <div key={key} className={'imgBox'} onClick={()=>ShowViewer(key)}>
-                                <img src={el}/>
+                                <img src={el} alt={''}/>
                             </div>
                         )
                     }) : null
@@ -102,6 +113,11 @@ const ThumblistComp = styled.div`
     width: 100%;
     overflow: hidden;
     .imgBox { line-height: 0; }
+    ul > li {
+        display: inline-block;
+        :first-child { margin-left: 0 !important;}
+        :last-child { margin-right: 0 !important;}
+    }
     & img {
         border: 1px solid #E9E9E9;
         box-sizing: border-box;

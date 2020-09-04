@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import styled from "styled-components";
 import { Ellipsis } from "./../index"
 
 function CompanyListitem(props) {
-    const { idx, item, showIndex, isLarge } = props;
+    const { item, isLarge } = props;
     return (
         <CompanyListitemComp isLarge={isLarge}>
             {/*{showIndex? <div className='index'>{idx+1}</div> : ''}*/}
-            <div className='titleImg'></div>
+            <div className='titleImg'/>
             <div className='content'>
                 <Ellipsis>{item.company_name}</Ellipsis>
                 <Ellipsis line={2}>{item.booth_description}</Ellipsis>

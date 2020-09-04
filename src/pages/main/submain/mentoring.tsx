@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import styled from "styled-components";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {RootState} from "../../../modules";
 
 import { Mentoringcard } from "./../../../components"
-import dummyImg from "../../../assets/img/bg-dummy.png";
 
 function Mentoring(props){
     const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
@@ -19,23 +18,23 @@ function Mentoring(props){
         }],
         title: '1 Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
         mentees: [{
-            img: dummyImg,
+            img: "https://picsum.photos/400/400",
             name: 'The Walt Disney Campany'
         },{
-            img: dummyImg,
+            img: "https://picsum.photos/400/400",
             name: 'Gillette'
         },{
-            img: dummyImg,
+            img: "https://picsum.photos/400/400",
             name: 'Louis Vuitton'
         },{
-            img: dummyImg,
+            img: "https://picsum.photos/400/400",
             name: 'Ferrari'
         },{
-            img: dummyImg,
+            img: "https://picsum.photos/400/400",
             name: 'Johnson & Johnson'
         }],
         mentorInfo: {
-            img: dummyImg,
+            img: "https://picsum.photos/400/400",
             name: 'Mentor Name',
             email: 'abcdef@ghijklmnopqr.com',
             ltd: 'Global Co., Ltd',
@@ -57,19 +56,19 @@ function Mentoring(props){
         }],
         title: '2 Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
         mentees: [{
-            img: dummyImg,
+            img: "https://picsum.photos/400/400",
             name: 'The Walt Disney Campany'
         },{
-            img: dummyImg,
+            img: "https://picsum.photos/400/400",
             name: 'Gillette'
         },{
-            img: dummyImg,
+            img: "https://picsum.photos/400/400",
             name: 'Louis Vuitton'
         },{
-            img: '',
+            img: "https://picsum.photos/400/400",
             name: 'Ferrari'
         },{
-            img: '',
+            img: "https://picsum.photos/400/400",
             name: 'Johnson & Johnson'
         }],
         mentorInfo: {
@@ -88,7 +87,7 @@ function Mentoring(props){
 
     const _onClickMentoringCard = (data) => {
         if(props._setSelectedMentor != null) props._setSelectedMentor(data);
-    }
+    };
 
     return (
         <div>

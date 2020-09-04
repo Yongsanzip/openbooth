@@ -1,30 +1,46 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
+import { useSelector, useDispatch } from 'react-redux';
+import {RootState} from "../modules";
+import {isLanguageChangeTrueReducer, setLanguage, setLanguageDataReducer} from "../modules/token/token";
 
 function Language(props){
-  const [isFocused, setIsFocused] = useState(false);
-  const lanList = [{
-    name: '대한민국',
-    lan: 'kor'
-  },{
-    name: 'English',
-    lan: 'eng'
-  }];
+    const dispatch = useDispatch();
+    const language = useSelector((state: RootState) => state.tokenReducer.language);
+    useEffect(()=>{
+        if(language === 'kor'){
+            import('./../language/kor.json').then(module => dispatch(setLanguageDataReducer(module)));
+            dispatch(isLanguageChangeTrueReducer());
+        }
+        else{
+            import('./../language/eng.json').then(module => dispatch(setLanguageDataReducer(module)));
+            dispatch(isLanguageChangeTrueReducer());
+        }
+    }, [language]);
 
-  const _onClickLanBox = (el) => {
-    if(el != null){
-      props.setLanguage(el.lan);
-    }
-    setIsFocused(!isFocused);
-  }
+    const [isFocused, setIsFocused] = useState(false);
+    const lanList = [{
+        name: '대한민국',
+        lan: 'kor'
+    },{
+        name: 'English',
+        lan: 'eng'
+    }];
+
+    const _onClickLanBox = (el) => {
+        setIsFocused(!isFocused);
+        if(el != null){
+            dispatch(setLanguage(el.lan));
+        }
+    };
 
   return (
       <LanguageComp>
         <div className="lanBox"
              onClick={()=>_onClickLanBox(null)}
         >
-          {props.lan != null && lanList != null && lanList.length > 0 && lanList.findIndex(l => l.lan === props.lan) > -1 ?
-              lanList[lanList.findIndex(l => l.lan === props.lan)].name
+          {language != null && lanList != null && lanList.length > 0 && lanList.findIndex(l => l.lan === language) > -1 ?
+              lanList[lanList.findIndex(l => l.lan === language)].name
               : lanList != null && lanList.length > 0?
                   lanList[0].name
                   : ''
