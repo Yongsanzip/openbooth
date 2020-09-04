@@ -16,12 +16,13 @@ function Main(){
     const dispatch = useDispatch();
     const history = useHistory();
     const languageData = useSelector((state: RootState) => state.tokenReducer.languageData);
-    const lan = useSelector((state: RootState) => state.tokenReducer.language);
     const [activeSubMenu, setActiveSubMenu] = useState(0);
     const [selectedMentor, setSelectedMentor] = useState(null);
 
     useEffect(()=>{
-        _onChangeActiveSubMenu(0);
+        if(history.location.pathname.indexOf('/main') > -1){
+            _onChangeActiveSubMenu(0);
+        }
     },[]);
 
     const menuList = [{
@@ -39,9 +40,6 @@ function Main(){
         name: languageData.subMenu_detail,
         path: 'detail'
     }];
-    const _onChangeLanguage = (key) => {
-        dispatch(setLanguage(key));
-    };
 
     const _onChangeActiveSubMenu = function(idx){
         setActiveSubMenu(idx);
@@ -65,7 +63,7 @@ function Main(){
                     <Route path="/company" component={Companydetail} />
                 </Switch>
             </div>
-            <Footer lan={lan} setLanguage={_onChangeLanguage} />
+            <Footer />
         </div>
     )
 }

@@ -192,7 +192,7 @@ function Companydetail(props) {
                 <div>
                     <div className='companyContents'>
                         <CompanyNamePannel>
-                            <div className="companyThumbs" style={{background: '#000'}}>
+                            <div className="companyThumbs">
                                 {companyDetailData != null && companyDetailData.thumbnails.length > 0 ?
                                     <Imgslide list={companyDetailData != null ? companyDetailData.thumbnails : null} companyData={companyDetailData} />
                                     : null

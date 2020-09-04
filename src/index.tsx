@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 
 import './index.css';
 import App from './App';
@@ -8,21 +7,16 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 
-import GlobalStyle from './assets/style/global-styles';
-import theme from './assets/style/theme';
-import { ThemeProvider } from './assets/style/theme-components';
 
+//REDUX
+import { Provider } from 'react-redux';
 import configureStore from './store';
 const store = configureStore();
-// const store = createStore(rootReducer);
 
 ReactDOM.render(
     <Provider store={store}>
-        <GlobalStyle/>
         <BrowserRouter>
-            <ThemeProvider theme={theme}>
-                    <App />
-            </ThemeProvider>
+            <App />
         </BrowserRouter>
     </Provider>,
   document.getElementById('root')

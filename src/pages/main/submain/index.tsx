@@ -22,7 +22,7 @@ export default function Submain(props) {
         }
     }, [mainBannerData]);
     useEffect(()=>{
-        if(props.location.pathname === '/main') props._onMenuChange(0);
+        // if(props.location.pathname === '/main') props._onMenuChange(0);
 
         return()=>{
             dispatch(setBoothBannerReducer(null));

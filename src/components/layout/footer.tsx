@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import Language from "../language";
 import {RootState} from "../../modules";
@@ -10,7 +10,7 @@ function Footer(props) {
     const [deviceType, setDeviceType] = useState('pc');
     const _setDeviceType = () => {
         setDeviceType(getBrowserSize());
-    }
+    };
 
     useEffect(()=>{
         _setDeviceType();
@@ -19,7 +19,7 @@ function Footer(props) {
         return function cleanup() {
             window.removeEventListener('resize', _setDeviceType);
         };
-    })
+    }, []);
 
     return (
         <Mainfooter>
@@ -35,7 +35,7 @@ function Footer(props) {
             <div>
                 <Footeritem type={'icons'}>
                     <li>
-                        {deviceType == 'pc'?
+                        {deviceType === 'pc'?
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M17.6667 12.6667V10.6667C17.6667 9.8 17.8667 9.33333 19.2667 9.33333H21V6H18.3333C15 6 13.6667 8.2 13.6667 10.6667V12.6667H11V16H13.6667V26H17.6667V16H20.6L21 12.6667H17.6667Z" fill="#999999"/>
                             </svg>
@@ -45,7 +45,7 @@ function Footer(props) {
                         }
                     </li>
                     <li>
-                        {deviceType == 'pc'?
+                        {deviceType === 'pc'?
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M15.9915 10.5126C14.5387 10.5126 13.1454 11.0898 12.1181 12.1171C11.0908 13.1444 10.5137 14.5377 10.5137 15.9905C10.5137 17.4433 11.0908 18.8366 12.1181 19.8639C13.1454 20.8912 14.5387 21.4684 15.9915 21.4684C17.4444 21.4684 18.8377 20.8912 19.865 19.8639C20.8923 18.8366 21.4694 17.4433 21.4694 15.9905C21.4694 14.5377 20.8923 13.1444 19.865 12.1171C18.8377 11.0898 17.4444 10.5126 15.9915 10.5126ZM15.9915 19.548C15.0477 19.548 14.1425 19.1731 13.4751 18.5057C12.8078 17.8383 12.4328 16.9331 12.4328 15.9893C12.4328 15.0455 12.8078 14.1403 13.4751 13.4729C14.1425 12.8055 15.0477 12.4306 15.9915 12.4306C16.9354 12.4306 17.8405 12.8055 18.5079 13.4729C19.1753 14.1403 19.5502 15.0455 19.5502 15.9893C19.5502 16.9331 19.1753 17.8383 18.5079 18.5057C17.8405 19.1731 16.9354 19.548 15.9915 19.548Z" fill="#999999"/>
                                 <path d="M21.6862 11.5884C22.3915 11.5884 22.9633 11.0166 22.9633 10.3113C22.9633 9.606 22.3915 9.03424 21.6862 9.03424C20.9809 9.03424 20.4092 9.606 20.4092 10.3113C20.4092 11.0166 20.9809 11.5884 21.6862 11.5884Z" fill="#999999"/>
@@ -59,7 +59,7 @@ function Footer(props) {
                         }
                     </li>
                     <li>
-                        {deviceType == 'pc'?
+                        {deviceType === 'pc'?
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M26.2324 10.3482C26.1109 9.89776 25.8737 9.48696 25.5442 9.1567C25.2147 8.82644 24.8044 8.58824 24.3542 8.46581C22.685 8.00747 16.0071 8.00001 16.0071 8.00001C16.0071 8.00001 9.33018 7.99255 7.6599 8.43064C7.21 8.5587 6.80058 8.80027 6.47094 9.13215C6.1413 9.46403 5.90251 9.87508 5.7775 10.3258C5.33727 11.995 5.33301 15.4571 5.33301 15.4571C5.33301 15.4571 5.32875 18.9363 5.76577 20.5884C6.01093 21.5019 6.73042 22.2235 7.64497 22.4698C9.33125 22.9281 15.9911 22.9356 15.9911 22.9356C15.9911 22.9356 22.669 22.943 24.3382 22.506C24.7886 22.3838 25.1992 22.1461 25.5296 21.8166C25.8599 21.487 26.0985 21.0769 26.2217 20.6268C26.663 18.9587 26.6662 15.4976 26.6662 15.4976C26.6662 15.4976 26.6875 12.0174 26.2324 10.3482ZM13.871 18.6645L13.8763 12.269L19.4265 15.4721L13.871 18.6645Z" fill="#999999"/>
                             </svg>
@@ -87,7 +87,7 @@ function Footer(props) {
                 </div>
             </Flexcomp>
             <div className={"lanBox"}>
-                <Language lan={props.lan} setLanguage={props.setLanguage} />
+                <Language />
             </div>
         </Mainfooter>
     )
@@ -131,21 +131,21 @@ li {
     position: relative;
     display: inline-block;
     ${({theme}) => theme.media.desktop`
-    ${(props: FooteritemProps) => (props.type != null && props.type == 'icons' ? 'width: 40px;' : '')};
+    ${(props: FooteritemProps) => (props.type != null && props.type === 'icons' ? 'width: 40px;' : '')};
     `}
     ${({theme}) => theme.media.mobile`
-    ${(props: FooteritemProps) => (props.type != null && props.type == 'icons' ? 'width: 30px;' : '')};
+    ${(props: FooteritemProps) => (props.type != null && props.type === 'icons' ? 'width: 30px;' : '')};
     &.lastItem { margin-left: 0; }
     `}
-    margin: ${(props: FooteritemProps) => (props.type != null && props.type == 'icons' ? '0' : '0 8px')};
-    text-align: ${(props: FooteritemProps) => (props.type != null && props.type == 'icons' ? 'center' : 'left')};
+    margin: ${(props: FooteritemProps) => (props.type != null && props.type === 'icons' ? '0' : '0 8px')};
+    text-align: ${(props: FooteritemProps) => (props.type != null && props.type === 'icons' ? 'center' : 'left')};
     &:first-child { margin-left: 0; }
     &:after {
         content: '';
         position: absolute;
         top: 50%;
         margin-top: -8px;
-        right: ${(props: FooteritemProps) => (props.type != null && props.type == 'icons' ? '0' : '-8px')};
+        right: ${(props: FooteritemProps) => (props.type != null && props.type === 'icons' ? '0' : '-8px')};
         width: 1px;
         height: 16px;
         background: #E9E9E9;
