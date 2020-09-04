@@ -1,6 +1,5 @@
-import React, {Component, useEffect, useState} from 'react';
+import React from 'react';
 import styled from "styled-components";
-import dummyImg from "../../assets/img/bg-dummy.png";
 import Mentorinfo from "./mentorInfo";
 import {Hash, Video} from "../index";
 

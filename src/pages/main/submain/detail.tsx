@@ -97,6 +97,7 @@ function Detail(props){
     };
 
     const _setActiveTab = (idx) => {
+        console.log("_setActiveTab::", idx);
         setActiveTab(idx);
     };
 
@@ -136,7 +137,7 @@ function Detail(props){
                 </div>
             </DescriptionComp>
             <TabpanelComp width={width}>
-                <Tabpannel tabs={tabList} activeTab={activeTab} changeActiveTab={_setActiveTab} width={width} titleBg={'#ffffff'} contentBg={'#E5E5E5'}>
+                <Tabpannel tabs={tabList} activeTab={activeTab} _onChangeTab={_setActiveTab} width={width} titleBg={'#ffffff'} contentBg={'#E5E5E5'}>
                     <div className='tabContent details hide'>
                         <div className='border'>
                             <Pannel title={languageData.exhibitionInformation}>

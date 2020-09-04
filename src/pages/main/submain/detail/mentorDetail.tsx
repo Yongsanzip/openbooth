@@ -1,6 +1,6 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {RootState} from "../../../../modules";
 import {Detailmenubar, MentordetailContentComp, Documentlist, Accesscode} from "../../../../components";
 import {getBrowserSize} from "../../../../common/common";
@@ -10,7 +10,7 @@ function Mentordetail(props){
     const [deviceType, setDeviceType] = useState('pc');
     const _setDeviceType = () => {
         setDeviceType(getBrowserSize());
-    }
+    };
 
     useEffect(()=>{
         _setDeviceType();
@@ -42,16 +42,16 @@ function Mentordetail(props){
         accessModalData: {
             title: languageData.accessMentoringRoom
         }
-    }
+    };
 
     return (
         <div>
             <Detailmenubar data={mentorData.mentorInfo} title={mentorData.mentorInfo.name}/>
             <DetailContent>
-                <MentordetailContentComp data={mentorData.mentorInfo} isMobile={deviceType != 'pc'} />
+                <MentordetailContentComp data={mentorData.mentorInfo} isMobile={deviceType !== 'pc'} />
                 <div>
-                    <Documentlist title={languageData.mentoringDocument} list={mentorData.documentList} isMobile={deviceType != 'pc'} />
-                    <Accesscode data={mentorData.accessModalData} btn={languageData.enter} type="small" isMobile={deviceType != 'pc'} />
+                    <Documentlist title={languageData.mentoringDocument} list={mentorData.documentList} isMobile={deviceType !== 'pc'} />
+                    <Accesscode data={mentorData.accessModalData} btn={languageData.enter} type="small" isMobile={deviceType !== 'pc'} />
                 </div>
             </DetailContent>
         </div>

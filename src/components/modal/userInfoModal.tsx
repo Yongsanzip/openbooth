@@ -1,21 +1,20 @@
 import React, {useState} from 'react';
-import styled from "styled-components";
 import {Custommodal, Profile, Sendmsg} from "./../index";
 
 function UserinfoModal(props){
     const [showSendMsgModal, setShowSendMsgModal] = useState(false);
     const _showSendMsgModal = ()=> {
         setShowSendMsgModal(true);
-    }
+    };
 
     const _closeSendMsgModal = ()=> {
         setShowSendMsgModal(false);
-    }
+    };
 
     const _sentMsg = () => {
         _closeSendMsgModal();
         props.handleCloseModal();
-    }
+    };
 
     return(
         <Custommodal showModal={props.showModal} closeModal={props.handleCloseModal}>
